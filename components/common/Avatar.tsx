@@ -27,6 +27,7 @@ function Avatar() {
         isBordered
         src={session ? (session.profile?.image as string) : undefined}
         style={{ flexShrink: 0 }}
+        size="sm"
       />
       <ProfileModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </div>

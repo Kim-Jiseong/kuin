@@ -14,7 +14,7 @@ declare module "next-auth" {
     id_token: string;
     provider: string;
     profile: {
-      id: number;
+      id: string;
       created_at: string;
       name: string;
       email: string;

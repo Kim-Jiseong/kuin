@@ -9,7 +9,7 @@ export async function getOrCreateUser({
   name: string | undefined | null;
   email: string | undefined | null;
   image: string | undefined | null;
-  provider: string;
+  provider?: string;
 }) {
   // 1. Supabase에서 유저 검색
   const { data: user, error: fetchError } = await supabase
