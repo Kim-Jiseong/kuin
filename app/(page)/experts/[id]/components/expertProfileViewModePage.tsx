@@ -23,8 +23,8 @@ function ExpertProfileViewModePage({
       <div className="w-full flex gap-2 flex-col items-center">
         <Card className="w-full ">
           <CardHeader
-            className={`relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300  to-${userData?.expert_profile?.major === "dev" ? "primary" : "danger"}`}
-            // className={`relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300 via-purple-300 to-${returnMajorColor(userData?.expert_profile?.major)}`}
+            // className={`relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300  to-${userData?.expert_profile?.major === "dev" ? "primary" : "danger"}`}
+            className={`relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300 via-purple-300 to-primary`}
           >
             <Avatar
               size={"lg"}
@@ -37,11 +37,11 @@ function ExpertProfileViewModePage({
               <Button
                 radius="full"
                 size="sm"
-                color={"success"}
+                // color={"success"}
                 variant="light"
                 startContent={<Pencil size={16} />}
                 onPress={() => setEditMode(true)}
-                className="absolute right-3 top-3 bg-white/20 text-white dark:bg-black/20"
+                className="absolute right-3 top-3 bg-white/20  dark:bg-black/20"
               >
                 프로필 수정
               </Button>
