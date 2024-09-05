@@ -8,7 +8,11 @@ import { Card, CardBody, CardHeader, Chip } from "@nextui-org/react";
 import { Pencil } from "lucide-react";
 import { Session } from "next-auth";
 import React from "react";
-
+import { EmblaOptionsType } from "embla-carousel";
+import Carousel from "@/components/common/Carousel/Carousel";
+const OPTIONS: EmblaOptionsType = {};
+const SLIDE_COUNT = 5;
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 function ExpertProfileViewModePage({
   userData,
   setEditMode,
@@ -19,8 +23,18 @@ function ExpertProfileViewModePage({
   session: Session | null;
 }) {
   return (
-    <div className="w-full flex flex-col justify-center items-center gap-4 py-4">
-      <div className="w-full flex gap-2 flex-col items-center">
+    <div className="w-full   flex flex-col justify-center items-center gap-4 py-4">
+      <div className="w-full flex flex-col gap-4 items-center md:flex-row">
+        {userData?.expert_profile?.portfolio.length > 0 && (
+          <Card className="w-full ">
+            <CardBody>
+              <Carousel
+                slides={userData?.expert_profile?.portfolio}
+                options={OPTIONS}
+              />
+            </CardBody>
+          </Card>
+        )}
         <Card className="w-full ">
           <CardHeader
             // className={`relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300  to-${userData?.expert_profile?.major === "dev" ? "primary" : "danger"}`}
@@ -53,7 +67,7 @@ function ExpertProfileViewModePage({
                 {userData?.expert_profile?.name}
               </Typography>
 
-              <div className="flex gap-2 pb-1 pt-2">
+              <div className="flex gap-2 pt-1 pb-2">
                 <Chip
                   size="md"
                   color={returnMajorColor(userData?.expert_profile?.major)}
@@ -65,7 +79,12 @@ function ExpertProfileViewModePage({
                 {userData?.expert_profile?.introduction}
               </Typography>
             </div>
-
+          </CardBody>
+        </Card>
+      </div>
+      <div className={"w-full flex flex-col items-center"}>
+        <Card fullWidth>
+          <CardBody>
             <MarkdownRenderer content={userData?.expert_profile?.detail} />
           </CardBody>
         </Card>

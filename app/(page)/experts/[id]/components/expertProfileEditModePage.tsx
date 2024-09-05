@@ -134,8 +134,10 @@ function ExpertProfileEditModePage({
     const validation = validate();
     if (validation) {
       setIsPending(true);
-      let profileFilePath = null;
-      let portfolioFilePath: string[] = [...previewPortfolioUrls];
+      let portfolioFilePath: string[] = previewPortfolioUrls.filter(
+        (url) => !url.startsWith("blob:")
+      );
+
       for (const image of portfolioImages) {
         const filePath = await handlePortfolioImageUpload(image);
         if (filePath) {
@@ -145,13 +147,16 @@ function ExpertProfileEditModePage({
         }
       }
 
-      if (previewProfileUrl) {
+      let profileFilePath = null;
+      if (previewProfileUrl && image) {
         profileFilePath = await handleProfileUpload();
       }
+
       const updateResponse = await updateUserMutateAsync({
         profileFilePath: profileFilePath,
         portfolioFilePath: portfolioFilePath,
       });
+
       console.log("제출됨", updateResponse);
       setIsPending(false);
       refetch();
@@ -204,7 +209,7 @@ function ExpertProfileEditModePage({
   });
 
   return (
-    <div className={"flex flex-col  w-full py-4"}>
+    <div className={"flex flex-col w-full py-4"}>
       <Typography variant={"subtitle1"} className={"mb-4"}>
         전문가 프로필 {userData?.expert_profile ? "수정" : "만들기"}
       </Typography>
