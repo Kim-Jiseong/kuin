@@ -25,25 +25,23 @@ function ProfileCard({
   session: Session | null;
   updateSession: any;
 }) {
-  if (!session) {
-    return;
-  } else {
-    const router = useRouter();
-    const [editMode, setEditMode] = useState(false);
-    const [updateLoading, setUpdateLoading] = useState(false);
-    const [previewName, setPreviewName] = useState<string>(
-      session.profile.name
-    );
-    const [image, setImage] = useState<File | null>(null);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  // const router = useRouter();
+  const [editMode, setEditMode] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [previewName, setPreviewName] = useState<string | undefined>(
+    session?.profile?.name
+  );
+  const [image, setImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-    const {
-      mutate: updateUserMutate,
-      mutateAsync: updateUserMutateAsync,
-      isPending: isPendingUser,
-      status: updateUserStatus,
-    } = useMutation({
-      mutationFn: async (url: string | undefined) => {
+  const {
+    mutate: updateUserMutate,
+    mutateAsync: updateUserMutateAsync,
+    isPending: isPendingUser,
+    status: updateUserStatus,
+  } = useMutation({
+    mutationFn: async (url: string | undefined) => {
+      if (session) {
         const updatedProfile = await updateUser(session?.profile?.id, {
           name: previewName,
           image: url
@@ -52,60 +50,64 @@ function ProfileCard({
         });
         console.log("updatedProfile", updatedProfile);
         return updatedProfile;
-      },
-      onSuccess: async (data) => {
-        console.log("User Updated", data);
-        updateSession();
-      },
-    });
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-        setImage(file);
-        setPreviewUrl(URL.createObjectURL(file));
       }
-    };
+    },
+    onSuccess: async (data) => {
+      console.log("User Updated", data);
+      updateSession();
+    },
+  });
 
-    const handleUpload = async () => {
-      if (!image) return;
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImage(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
 
-      const fileExt = image.name.split(".").pop();
-      const fileName = `profile-${Date.now()}.${fileExt}`;
-      const filePath = `profile/${session?.profile?.id}/${fileName}`;
+  const handleUpload = async () => {
+    if (!image) return;
 
-      const { error, data } = await supabase.storage
-        .from("profile")
-        .upload(filePath, image, { cacheControl: "3500", upsert: true });
+    const fileExt = image.name.split(".").pop();
+    const fileName = `profile-${Date.now()}.${fileExt}`;
+    const filePath = `profile/${session?.profile?.id}/${fileName}`;
 
-      if (error) {
-        console.error("Upload error:", error.message);
-      } else {
-        console.log("File uploaded successfully:", data, filePath);
-        return data.fullPath;
-      }
-    };
+    const { error, data } = await supabase.storage
+      .from("profile")
+      .upload(filePath, image, { cacheControl: "3500", upsert: true });
 
-    const handleClickUpdate = async () => {
-      try {
-        setUpdateLoading(true);
-        const filePath = await handleUpload();
-        const updatedProfile = await updateUserMutateAsync(filePath);
-      } catch (e) {
-        console.log(e);
-        alert("Error: 프로필 정보 저장에 실패했습니다");
-      } finally {
-        setPreviewUrl(null);
-        setImage(null);
-        setUpdateLoading(false);
-        setEditMode(false);
-      }
-    };
-    const handleClickCancel = () => {
+    if (error) {
+      console.error("Upload error:", error.message);
+    } else {
+      console.log("File uploaded successfully:", data, filePath);
+      return data.fullPath;
+    }
+  };
+
+  const handleClickUpdate = async () => {
+    try {
+      setUpdateLoading(true);
+      const filePath = await handleUpload();
+      const updatedProfile = await updateUserMutateAsync(filePath);
+    } catch (e) {
+      console.log(e);
+      alert("Error: 프로필 정보 저장에 실패했습니다");
+    } finally {
       setPreviewUrl(null);
       setImage(null);
+      setUpdateLoading(false);
       setEditMode(false);
-    };
+    }
+  };
+  const handleClickCancel = () => {
+    setPreviewUrl(null);
+    setImage(null);
+    setEditMode(false);
+  };
+  if (!session) {
+    return;
+  } else {
     return (
       <Card>
         <CardHeader>계정</CardHeader>
