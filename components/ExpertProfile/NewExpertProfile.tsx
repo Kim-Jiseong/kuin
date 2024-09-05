@@ -12,7 +12,7 @@ function NewExpertProfileCard({
   onClose?: () => void;
 }) {
   const router = useRouter();
-  if (!myId) return;
+  if (!myId) return null;
   else
     return (
       <div className="container flex flex-col gap-4 w-full p-8 justify-center items-center rounded-md border-1 border-divider border-dashed">

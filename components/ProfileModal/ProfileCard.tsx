@@ -105,9 +105,8 @@ function ProfileCard({
     setImage(null);
     setEditMode(false);
   };
-  if (!session) {
-    return;
-  } else {
+  if (!session) return null;
+  else
     return (
       <Card>
         <CardHeader>계정</CardHeader>
@@ -208,6 +207,6 @@ function ProfileCard({
         </CardBody>
       </Card>
     );
-  }
 }
+
 export default ProfileCard;
