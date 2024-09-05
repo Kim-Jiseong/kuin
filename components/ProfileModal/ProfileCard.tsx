@@ -16,9 +16,15 @@ import { LogOut, Pencil } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useMutation } from "@tanstack/react-query";
 import { updateUser } from "@/service/user/user";
+import { Session } from "next-auth";
 
-function ProfileCard() {
-  const { data: session, status, update: updateSession } = useSession();
+function ProfileCard({
+  session,
+  updateSession,
+}: {
+  session: Session | null;
+  updateSession: any;
+}) {
   if (!session) {
     return;
   } else {
@@ -66,11 +72,11 @@ function ProfileCard() {
 
       const fileExt = image.name.split(".").pop();
       const fileName = `profile-${Date.now()}.${fileExt}`;
-      const filePath = `${session?.profile?.id}/${fileName}`;
+      const filePath = `profile/${session?.profile?.id}/${fileName}`;
 
       const { error, data } = await supabase.storage
         .from("profile")
-        .upload(filePath, image, { cacheControl: "1", upsert: true });
+        .upload(filePath, image, { cacheControl: "3500", upsert: true });
 
       if (error) {
         console.error("Upload error:", error.message);
@@ -102,7 +108,7 @@ function ProfileCard() {
     };
     return (
       <Card>
-        <CardHeader>프로필</CardHeader>
+        <CardHeader>계정</CardHeader>
         <CardBody>
           <div
             className="w-full flex flex-col justify-center items-center gap-4 
@@ -183,7 +189,7 @@ function ProfileCard() {
                   startContent={<Pencil size={16} />}
                   onPress={() => setEditMode(true)}
                 >
-                  프로필 수정
+                  계정 정보 수정
                 </Button>
                 <Button
                   size="sm"

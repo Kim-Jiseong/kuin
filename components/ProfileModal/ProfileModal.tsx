@@ -16,6 +16,7 @@ import Typography from "../common/Typography";
 import { ThemeSwitch } from "../theme-switch";
 import { LogOut, Pencil } from "lucide-react";
 import ProfileCard from "./ProfileCard";
+import ExpertProfileCard from "./ExpertProfileCard";
 function ProfileModal({
   isOpen,
   onOpenChange,
@@ -23,6 +24,7 @@ function ProfileModal({
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const { data: session, status, update: updateSession } = useSession();
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
@@ -30,7 +32,12 @@ function ProfileModal({
           <>
             <ModalHeader className="flex flex-col gap-1">설정</ModalHeader>
             <ModalBody>
-              <ProfileCard />
+              <ProfileCard session={session} updateSession={updateSession} />
+              <ExpertProfileCard
+                session={session}
+                updateSession={updateSession}
+                onClose={onClose}
+              />
               <Card shadow={"sm"}>
                 <CardHeader>일반</CardHeader>
                 <Divider />

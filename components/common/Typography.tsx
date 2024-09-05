@@ -15,6 +15,7 @@ interface TypographyProps {
   style?: React.CSSProperties;
   ellipsis?: boolean;
   lines?: number;
+  className?: any;
   children?: React.ReactNode;
 }
 
@@ -22,12 +23,15 @@ const Typography = ({
   variant,
   color,
   weight,
+  className,
   style,
   ellipsis = false,
   lines = 1,
   children,
 }: TypographyProps) => {
   const baseStyles = classNames(
+    `break-keep`,
+    `whitespace-pre-wrap`,
     color && `text-${color}`,
     weight && `font-${weight}`,
     ellipsis && "overflow-hidden text-ellipsis",
@@ -38,7 +42,7 @@ const Typography = ({
     case "headings":
       return (
         <h1
-          className={classNames(baseStyles, "text-4xl font-bold")}
+          className={classNames(baseStyles, className, "text-6xl font-bold")}
           style={style}
         >
           {children}
@@ -47,7 +51,11 @@ const Typography = ({
     case "title":
       return (
         <h2
-          className={classNames(baseStyles, "text-3xl font-semibold")}
+          className={classNames(
+            baseStyles,
+            className,
+            "text-3xl font-semibold"
+          )}
           style={style}
         >
           {children}
@@ -56,7 +64,7 @@ const Typography = ({
     case "subtitle1":
       return (
         <h3
-          className={classNames(baseStyles, "text-xl font-semibold")}
+          className={classNames(baseStyles, className, "text-xl font-semibold")}
           style={style}
         >
           {children}
@@ -65,7 +73,7 @@ const Typography = ({
     case "subtitle2":
       return (
         <p
-          className={classNames(baseStyles, "text-lg font-semibold")}
+          className={classNames(baseStyles, className, "text-lg font-semibold")}
           style={style}
         >
           {children}
@@ -74,7 +82,7 @@ const Typography = ({
     case "textLarge":
       return (
         <p
-          className={classNames(baseStyles, "text-lg font-normal")}
+          className={classNames(baseStyles, className, "text-lg font-normal")}
           style={style}
         >
           {children}
@@ -83,7 +91,7 @@ const Typography = ({
     case "text":
       return (
         <p
-          className={classNames(baseStyles, "text-base font-normal")}
+          className={classNames(baseStyles, className, "text-base font-normal")}
           style={style}
         >
           {children}
@@ -94,6 +102,7 @@ const Typography = ({
         <span
           className={classNames(
             baseStyles,
+            className,
             "text-sm font-normal text-gray-500"
           )}
           style={style}
@@ -104,7 +113,7 @@ const Typography = ({
     default:
       return (
         <p
-          className={classNames(baseStyles, "text-base font-normal")}
+          className={classNames(baseStyles, className, "text-base font-normal")}
           style={style}
         >
           {children}

@@ -1,5 +1,5 @@
 import { getOrCreateUser } from "@/utils/getOrCreateUser";
-import { getUser } from "@/utils/getUser";
+import { getUserByEmail } from "@/utils/getUser";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -32,7 +32,7 @@ const handler = NextAuth({
     async jwt({ token, account, trigger, user }) {
       if (trigger === "update") {
         // 업데이트 트리거 발생 시 DB에서 사용자 정보 다시 가져오기
-        const { user: dbUser } = await getUser({
+        const { user: dbUser } = await getUserByEmail({
           email: token?.email,
         });
 

@@ -5,6 +5,10 @@ export const createUser = async (params: any) => {
   return response.data;
 };
 
+export const getUser = async (userId: string) => {
+  const response = await axiosInstance.get("users/" + userId);
+  return response.data;
+};
 export const updateUser = async (userId: string, params: any) => {
   const response = await axiosInstance.put("users/" + userId, params);
   return response.data;

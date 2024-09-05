@@ -1,6 +1,10 @@
 import { supabase } from "@/lib/supabaseClient";
 
-export async function getUser({ email }: { email: string | undefined | null }) {
+export async function getUserByEmail({
+  email,
+}: {
+  email: string | undefined | null;
+}) {
   // 1. Supabase에서 유저 검색
   const { data: user, error: fetchError } = await supabase
     .from("user")

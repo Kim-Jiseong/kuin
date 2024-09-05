@@ -9,7 +9,7 @@ export const siteConfig = {
       href: "/projects",
     },
     {
-      label: "인력풀",
+      label: "전문가",
       href: "/experts",
     },
   ],

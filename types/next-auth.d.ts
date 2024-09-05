@@ -19,7 +19,7 @@ declare module "next-auth" {
       name: string;
       email: string;
       image: string;
-      profile: any;
+      expert_profile: any;
       isNewUser: boolean;
     };
   }

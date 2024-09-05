@@ -25,11 +25,10 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   const { id } = params;
-  const { email, name, image, provider, profile } = await req.json();
-
+  const { email, name, image, provider, expert_profile } = await req.json();
   const { data, error } = await supabase
     .from("user")
-    .update({ email, name, image, provider, profile })
+    .update({ email, name, image, provider, expert_profile })
     .eq("id", id)
     .select();
 
