@@ -8,23 +8,23 @@ import {
   ModalBody,
   ModalFooter,
 } from "@nextui-org/modal";
-import { Button } from "@nextui-org/button";
+
 import { Avatar, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
-import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+
 import Typography from "../common/Typography";
 import { ThemeSwitch } from "../theme-switch";
-import { LogOut, Pencil } from "lucide-react";
 import ProfileCard from "./ProfileCard";
 import ExpertProfileCard from "./ExpertProfileCard";
+import { Tables } from "@/types/database.types";
 function ProfileModal({
   isOpen,
   onOpenChange,
+  profile,
 }: {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  profile: Tables<"profile"> | null;
 }) {
-  const { data: session, status, update: updateSession } = useSession();
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
@@ -32,12 +32,8 @@ function ProfileModal({
           <>
             <ModalHeader className="flex flex-col gap-1">설정</ModalHeader>
             <ModalBody>
-              <ProfileCard session={session} updateSession={updateSession} />
-              <ExpertProfileCard
-                session={session}
-                updateSession={updateSession}
-                onClose={onClose}
-              />
+              <ProfileCard profile={profile} onClose={onClose} />
+              <ExpertProfileCard profile={profile} onClose={onClose} />
               <Card shadow={"sm"}>
                 <CardHeader>일반</CardHeader>
                 <Divider />

@@ -4,28 +4,27 @@ import React from "react";
 import Typography from "../common/Typography";
 import NewExpertProfileCard from "../ExpertProfile/NewExpertProfile";
 import ExpertProfile from "../ExpertProfile/ExpertProfile";
+import { Tables } from "@/types/database.types";
 
 function ExpertProfileCard({
-  session,
-  updateSession,
+  profile,
   onClose,
 }: {
-  session: Session | null;
-  updateSession: any;
+  profile: Tables<"profile"> | null;
   onClose: () => void;
 }) {
   return (
     <Card>
       <CardHeader>전문가 프로필</CardHeader>
       <CardBody>
-        {session?.profile?.expert_profile ? (
+        {profile?.expert_profile ? (
           <ExpertProfile
-            profile={session?.profile?.expert_profile}
+            profile={profile?.expert_profile}
             onClose={onClose}
-            myId={session?.profile?.id}
+            myId={profile?.id}
           />
         ) : (
-          <NewExpertProfileCard myId={session?.profile?.id} onClose={onClose} />
+          <NewExpertProfileCard myId={profile?.id} onClose={onClose} />
         )}
       </CardBody>
     </Card>

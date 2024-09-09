@@ -1,13 +1,13 @@
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
-import "../../styles/markdown.css";
+import "@/styles/markdown.css";
 import clsx from "clsx";
 
 import { Providers } from "../providers";
 
-import { siteConfig } from "@/config/site";
-import { fontSans } from "@/config/fonts";
-import { Navbar } from "@/components/navbar";
+import { siteConfig } from "../../config/site";
+import { fontSans } from "../../config/fonts";
+import { Navbar } from "../../components/navbar";
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +27,7 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;

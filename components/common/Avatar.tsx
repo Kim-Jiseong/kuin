@@ -1,22 +1,21 @@
 "use client";
 import { Avatar as NextUIAvatar } from "@nextui-org/avatar";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import ProfileModal from "../ProfileModal/ProfileModal";
 import { useDisclosure } from "@nextui-org/modal";
+import { Tables } from "@/types/database.types";
 
-function Avatar() {
+function Avatar({ profile }: { profile: Tables<"profile"> | null }) {
   const router = useRouter();
-  const { data: session, status } = useSession();
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const handleClick = () => {
-    if (status !== "loading") {
-      if (session) {
-        onOpen();
-      } else {
-        router.push("/auth");
-      }
+    if (profile) {
+      console.log("clicked");
+      onOpen();
+    } else {
+      router.push("/auth");
     }
   };
   return (
@@ -25,11 +24,15 @@ function Avatar() {
         className="cursor-pointer"
         onClick={handleClick}
         isBordered
-        src={session ? (session.profile?.image as string) : undefined}
+        src={profile ? (profile.image as string) : undefined}
         style={{ flexShrink: 0 }}
         size="sm"
       />
-      <ProfileModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <ProfileModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        profile={profile}
+      />
     </div>
   );
 }

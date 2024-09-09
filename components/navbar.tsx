@@ -1,4 +1,3 @@
-"use client";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -8,28 +7,34 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from "@nextui-org/navbar";
-import { Button } from "@nextui-org/button";
-import { Kbd } from "@nextui-org/kbd";
-import { Link } from "@nextui-org/link";
-import { Input } from "@nextui-org/input";
 import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 
-import { siteConfig } from "@/config/site";
-import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  TwitterIcon,
-  GithubIcon,
-  DiscordIcon,
-  HeartFilledIcon,
-  SearchIcon,
-  Logo,
-} from "@/components/icons";
-import SearchInput from "./common/SearchInput";
+import { siteConfig } from "../config/site";
+// import {
+//   TwitterIcon,
+//   GithubIcon,
+//   DiscordIcon,
+//   HeartFilledIcon,
+//   SearchIcon,
+//   Logo,
+// } from "@/components/icons";
 import AvatarWrapper from "./common/Avatar";
+import { createClient } from "../utils/supabase/server";
 
-export const Navbar = () => {
+export const Navbar = async () => {
+  const supabase = createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  const { data: profile, error: profileError } = user
+    ? await supabase.from("profile").select("*").eq("user_id", user.id)
+    : { data: null, error: null };
+
+  // console.log("여기", session, sessionError, user, error);
   return (
     <NextUINavbar maxWidth="xl" position="sticky" isBordered>
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -56,7 +61,9 @@ export const Navbar = () => {
             </NavbarItem>
           ))}
         </ul>
-        <AvatarWrapper />
+        <AvatarWrapper
+          profile={profile && profile.length > 0 ? profile[0] : null}
+        />
       </NavbarContent>
 
       {/* <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">

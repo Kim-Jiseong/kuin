@@ -1,4 +1,4 @@
-import axiosInstance from "@/lib/axiosInstance";
+import axiosInstance from "../../../lib/axiosInstance";
 
 export const createUser = async (params: any) => {
   const response = await axiosInstance.post("users/", params);

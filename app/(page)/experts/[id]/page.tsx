@@ -1,70 +1,52 @@
-"use client";
-import Typography from "@/components/common/Typography";
-import { getUser } from "@/service/user/user";
-import { Avatar } from "@nextui-org/avatar";
-import { Button } from "@nextui-org/button";
-import { Input } from "@nextui-org/input";
-import { useQuery } from "@tanstack/react-query";
-import { Pencil } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import ExpertProfileEditModePage from "./components/expertProfileEditModePage";
-import ExpertProfileViewModePage from "./components/expertProfileViewModePage";
+import React, { Suspense } from "react";
 import { Spinner } from "@nextui-org/react";
+import { createClient } from "@/utils/supabase/server";
+import Error from "@/app/error";
+import ExpertProfileViewModePage from "./components/expertProfileViewModePage";
 type Props = {
   params: {
     id: string;
   };
 };
 
-function ExpertDetail({ params }: Props) {
+async function ExpertDetail({ params }: Props) {
+  // console.log(params.id);
+  const supabase = createClient();
   const {
-    data: userData,
-    isPending,
-    isError,
+    data: { user },
     error,
-    refetch,
-  } = useQuery({
-    queryKey: ["expert", params.id],
-    queryFn: () => getUser(params.id),
-  });
-  const { data: session, status, update: updateSession } = useSession();
-  const router = useRouter();
-  const [editMode, setEditMode] = useState(false);
-
-  useEffect(() => {
-    if (!userData?.expert_profile) {
-      setEditMode(userData?.id === session?.profile.id ? true : false);
-    } else {
-      setEditMode(false);
-    }
-  }, [userData]);
+  } = await supabase.auth.getUser();
+  const { data: profile, error: profileError } = await supabase
+    .from("profile")
+    .select("*")
+    .eq("id", params.id);
   return (
     <div className="w-full flex flex-col justify-center items-center gap-4 ">
-      {isPending ? (
-        <div
-          className={
-            "w-full h-[50vh] flex flex-col items-center justify-center"
-          }
-        >
-          <Spinner />
-        </div>
-      ) : editMode ? (
-        <ExpertProfileEditModePage
-          userData={userData}
-          setEditMode={setEditMode}
-          session={session}
-          updateSession={updateSession}
-          refetch={refetch}
-        />
-      ) : (
-        <ExpertProfileViewModePage
-          userData={userData}
-          setEditMode={setEditMode}
-          session={session}
-        />
-      )}
+      <Suspense
+        fallback={
+          <div
+            className={
+              "w-full h-[50vh] flex flex-col items-center justify-center"
+            }
+          >
+            <Spinner />
+          </div>
+        }
+      >
+        {profile &&
+          (profile?.length === 0 ? (
+            <Error />
+          ) : (
+            <div className="w-full flex flex-col justify-center items-center gap-4 ">
+              {/* <ContentContainer user={user} profile={profile} /> */}
+              <ExpertProfileViewModePage
+                profileId={params.id}
+                expertData={profile[0]?.expert_profile}
+                isMe={user?.id === profile?.[0]?.user_id || false}
+              />
+            </div>
+          ))}
+      </Suspense>
     </div>
   );
 }

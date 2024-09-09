@@ -3,91 +3,67 @@ import Typography from "@/components/common/Typography";
 import { getMajorObjByCode } from "@/utils/getMajorObjByCode";
 import { returnMajorColor } from "@/utils/returnMajorColor";
 import { Avatar } from "@nextui-org/avatar";
-import { Button } from "@nextui-org/button";
-import { Card, CardBody, CardHeader, Chip } from "@nextui-org/react";
-import { Pencil } from "lucide-react";
-import { Session } from "next-auth";
 import React from "react";
 import { EmblaOptionsType } from "embla-carousel";
 import Carousel from "@/components/common/Carousel/Carousel";
+import EditBtn from "./EditBtn";
 const OPTIONS: EmblaOptionsType = {};
-const SLIDE_COUNT = 5;
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 function ExpertProfileViewModePage({
-  userData,
-  setEditMode,
-  session,
+  profileId,
+  expertData,
+  isMe,
 }: {
-  userData: any;
-  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
-  session: Session | null;
+  profileId: string;
+  expertData: any;
+  // expertData: Tables<"profile">["expert_profile"] | undefined;
+  isMe: boolean;
 }) {
   return (
-    <div className="w-full   flex flex-col justify-center items-center gap-4 py-4">
-      <div className="w-full flex flex-col gap-4 items-center md:flex-row">
-        {userData?.expert_profile?.portfolio.length > 0 && (
-          <Card className="w-full ">
-            <CardBody>
-              <Carousel
-                slides={userData?.expert_profile?.portfolio}
-                options={OPTIONS}
-              />
-            </CardBody>
-          </Card>
+    <div className="w-full  flex flex-col justify-center items-center gap-4 py-4">
+      <div className="w-full gap-4 flex flex-col items-center md:flex-row relative">
+        {expertData?.portfolio.length > 0 && (
+          <div className="w-full h-full flex-1 aspect-square rounded-xl overflow-hidden">
+            <Carousel slides={expertData?.portfolio} options={OPTIONS} />
+          </div>
         )}
-        <Card className="w-full ">
-          <CardHeader
-            // className={`relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300  to-${userData?.expert_profile?.major === "dev" ? "primary" : "danger"}`}
-            className={`relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300 via-purple-300 to-primary`}
-          >
+        <div className="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none h-full flex-1 aspect-square">
+          <div className="p-3 z-10 w-full items-center shrink-0 overflow-inherit color-inherit subpixel-antialiased rounded-t-large relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300 via-purple-300 to-primary">
             <Avatar
               size={"lg"}
               isBordered
-              src={userData?.expert_profile?.profileImage}
+              src={expertData?.profileImage}
               className="h-20 w-20 translate-y-12 flex-shrink-0"
               radius={"md"}
             />
-            {userData?.id === session?.profile.id && (
-              <Button
-                radius="full"
-                size="sm"
-                // color={"success"}
-                variant="light"
-                startContent={<Pencil size={16} />}
-                onPress={() => setEditMode(true)}
-                className="absolute right-3 top-3 bg-white/20  dark:bg-black/20"
-              >
-                프로필 수정
-              </Button>
-            )}
-          </CardHeader>
-          <CardBody>
-            <div className="pb-4 pt-6">
+            {isMe && <EditBtn profileId={profileId} />}
+          </div>
+          <div className="relative flex w-full p-3 flex-auto flex-col place-content-inherit align-items-inherit h-auto break-words text-left overflow-y-auto subpixel-antialiased pb-4 pt-6">
+            <div>
               <Typography variant="subtitle2" ellipsis lines={1}>
-                {userData?.expert_profile?.name}
+                {expertData?.name}
               </Typography>
-
               <div className="flex gap-2 pt-1 pb-2">
-                <Chip
-                  size="md"
-                  color={returnMajorColor(userData?.expert_profile?.major)}
+                <div
+                  className={`relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 text-small rounded-full bg-${returnMajorColor(expertData?.major)} text-primary-foreground`}
                 >
-                  {getMajorObjByCode(userData?.expert_profile?.major)?.name}
-                </Chip>
+                  <span className="flex-1 text-inherit font-normal px-2">
+                    {getMajorObjByCode(expertData?.major)?.name}
+                  </span>
+                </div>
               </div>
               <Typography variant="caption">
-                {userData?.expert_profile?.introduction}
+                {expertData?.introduction}
               </Typography>
             </div>
-          </CardBody>
-        </Card>
+          </div>
+        </div>
       </div>
       <div className={"w-full flex flex-col items-center"}>
-        <Card fullWidth>
-          <CardBody>
-            <MarkdownRenderer content={userData?.expert_profile?.detail} />
-          </CardBody>
-        </Card>
+        <div className="flex flex-col relative overflow-hidden h-auto text-foreground box-border bg-content1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none">
+          <div className="relative flex w-full p-3 flex-auto flex-col place-content-inherit align-items-inherit h-auto break-words text-left overflow-y-auto subpixel-antialiased">
+            <MarkdownRenderer content={expertData?.detail} />
+          </div>
+        </div>
       </div>
     </div>
   );

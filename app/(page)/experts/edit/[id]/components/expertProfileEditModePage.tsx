@@ -1,38 +1,39 @@
+"use client";
+import { updateProfile } from "@/service/profile/action";
 import Typography from "@/components/common/Typography";
 import { major } from "@/constant/major";
 import useForm from "@/hooks/useForm";
 import { supabase } from "@/lib/supabaseClient";
-import { updateUser } from "@/service/user/user";
 import { returnMajorColor } from "@/utils/returnMajorColor";
 import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import { Input, Textarea } from "@nextui-org/input";
 import { Tab, Tabs } from "@nextui-org/react";
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  useMutation,
-} from "@tanstack/react-query";
 import { CirclePlus, PlusIcon, Trash, Trash2 } from "lucide-react";
-import { Session } from "next-auth";
+import { revalidatePath } from "next/cache";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 function ExpertProfileEditModePage({
-  userData,
-  setEditMode,
-  session,
-  updateSession,
-  refetch,
+  // userData,
+  expertData,
+  // setEditMode,
+  // session,
+  // updateSession,
+  // refetch,
+  profileId,
 }: {
-  userData: any;
-  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
-  session: Session | null;
-  updateSession: any;
-  refetch: (
-    options?: RefetchOptions
-  ) => Promise<QueryObserverResult<any, Error>>;
+  expertData: any;
+  // setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+  profileId: string;
+  // session: Session | null;
+  // updateSession: any;
+  // refetch: (
+  //   options?: RefetchOptions
+  // ) => Promise<QueryObserverResult<any, Error>>;
 }) {
-  const fields = userData?.expert_profile || {
+  const router = useRouter();
+  const fields = expertData || {
     name: "",
     introduction: "",
     detail: "",
@@ -44,15 +45,15 @@ function ExpertProfileEditModePage({
   const { handleChange, result, validate } = useForm(fields);
   const [image, setImage] = useState<File | null>(null);
   const [previewProfileUrl, setPreviewProfileUrl] = useState<string | null>(
-    userData?.expert_profile?.profileImage || null
+    expertData?.profileImage || null
   );
   const [portfolioImages, setPortfolioImages] = useState<File[]>([]);
   const [previewPortfolioUrls, setPreviewPortfolioUrls] = useState<string[]>(
-    userData?.expert_profile?.portfolio || []
+    expertData?.portfolio || []
   );
 
   const [previewMajor, setPreviewMajor] = useState(
-    userData?.expert_profile?.major || major[0].code
+    expertData?.major || major[0].code
   );
 
   const [isPending, setIsPending] = useState(false);
@@ -70,7 +71,7 @@ function ExpertProfileEditModePage({
 
     const fileExt = image.name.split(".").pop();
     const fileName = `expert_profile-${Date.now()}.${fileExt}`;
-    const filePath = `expert_profile/${session?.profile?.id}/${fileName}`;
+    const filePath = `expert_profile/${profileId}/${fileName}`;
 
     const { error, data } = await supabase.storage
       .from("profile")
@@ -102,7 +103,7 @@ function ExpertProfileEditModePage({
   const handlePortfolioImageUpload = async (image: File) => {
     const fileExt = image.name.split(".").pop();
     const fileName = `portfolio-${Date.now()}.${fileExt}`;
-    const filePath = `portfolio/${session?.profile?.id}/${fileName}`;
+    const filePath = `portfolio/${profileId}/${fileName}`;
 
     const { error, data } = await supabase.storage
       .from("files")
@@ -127,7 +128,7 @@ function ExpertProfileEditModePage({
     setPreviewProfileUrl(null);
     setPortfolioImages([]);
     setPreviewPortfolioUrls([]);
-    setEditMode(false);
+    router.push(`/experts/${profileId}`);
   };
 
   const handleClickSubmit = async () => {
@@ -152,66 +153,30 @@ function ExpertProfileEditModePage({
         profileFilePath = await handleProfileUpload();
       }
 
-      const updateResponse = await updateUserMutateAsync({
-        profileFilePath: profileFilePath,
-        portfolioFilePath: portfolioFilePath,
-      });
-
-      console.log("제출됨", updateResponse);
-      setIsPending(false);
-      refetch();
-      handleClickCancel();
-    }
-  };
-  // ------------------------------ //
-  const {
-    mutate: updateUserMutate,
-    mutateAsync: updateUserMutateAsync,
-    isPending: isPendingUser,
-    status: updateUserStatus,
-  } = useMutation({
-    mutationFn: async ({
-      profileFilePath,
-      portfolioFilePath,
-    }: {
-      profileFilePath: string | null | undefined;
-      portfolioFilePath: string[];
-    }) => {
-      console.log("여기", {
-        ...result.data,
-        profileImage: profileFilePath
-          ? `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}${profileFilePath}`
-          : userData?.expert_profile?.profileImage,
-        major: previewMajor,
-        portfolio: portfolioFilePath
-          ? portfolioFilePath
-          : userData?.expert_profile?.portfolio,
-      });
-      const updatedProfile = await updateUser(session?.profile?.id as string, {
+      const updateResponse = await updateProfile(profileId, {
         expert_profile: {
           ...result.data,
           profileImage: profileFilePath
             ? `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}${profileFilePath}`
-            : userData?.expert_profile?.profileImage,
+            : expertData?.profileImage,
           major: previewMajor,
           portfolio: portfolioFilePath
             ? portfolioFilePath
-            : userData?.expert_profile?.portfolio,
+            : expertData?.portfolio,
         },
       });
-      console.log("updatedProfile", updatedProfile);
-      return updatedProfile;
-    },
-    onSuccess: async (data) => {
-      console.log("User Updated", data);
-      updateSession();
-    },
-  });
+
+      console.log("제출됨", updateResponse);
+      setIsPending(false);
+
+      handleClickCancel();
+    }
+  };
 
   return (
     <div className={"flex flex-col w-full py-4"}>
       <Typography variant={"subtitle1"} className={"mb-4"}>
-        전문가 프로필 {userData?.expert_profile ? "수정" : "만들기"}
+        전문가 프로필 {expertData ? "수정" : "만들기"}
       </Typography>
 
       <div className="flex flex-col items-center gap-2 w-full">
@@ -224,7 +189,7 @@ function ExpertProfileEditModePage({
         />
         <label htmlFor="profileImageInput" className={"cursor-pointer"}>
           <Typography variant="caption" color={"primary"}>
-            사진 {userData?.expert_profile ? "수정" : "업로드"}
+            사진 {previewProfileUrl ? "수정" : "업로드"}
           </Typography>{" "}
         </label>
         <input
@@ -258,7 +223,7 @@ function ExpertProfileEditModePage({
           //   onValueChange={setPreviewName}
           isInvalid={result.errorField.includes("name")}
           onChange={handleChange}
-          defaultValue={userData?.expert_profile?.name}
+          defaultValue={expertData?.name}
         />
         <Input
           variant={"bordered"}
@@ -269,7 +234,7 @@ function ExpertProfileEditModePage({
           isInvalid={result.errorField.includes("introduction")}
           //   onValueChange={setPreviewIntroduction}
           onChange={handleChange}
-          defaultValue={userData?.expert_profile?.introduction}
+          defaultValue={expertData?.introduction}
         />
         <Input
           variant={"bordered"}
@@ -280,7 +245,7 @@ function ExpertProfileEditModePage({
           isInvalid={result.errorField.includes("contact")}
           //   onValueChange={setPreviewIntroduction}
           onChange={handleChange}
-          defaultValue={userData?.expert_profile?.contact}
+          defaultValue={expertData?.contact}
         />
         <Textarea
           variant={"bordered"}
@@ -295,14 +260,14 @@ function ExpertProfileEditModePage({
           isInvalid={result.errorField.includes("detail")}
           //   onValueChange={setPreviewDetail}
           onChange={handleChange}
-          defaultValue={userData?.expert_profile?.detail}
+          defaultValue={expertData?.detail}
         />
       </div>
       <div className="flex items-center gap-4 mt-6">
         <Typography variant={"subtitle1"}>포트폴리오</Typography>
         <Button startContent={<PlusIcon />} color="primary" size="sm">
           <label htmlFor="portfolioImageInput" className={"cursor-pointer"}>
-            사진 {userData?.expert_profile ? "추가" : "업로드"}
+            사진 {expertData ? "추가" : "업로드"}
           </label>
         </Button>
       </div>
@@ -340,7 +305,7 @@ function ExpertProfileEditModePage({
         </div>
       </div>
       <div className="flex gap-2 w-full mt-4">
-        {userData?.expert_profile && (
+        {expertData && (
           <Button
             size="lg"
             color={"default"}

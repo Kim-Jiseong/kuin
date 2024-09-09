@@ -8,28 +8,26 @@ import {
   CardHeader,
   Input,
 } from "@nextui-org/react";
-import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Typography from "../common/Typography";
 import { LogOut, Pencil } from "lucide-react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 import { useMutation } from "@tanstack/react-query";
-import { updateUser } from "@/service/user/user";
-import { Session } from "next-auth";
+import { Tables } from "@/types/database.types";
+import { signOut } from "@/app/auth/login/action";
+import { updateProfile } from "@/service/profile/action";
 
 function ProfileCard({
-  session,
-  updateSession,
+  profile,
+  onClose,
 }: {
-  session: Session | null;
-  updateSession: any;
+  profile: Tables<"profile"> | null;
+  onClose: () => void;
 }) {
-  // const router = useRouter();
   const [editMode, setEditMode] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
-  const [previewName, setPreviewName] = useState<string | undefined>(
-    session?.profile?.name
+  const [previewName, setPreviewName] = useState<string | null | undefined>(
+    profile?.name
   );
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -41,12 +39,12 @@ function ProfileCard({
     status: updateUserStatus,
   } = useMutation({
     mutationFn: async (url: string | undefined) => {
-      if (session) {
-        const updatedProfile = await updateUser(session?.profile?.id, {
+      if (profile) {
+        const updatedProfile = await updateProfile(profile?.id, {
           name: previewName,
           image: url
             ? `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}${url}`
-            : session.profile.image,
+            : profile.image,
         });
         console.log("updatedProfile", updatedProfile);
         return updatedProfile;
@@ -54,7 +52,6 @@ function ProfileCard({
     },
     onSuccess: async (data) => {
       console.log("User Updated", data);
-      updateSession();
     },
   });
 
@@ -71,7 +68,7 @@ function ProfileCard({
 
     const fileExt = image.name.split(".").pop();
     const fileName = `profile-${Date.now()}.${fileExt}`;
-    const filePath = `profile/${session?.profile?.id}/${fileName}`;
+    const filePath = `profile/${profile?.id}/${fileName}`;
 
     const { error, data } = await supabase.storage
       .from("profile")
@@ -105,7 +102,7 @@ function ProfileCard({
     setImage(null);
     setEditMode(false);
   };
-  if (!session) return null;
+  if (!profile) return null;
   else
     return (
       <Card>
@@ -119,9 +116,7 @@ function ProfileCard({
               <Avatar
                 size={"lg"}
                 isBordered
-                src={
-                  previewUrl ? previewUrl : (session.profile?.image as string)
-                }
+                src={previewUrl ? previewUrl : (profile?.image as string)}
                 className="flex-shrink-0"
               />
               {editMode && (
@@ -149,15 +144,15 @@ function ProfileCard({
                   <Input
                     onValueChange={setPreviewName}
                     size={"sm"}
-                    defaultValue={session.profile?.name}
+                    defaultValue={profile.name as string}
                   />
                 ) : (
                   <Typography variant="text" ellipsis lines={1}>
-                    {session.profile?.name}
+                    {profile?.name}
                   </Typography>
                 )}
                 <Typography variant="caption" ellipsis lines={1}>
-                  {session.profile?.email}
+                  {profile?.email}
                 </Typography>
               </div>
             </div>
@@ -197,7 +192,10 @@ function ProfileCard({
                   color="danger"
                   variant="flat"
                   startContent={<LogOut size={16} />}
-                  onPress={() => signOut()}
+                  onPress={async () => {
+                    await signOut();
+                    onClose();
+                  }}
                 >
                   로그아웃
                 </Button>

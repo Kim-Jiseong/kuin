@@ -1,5 +1,5 @@
-import { getOrCreateUser } from "@/utils/getOrCreateUser";
-import { getUserByEmail } from "@/utils/getUser";
+import { getOrCreateUser } from "../../../../utils/getOrCreateUser";
+import { getUserByEmail } from "../../../../utils/getUser";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 

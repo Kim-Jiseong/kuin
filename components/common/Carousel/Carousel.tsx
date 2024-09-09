@@ -1,3 +1,4 @@
+"use client";
 import React, { useCallback } from "react";
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 import { DotButton, useDotButton } from "./CarouselDotButtons";
@@ -48,7 +49,11 @@ const Carousel: React.FC<PropType> = (props) => {
         <div className="embla__container">
           {slides.map((src, index) => (
             <div className="embla__slide" key={index}>
-              <img src={src} alt={"carousel_image-" + index} />
+              <img
+                src={src}
+                alt={"carousel_image-" + index}
+                className={"w-full h-full object-cover"}
+              />
             </div>
           ))}
         </div>

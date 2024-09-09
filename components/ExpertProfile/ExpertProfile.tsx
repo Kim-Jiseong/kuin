@@ -35,7 +35,7 @@ function ExpertProfile({
         />
         <div className="flex flex-col w-[calc(100%-8.5rem)]">
           <Typography variant={"text"}>{profile?.name}</Typography>
-          <Typography variant={"caption"} ellipsis lines={2}>
+          <Typography variant={"caption"} ellipsis lines={1}>
             {profile?.introduction}
           </Typography>
         </div>
