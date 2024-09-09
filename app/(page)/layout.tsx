@@ -5,9 +5,10 @@ import clsx from "clsx";
 
 import { Providers } from "../providers";
 
-import { siteConfig } from "../../config/site";
-import { fontSans } from "../../config/fonts";
-import { Navbar } from "../../components/navbar";
+import { siteConfig } from "@/config/site";
+import { fontSans } from "@/config/fonts";
+import { Navbar } from "@/components/navbar";
+import { createClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
   title: {
@@ -32,6 +33,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data: profile } = user
+    ? await supabase.from("profile").select("*").eq("user_id", user.id)
+    : { data: null };
   return (
     <html suppressHydrationWarning lang="en">
       <head />
@@ -43,7 +52,7 @@ export default async function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
-            <Navbar />
+            <Navbar profile={profile} />
             <main className="container mx-auto w-full max-w-7xl px-6 flex-grow min-h-[calc(100vh - 4rem)]">
               {children}
             </main>

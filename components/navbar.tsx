@@ -22,17 +22,22 @@ import { siteConfig } from "../config/site";
 // } from "@/components/icons";
 import AvatarWrapper from "./common/Avatar";
 import { createClient } from "../utils/supabase/server";
+import { Tables } from "@/types/database.types";
 
-export const Navbar = async () => {
-  const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+export const Navbar = async ({
+  profile,
+}: {
+  profile: Tables<"profile">[] | null;
+}) => {
+  // const supabase = createClient();
+  // const {
+  //   data: { user },
+  //   error,
+  // } = await supabase.auth.getUser();
 
-  const { data: profile, error: profileError } = user
-    ? await supabase.from("profile").select("*").eq("user_id", user.id)
-    : { data: null, error: null };
+  // const { data: profile, error: profileError } = user
+  //   ? await supabase.from("profile").select("*").eq("user_id", user.id)
+  //   : { data: null, error: null };
 
   // console.log("여기", session, sessionError, user, error);
   return (
