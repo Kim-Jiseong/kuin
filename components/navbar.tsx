@@ -24,7 +24,7 @@ import AvatarWrapper from "./common/Avatar";
 import { createClient } from "../utils/supabase/server";
 import { Tables } from "@/types/database.types";
 
-export const Navbar = async ({
+export const Navbar = ({
   profile,
 }: {
   profile: Tables<"profile">[] | null;
