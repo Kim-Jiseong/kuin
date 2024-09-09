@@ -52,7 +52,7 @@ const Carousel: React.FC<PropType> = (props) => {
               <img
                 src={src}
                 alt={"carousel_image-" + index}
-                className={"w-full h-full object-cover"}
+                className={"w-full h-full object-cover object-center"}
               />
             </div>
           ))}

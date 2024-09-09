@@ -22,7 +22,7 @@ function ExpertProfileViewModePage({
     <div className="w-full  flex flex-col justify-center items-center gap-4 py-4">
       <div className="w-full gap-4 flex flex-col items-center md:flex-row relative">
         {expertData?.portfolio.length > 0 && (
-          <div className="w-full h-full flex-1 aspect-square rounded-xl overflow-hidden">
+          <div className="relative w-full h-full flex-1 aspect-square rounded-xl overflow-hidden">
             <Carousel slides={expertData?.portfolio} options={OPTIONS} />
           </div>
         )}
