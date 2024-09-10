@@ -59,6 +59,7 @@ function FullPageModal({
                   {imageList.map((src, index) => (
                     <div className="embla__slide" key={index}>
                       <img
+                        role="presentation"
                         onClick={() => {
                           setIsFullPageModalOpen(true);
                         }}
@@ -81,6 +82,7 @@ function FullPageModal({
                   {scrollSnaps.map((_, index) => (
                     <DotButton
                       key={index}
+                      role="presentation"
                       onClick={() => onDotButtonClick(index)}
                       className={"embla__dot".concat(
                         index === selectedIndex ? " embla__dot--selected" : ""

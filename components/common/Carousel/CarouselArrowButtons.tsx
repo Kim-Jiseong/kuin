@@ -61,6 +61,7 @@ export const PrevButton: React.FC<PropType> = (props) => {
     <button
       className="embla__button embla__button--prev"
       type="button"
+      role="presentation"
       {...restProps}
     >
       <svg className="embla__button__svg" viewBox="0 0 532 532">
