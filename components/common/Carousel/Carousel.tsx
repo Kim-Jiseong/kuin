@@ -2,11 +2,11 @@
 import React, { useCallback } from "react";
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 import { DotButton, useDotButton } from "./CarouselDotButtons";
-import {
-  PrevButton,
-  NextButton,
-  usePrevNextButtons,
-} from "./CarouselArrowButtons";
+// import {
+//   PrevButton,
+//   NextButton,
+//   usePrevNextButtons,
+// } from "./CarouselArrowButtons";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import FullPageModal from "./FullPageModal";
@@ -38,12 +38,12 @@ const Carousel: React.FC<PropType> = (props) => {
     onNavButtonClick
   );
 
-  const {
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick,
-  } = usePrevNextButtons(emblaApi, onNavButtonClick);
+  // const {
+  //   prevBtnDisabled,
+  //   nextBtnDisabled,
+  //   onPrevButtonClick,
+  //   onNextButtonClick,
+  // } = usePrevNextButtons(emblaApi, onNavButtonClick);
 
   return (
     <section className="embla embla_normal">
