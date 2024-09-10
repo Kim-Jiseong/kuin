@@ -9,22 +9,20 @@ import Carousel from "@/components/common/Carousel/Carousel";
 import EditBtn from "./EditBtn";
 import ContactBtn from "./ContactBtn";
 import { createClient } from "@/utils/supabase/server";
+import { Tables } from "@/types/database.types";
 const OPTIONS: EmblaOptionsType = {};
-async function ExpertProfileViewModePage({
+function ExpertProfileViewModePage({
+  user,
   profileId,
   expertData,
   isMe,
 }: {
+  user: any;
   profileId: string;
   expertData: any;
   // expertData: Tables<"profile">["expert_profile"] | undefined;
   isMe: boolean;
 }) {
-  const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
   return (
     <div className="w-full  flex flex-col justify-center items-center gap-4 py-4">
       <div className="w-full gap-4 flex flex-col items-center md:flex-row relative">

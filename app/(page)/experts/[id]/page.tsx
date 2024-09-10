@@ -40,6 +40,7 @@ async function ExpertDetail({ params }: Props) {
             <div className="w-full flex flex-col justify-center items-center gap-4 ">
               {/* <ContentContainer user={user} profile={profile} /> */}
               <ExpertProfileViewModePage
+                user={user}
                 profileId={params.id}
                 expertData={profile[0]?.expert_profile}
                 isMe={user?.id === profile?.[0]?.user_id || false}
