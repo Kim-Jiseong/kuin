@@ -52,6 +52,7 @@ const Carousel: React.FC<PropType> = (props) => {
           {slides.map((src, index) => (
             <div className="embla__slide" key={index}>
               <img
+                role="presentation"
                 onClick={() => {
                   setIsFullPageModalOpen(true);
                 }}
