@@ -14,7 +14,7 @@ import { incrementViewCount } from "../action";
 
 const OPTIONS: EmblaOptionsType = {};
 
-async function ExpertProfileViewModePage({
+function ExpertProfileViewModePage({
   user,
   profileId,
   expertData,
@@ -26,7 +26,6 @@ async function ExpertProfileViewModePage({
   // expertData: Tables<"profile">["expert_profile"] | undefined;
   isMe: boolean;
 }) {
-  await incrementViewCount(profileId);
   return (
     <div className="w-full  flex flex-col justify-center items-center gap-4 py-4">
       <div className="w-full gap-4 flex flex-col items-center md:flex-row relative">

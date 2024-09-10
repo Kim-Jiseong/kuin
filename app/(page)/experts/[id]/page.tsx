@@ -3,6 +3,7 @@ import { Spinner } from "@nextui-org/react";
 import { createClient } from "@/utils/supabase/server";
 import Error from "@/app/error";
 import ExpertProfileViewModePage from "./components/expertProfileViewModePage";
+import { incrementViewCount } from "./action";
 type Props = {
   params: {
     id: string;
@@ -20,6 +21,7 @@ async function ExpertDetail({ params }: Props) {
     .from("profile")
     .select("*")
     .eq("id", params.id);
+  await incrementViewCount(params.id);
   return (
     <div className="w-full flex flex-col justify-center items-center gap-4 ">
       <Suspense

@@ -26,6 +26,7 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
   if (!profile.expert_profile) return null;
   return (
     <div
+      role="button"
       onClick={() => {
         router.push(`/experts/${profile.id}`);
       }}
@@ -47,7 +48,11 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
               : profile.expert_profile.profileImage
           }
         /> */}
-        <section className="embla__mini" onClick={handleChildClick}>
+        <section
+          className="embla__mini"
+          onClick={handleChildClick}
+          role="button"
+        >
           <div className="embla__mini__viewport" ref={emblaRef}>
             <div className="embla__mini__container">
               {slides.map((src, index) => (
