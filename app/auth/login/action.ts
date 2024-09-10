@@ -3,11 +3,11 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
-import { createClient } from "../../../utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import { Provider } from "@supabase/supabase-js";
 // import { getURL } from "@/utils/helpers";
 import { cookies } from "next/headers";
-import { getURL } from "../../../utils/helpers";
+import { getURL } from "@/utils/helpers";
 
 export async function signOut() {
   const supabase = createClient();
@@ -16,7 +16,7 @@ export async function signOut() {
   redirect("/", RedirectType.push);
 }
 
-export async function oAuthSignIn(provider: Provider) {
+export async function oAuthSignIn(provider: Provider, nextUrl?: string | null) {
   if (!provider) {
     return redirect(
       `/login?message=${encodeURIComponent(
@@ -26,7 +26,8 @@ export async function oAuthSignIn(provider: Provider) {
   }
 
   const supabase = createClient();
-    const redirectUrl = getURL("/auth/callback");
+  const next = nextUrl ? `?next=${nextUrl}` : "";
+    const redirectUrl = getURL("/auth/callback" + next);
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {

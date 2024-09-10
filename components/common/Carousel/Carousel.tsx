@@ -9,6 +9,7 @@ import {
 } from "./CarouselArrowButtons";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
+import FullPageModal from "./FullPageModal";
 
 type PropType = {
   slides: string[];
@@ -18,6 +19,7 @@ type PropType = {
 const Carousel: React.FC<PropType> = (props) => {
   const { slides, options } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
+  const [isFullPageModalOpen, setIsFullPageModalOpen] = React.useState(false);
 
   const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
     const autoplay = emblaApi?.plugins()?.autoplay;
@@ -44,15 +46,20 @@ const Carousel: React.FC<PropType> = (props) => {
   } = usePrevNextButtons(emblaApi, onNavButtonClick);
 
   return (
-    <section className="embla">
+    <section className="embla embla_normal">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((src, index) => (
             <div className="embla__slide" key={index}>
               <img
+                onClick={() => {
+                  setIsFullPageModalOpen(true);
+                }}
                 src={src}
                 alt={"carousel_image-" + index}
-                className={"w-full h-full object-cover object-center"}
+                className={
+                  "w-full h-full object-cover object-center cursor-pointer"
+                }
               />
             </div>
           ))}
@@ -77,6 +84,12 @@ const Carousel: React.FC<PropType> = (props) => {
           ))}
         </div>
       </div>
+      <FullPageModal
+        isOpen={isFullPageModalOpen}
+        onOpenChange={setIsFullPageModalOpen}
+        imageList={slides}
+        defaultIndex={selectedIndex}
+      />
     </section>
   );
 };

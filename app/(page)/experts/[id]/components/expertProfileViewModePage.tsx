@@ -7,8 +7,10 @@ import React from "react";
 import { EmblaOptionsType } from "embla-carousel";
 import Carousel from "@/components/common/Carousel/Carousel";
 import EditBtn from "./EditBtn";
+import ContactBtn from "./ContactBtn";
+import { createClient } from "@/utils/supabase/server";
 const OPTIONS: EmblaOptionsType = {};
-function ExpertProfileViewModePage({
+async function ExpertProfileViewModePage({
   profileId,
   expertData,
   isMe,
@@ -18,11 +20,16 @@ function ExpertProfileViewModePage({
   // expertData: Tables<"profile">["expert_profile"] | undefined;
   isMe: boolean;
 }) {
+  const supabase = createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
   return (
     <div className="w-full  flex flex-col justify-center items-center gap-4 py-4">
       <div className="w-full gap-4 flex flex-col items-center md:flex-row relative">
         {expertData?.portfolio.length > 0 && (
-          <div className="relative w-full h-full flex-1 aspect-square rounded-xl overflow-hidden">
+          <div className="relative flex flex-col overflow-hidden text-foreground box-border bg-content1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none h-full flex-1 aspect-square">
             <Carousel slides={expertData?.portfolio} options={OPTIONS} />
           </div>
         )}
@@ -35,7 +42,13 @@ function ExpertProfileViewModePage({
               className="h-20 w-20 translate-y-12 flex-shrink-0"
               radius={"md"}
             />
-            {isMe && <EditBtn profileId={profileId} />}
+            <div className={" flex gap-2 absolute top-3 right-3"}>
+              <ContactBtn
+                expertData={expertData}
+                isLoggedIn={user ? true : false}
+              />
+              {isMe && <EditBtn profileId={profileId} />}
+            </div>
           </div>
           <div className="relative flex w-full p-3 flex-auto flex-col place-content-inherit align-items-inherit h-auto break-words text-left overflow-y-auto subpixel-antialiased pb-4 pt-6">
             <div>
@@ -51,6 +64,7 @@ function ExpertProfileViewModePage({
                   </span>
                 </div>
               </div>
+
               <Typography variant="caption">
                 {expertData?.introduction}
               </Typography>

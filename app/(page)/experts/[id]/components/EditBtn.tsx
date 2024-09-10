@@ -18,7 +18,7 @@ function EditBtn({ profileId }: { profileId: string }) {
       variant="light"
       startContent={<Pencil size={16} />}
       onPress={handleEditClick}
-      className="absolute right-3 top-3 bg-white/20  dark:bg-black/20"
+      className=" bg-white/20  dark:bg-black/20"
     >
       프로필 수정
     </Button>

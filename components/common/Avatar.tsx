@@ -1,6 +1,6 @@
 "use client";
 import { Avatar as NextUIAvatar } from "@nextui-org/avatar";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import ProfileModal from "../ProfileModal/ProfileModal";
 import { useDisclosure } from "@nextui-org/modal";
@@ -8,14 +8,14 @@ import { Tables } from "@/types/database.types";
 
 function Avatar({ profile }: { profile: Tables<"profile"> | null }) {
   const router = useRouter();
-
+  const pathname = usePathname();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const handleClick = () => {
     if (profile) {
       console.log("clicked");
       onOpen();
     } else {
-      router.push("/auth");
+      router.push("/auth?next=" + pathname);
     }
   };
   return (

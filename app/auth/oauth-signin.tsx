@@ -3,28 +3,30 @@
 import { Provider } from "@supabase/supabase-js";
 
 import { Button } from "@nextui-org/button";
-import { GoogleIcon } from "../../components/icons";
+import { GoogleIcon } from "@/components/icons";
 import { oAuthSignIn } from "./login/action";
-import Typography from "../../components/common/Typography";
+import Typography from "@/components/common/Typography";
 
-type OAuthProvider = {
-  name: Provider;
-  displayName: string;
-  icon?: JSX.Element;
-};
+// type OAuthProvider = {
+//   name: Provider;
+//   displayName: string;
+//   icon?: JSX.Element;
+// };
 
 export function OAuthButtons({
+  next,
   lastSignedInMethod,
 }: {
+  next?: string | null;
   lastSignedInMethod?: string;
 }) {
-  const oAuthProviders: OAuthProvider[] = [
-    {
-      name: "google",
-      displayName: "구글",
-      icon: <GoogleIcon />,
-    },
-  ];
+  // const oAuthProviders: OAuthProvider[] = [
+  //   {
+  //     name: "google",
+  //     displayName: "구글",
+  //     icon: <GoogleIcon />,
+  //   },
+  // ];
 
   return (
     <>
@@ -52,7 +54,7 @@ export function OAuthButtons({
         // onClick={() => console.log(callbackUrl)}
         variant={"shadow"}
         onClick={async () => {
-          await oAuthSignIn("google");
+          await oAuthSignIn("google", next);
         }}
         size="lg"
         startContent={<GoogleIcon />}

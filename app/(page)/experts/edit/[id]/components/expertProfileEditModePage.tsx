@@ -13,6 +13,7 @@ import { CirclePlus, PlusIcon, Trash, Trash2 } from "lucide-react";
 import { revalidatePath } from "next/cache";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 function ExpertProfileEditModePage({
   // userData,
