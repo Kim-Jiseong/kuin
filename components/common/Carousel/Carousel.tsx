@@ -10,6 +10,7 @@ import { DotButton, useDotButton } from "./CarouselDotButtons";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import FullPageModal from "./FullPageModal";
+import { Image } from "@nextui-org/react";
 
 type PropType = {
   slides: string[];
@@ -24,7 +25,6 @@ const Carousel: React.FC<PropType> = (props) => {
   const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
     const autoplay = emblaApi?.plugins()?.autoplay;
     if (!autoplay) return;
-
     const resetOrStop =
       autoplay.options.stopOnInteraction === false
         ? autoplay.reset
@@ -51,7 +51,9 @@ const Carousel: React.FC<PropType> = (props) => {
         <div className="embla__container">
           {slides.map((src, index) => (
             <div className="embla__slide" key={index}>
-              <img
+              <Image
+                isZoomed
+                removeWrapper
                 role="presentation"
                 onClick={() => {
                   setIsFullPageModalOpen(true);

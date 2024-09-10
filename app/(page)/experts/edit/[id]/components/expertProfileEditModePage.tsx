@@ -13,7 +13,7 @@ import { CirclePlus, PlusIcon, Trash, Trash2 } from "lucide-react";
 import { revalidatePath } from "next/cache";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { Image } from "@nextui-org/react";
 
 function ExpertProfileEditModePage({
   // userData,
@@ -40,7 +40,7 @@ function ExpertProfileEditModePage({
     detail: "",
     profileImage: "",
     contact: "",
-    major: null,
+    major: major[0].code,
     portfolio: [],
   };
   const { handleChange, result, validate } = useForm(fields);
@@ -54,7 +54,7 @@ function ExpertProfileEditModePage({
   );
 
   const [previewMajor, setPreviewMajor] = useState(
-    expertData?.major || major[0].code
+    expertData?.major || major[1].code
   );
 
   const [isPending, setIsPending] = useState(false);
@@ -284,7 +284,7 @@ function ExpertProfileEditModePage({
         <div className="flex flex-wrap gap-4 my-4">
           {previewPortfolioUrls.map((url, index) => (
             <div key={url} className="relative">
-              <img
+              <Image
                 src={url}
                 alt={`preview-${index}`}
                 className={
@@ -295,7 +295,7 @@ function ExpertProfileEditModePage({
                 size="sm"
                 color="danger"
                 onPress={() => handlePortfolioImageDelete(index)}
-                className="absolute top-[-12px] right-[-12px]"
+                className="absolute top-[-12px] right-[-12px] z-10"
                 isIconOnly
                 variant={"solid"}
               >

@@ -10,8 +10,11 @@ import EditBtn from "./EditBtn";
 import ContactBtn from "./ContactBtn";
 import { createClient } from "@/utils/supabase/server";
 import { Tables } from "@/types/database.types";
+import { incrementViewCount } from "../action";
+
 const OPTIONS: EmblaOptionsType = {};
-function ExpertProfileViewModePage({
+
+async function ExpertProfileViewModePage({
   user,
   profileId,
   expertData,
@@ -23,6 +26,7 @@ function ExpertProfileViewModePage({
   // expertData: Tables<"profile">["expert_profile"] | undefined;
   isMe: boolean;
 }) {
+  await incrementViewCount(profileId);
   return (
     <div className="w-full  flex flex-col justify-center items-center gap-4 py-4">
       <div className="w-full gap-4 flex flex-col items-center md:flex-row relative">

@@ -12,7 +12,10 @@ import { DotButton, useDotButton } from "./CarouselDotButtons";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
+import { Image } from "@nextui-org/react";
+
 const OPTIONS: EmblaOptionsType = {};
+
 function FullPageModal({
   isOpen,
   onOpenChange,
@@ -58,7 +61,8 @@ function FullPageModal({
                 <div className="embla__container">
                   {imageList.map((src, index) => (
                     <div className="embla__slide" key={index}>
-                      <img
+                      <Image
+                        removeWrapper
                         role="presentation"
                         onClick={() => {
                           setIsFullPageModalOpen(true);

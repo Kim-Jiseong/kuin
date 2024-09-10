@@ -1,10 +1,10 @@
 "use client";
 import { Avatar as NextUIAvatar } from "@nextui-org/avatar";
-import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import ProfileModal from "../ProfileModal/ProfileModal";
 import { useDisclosure } from "@nextui-org/modal";
 import { Tables } from "@/types/database.types";
+import { usePathname, useRouter } from "next/navigation";
 
 function Avatar({ profile }: { profile: Tables<"profile"> | null }) {
   const router = useRouter();
@@ -18,6 +18,7 @@ function Avatar({ profile }: { profile: Tables<"profile"> | null }) {
       router.push("/auth?next=" + pathname);
     }
   };
+
   return (
     <div>
       <NextUIAvatar

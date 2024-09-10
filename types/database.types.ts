@@ -6,6 +6,16 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+  interface ExpertProfile {
+    name?: string;
+    introduction?: string;
+    detail?: string;
+    profileImage?: string;
+    contact?: string;
+    major?: "dev" | "design" | "client" | null;
+    portfolio?: string[]; 
+  }
+
 export type Database = {
   public: {
     Tables: {
@@ -13,32 +23,35 @@ export type Database = {
         Row: {
           created_at: string
           email: string | null
-          expert_profile: Json | null
+          expert_profile: ExpertProfile | null
           id: string
           image: string | null
           name: string | null
           provider: string | null
           user_id: string | null
+          view: number
         }
         Insert: {
           created_at?: string
           email?: string | null
-          expert_profile?: Json | null
+          expert_profile?: ExpertProfile | null
           id?: string
           image?: string | null
           name?: string | null
           provider?: string | null
           user_id?: string | null
+          view?: number
         }
         Update: {
           created_at?: string
           email?: string | null
-          expert_profile?: Json | null
+          expert_profile?: ExpertProfile | null
           id?: string
           image?: string | null
           name?: string | null
           provider?: string | null
           user_id?: string | null
+          view?: number
         }
         Relationships: [
           {
