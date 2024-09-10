@@ -8,8 +8,9 @@ import { Key } from "@react-types/shared";
 import { Tables } from "@/types/database.types";
 import SearchInput from "@/components/common/SearchInput";
 import { supabase } from "@/lib/supabaseClient";
-import { Search } from "lucide-react";
+import { Frown, Search } from "lucide-react";
 import ExpertProfileDisplayCard from "./edit/[id]/components/expertProfileDisplayCard";
+import Typography from "@/components/common/Typography";
 
 export default function ExpertsPage() {
   const [major, setMajor] = useState<any>(majorList[1].code);
@@ -29,6 +30,7 @@ export default function ExpertsPage() {
   const handleClickClear = () => {
     getProfileList("");
   };
+
   const handleClickSearch = () => {
     getProfileList(searchQuery);
   };
@@ -38,6 +40,12 @@ export default function ExpertsPage() {
     setSearchQuery("");
   }, [major]);
 
+  useEffect(() => {
+    if (searchQuery === "") {
+      getProfileList(searchQuery);
+    }
+  }, [searchQuery]);
+
   return (
     <div className={"w-full flex flex-col py-4"}>
       <div className="w-full flex flex-col gap-4 items-center">
@@ -45,6 +53,7 @@ export default function ExpertsPage() {
           <SearchInput
             value={searchQuery}
             setValue={setSearchQuery}
+            onSubmit={handleClickSearch}
             onClear={handleClickClear}
           />
           <Button
@@ -70,10 +79,21 @@ export default function ExpertsPage() {
           )}
         </Tabs>
       </div>
-      <div>
-        {profileList.map((profile) => (
-          <ExpertProfileDisplayCard key={profile.id} profile={profile} />
-        ))}
+      <div className={"w-full flex flex-wrap gap-4 mt-4"}>
+        {profileList.length > 0 ? (
+          profileList.map((profile) => (
+            <ExpertProfileDisplayCard key={profile.id} profile={profile} />
+          ))
+        ) : (
+          <div
+            className={
+              "mx-auto flex flex-col items-center justify-center gap-2 my-5"
+            }
+          >
+            <Frown size={96} />
+            <Typography variant={"text"}>검색결과가 없습니다</Typography>
+          </div>
+        )}
       </div>
     </div>
   );

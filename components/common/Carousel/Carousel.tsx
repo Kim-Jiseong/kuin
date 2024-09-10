@@ -15,10 +15,11 @@ import { Image } from "@nextui-org/react";
 type PropType = {
   slides: string[];
   options?: EmblaOptionsType;
+  className?: any;
 };
 
 const Carousel: React.FC<PropType> = (props) => {
-  const { slides, options } = props;
+  const { slides, options, className } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
   const [isFullPageModalOpen, setIsFullPageModalOpen] = React.useState(false);
 
@@ -46,7 +47,7 @@ const Carousel: React.FC<PropType> = (props) => {
   // } = usePrevNextButtons(emblaApi, onNavButtonClick);
 
   return (
-    <section className="embla embla_normal">
+    <section className={"embla embla_normal " + className}>
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((src, index) => (

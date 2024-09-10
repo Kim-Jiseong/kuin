@@ -11,6 +11,7 @@ interface TypographyProps {
     | "text"
     | "caption";
   color?: string;
+  keep?: boolean;
   weight?: number;
   style?: React.CSSProperties;
   ellipsis?: boolean;
@@ -22,6 +23,7 @@ interface TypographyProps {
 const Typography = ({
   variant,
   color,
+  keep = true,
   weight,
   className,
   style,
@@ -30,7 +32,7 @@ const Typography = ({
   children,
 }: TypographyProps) => {
   const baseStyles = classNames(
-    `break-keep`,
+    keep && `break-keep`,
     `whitespace-pre-wrap`,
     color && `text-${color}`,
     weight && `font-${weight}`,

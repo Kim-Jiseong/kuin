@@ -13,6 +13,9 @@ module.exports = {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
       },
+      translate: {
+        "3d": "translate3d(0, 0, 0)",
+      },
     },
   },
   darkMode: "class",
