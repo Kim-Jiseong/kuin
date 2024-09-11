@@ -188,3 +188,28 @@
   min-width: 0;
   padding-left: var(--slide-spacing);
 }
+/* ---------------------------------------------------------------------------- */
+.embla__mobile {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  max-width: 48rem;
+  margin: auto;
+  --slide-height: 19rem;
+  --slide-spacing: 1rem;
+  --slide-size: 100%;
+}
+.embla__mobile__viewport {
+  overflow: hidden;
+}
+.embla__mobile__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+.embla__mobile__slide {
+  transform: translate3d(0, 0, 0);
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+}

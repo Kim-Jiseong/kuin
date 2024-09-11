@@ -30,9 +30,10 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
       onClick={() => {
         router.push(`/experts/${profile.id}`);
       }}
-      className={
-        "w-full lg:w-[calc(50%_-_0.5rem)] h-[200px] shadow-md rounded-large p-4 flex flex-row gap-3 border-1 border-divider cursor-pointer"
-      }
+      className={`w-full lg:w-[calc(50%_-_0.5rem)] 
+        h-[auto] lg:h-[200px] shadow-md rounded-large
+         p-4 flex flex-col sm:flex-row gap-3 border-1 border-divider 
+         cursor-pointer `}
     >
       <div className="flex flex-shrink-0">
         {/* <Image
@@ -48,8 +49,9 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
               : profile.expert_profile.profileImage
           }
         /> */}
+
         <section
-          className="embla__mini"
+          className="embla__mini  hidden sm:block"
           onClick={handleChildClick}
           role="button"
         >
@@ -60,6 +62,27 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
                   <Image
                     alt="Portfolio Thumbnail Image"
                     className="w-[168px] h-[168px] rounded-xl object-cover"
+                    src={src}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section
+          className="embla__mobile  sm:hidden aspect-square rounded-lg"
+          onClick={handleChildClick}
+          role="button"
+        >
+          <div className="embla__mobile__viewport" ref={emblaRef}>
+            <div className="embla__mobile__container">
+              {slides.map((src, index) => (
+                <div className="embla__mobile__slide" key={index}>
+                  <Image
+                    removeWrapper
+                    alt="Portfolio Thumbnail Image"
+                    radius={"none"}
+                    className="w-[full] object-cover min-w-full aspect-square"
                     src={src}
                   />
                 </div>
@@ -79,7 +102,7 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
             {getMajorObjByCode(profile.expert_profile.major as string)?.name}
           </Chip>
         </h4>
-        <ScrollShadow className={"w-full h-full overflow-auto"}>
+        <ScrollShadow className={"w-full h-[120px] sm:h-full overflow-auto"}>
           {profile.expert_profile.introduction}
         </ScrollShadow>
       </div>
