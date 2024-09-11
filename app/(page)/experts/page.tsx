@@ -4,7 +4,6 @@ import { major as majorList } from "@/constant/major";
 import { returnMajorColor } from "@/utils/returnMajorColor";
 import { Button, Input, Link, Spinner, Tab, Tabs } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { Key } from "@react-types/shared";
 import { Tables } from "@/types/database.types";
 import SearchInput from "@/components/common/SearchInput";
 import { supabase } from "@/lib/supabaseClient";
