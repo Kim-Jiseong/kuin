@@ -103,6 +103,7 @@ function ProfileModal({
             <ModalHeader className="flex flex-col gap-1">
               <div className="flex gap-2">
                 <span
+                  role="button"
                   id="settings"
                   onClick={handleClick}
                   className={`cursor-pointer 
@@ -113,6 +114,7 @@ function ProfileModal({
                   설정
                 </span>
                 <span
+                  role="button"
                   id="projects"
                   onClick={handleClick}
                   className={`cursor-pointer
