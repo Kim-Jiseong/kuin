@@ -11,6 +11,7 @@ import { Frown, Search } from "lucide-react";
 import ExpertProfileDisplayCard from "./components/expertProfileDisplayCard";
 import Typography from "@/components/common/Typography";
 import { getMyProfile } from "./[id]/action";
+import { getMajorObjByCode } from "@/utils/getMajorObjByCode";
 
 export default function ExpertsPage() {
   const [major, setMajor] = useState<any>(majorList[1].code);
@@ -81,22 +82,6 @@ export default function ExpertsPage() {
         </div>
       )}
       <div className="w-full flex flex-col gap-4 pt-2 items-center">
-        <div className="w-full flex gap-1 items-center max-w-xl">
-          <SearchInput
-            value={searchQuery}
-            setValue={setSearchQuery}
-            onSubmit={handleClickSearch}
-            onClear={handleClickClear}
-          />
-          <Button
-            variant={"shadow"}
-            isIconOnly
-            color={"primary"}
-            onClick={handleClickSearch}
-          >
-            <Search />
-          </Button>
-        </div>
         <Tabs
           aria-label="Options"
           selectedKey={major}
@@ -110,6 +95,36 @@ export default function ExpertsPage() {
               major.isVisible && <Tab key={major.code} title={major.name}></Tab>
           )}
         </Tabs>
+        <div className="w-full flex gap-1 items-center max-w-xl">
+          <SearchInput
+            value={searchQuery}
+            setValue={setSearchQuery}
+            onSubmit={handleClickSearch}
+            onClear={handleClickClear}
+            placeholder={`${getMajorObjByCode(major)?.name} 전문가 검색...`}
+          />
+          <Button
+            variant={"shadow"}
+            isIconOnly
+            color={"primary"}
+            onClick={handleClickSearch}
+          >
+            <Search />
+          </Button>
+        </div>
+        {/* <Tabs
+          aria-label="Options"
+          selectedKey={major}
+          onSelectionChange={setMajor}
+          size={"lg"}
+          radius={"full"}
+          color={returnMajorColor(major)}
+        >
+          {majorList.map(
+            (major) =>
+              major.isVisible && <Tab key={major.code} title={major.name}></Tab>
+          )}
+        </Tabs> */}
       </div>
       <div className={"w-full flex flex-wrap gap-4 mt-4 pb-4"}>
         {!isLoading ? (

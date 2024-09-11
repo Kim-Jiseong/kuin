@@ -107,7 +107,7 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
             {getMajorObjByCode(profile.expert_profile.major as string)?.name}
           </Chip>
         </h4>
-        <ScrollShadow className={"w-full h-[120px] sm:h-full overflow-auto"}>
+        <ScrollShadow className={"w-full h-[80px] sm:h-full overflow-auto"}>
           {profile.expert_profile.introduction}
         </ScrollShadow>
       </div>

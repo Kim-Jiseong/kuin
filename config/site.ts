@@ -1,8 +1,9 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "KUIN - 대학생과 함께하는 빠르고 합리적인 프로젝트 매칭 플랫폼",
-  description: "대학생과 함께하는 빠르고 합리적인 프로젝트 매칭 플랫폼, KUIN",
+  name: "KUIN - 간단한데 귀찮은 일을 저렴하고 빠르게 아웃소싱하세요",
+  description: "KUIN: 간단한데 귀찮은 일을 저렴하고 빠르게 아웃소싱하세요",
+  // description: "대학생과 함께하는 빠르고 합리적인 프로젝트 매칭 플랫폼, KUIN",
   navItems: [
     {
       label: "프로젝트",

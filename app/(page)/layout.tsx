@@ -7,7 +7,7 @@ import { Providers } from "../providers";
 
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
-import { Navbar } from "@/components/navbar";
+import { Navbar } from "@/components/common/Navbar/navbar";
 import { createClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {

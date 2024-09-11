@@ -8,9 +8,7 @@ import { EmblaOptionsType } from "embla-carousel";
 import Carousel from "@/components/common/Carousel/Carousel";
 import EditBtn from "./EditBtn";
 import ContactBtn from "./ContactBtn";
-import { createClient } from "@/utils/supabase/server";
-import { Tables } from "@/types/database.types";
-import { incrementViewCount } from "../action";
+import ShareBtn from "./ShareBtn";
 
 const OPTIONS: EmblaOptionsType = {};
 
@@ -28,7 +26,7 @@ function ExpertProfileViewModePage({
 }) {
   return (
     <div className="w-full  flex flex-col justify-center items-center gap-4 py-4">
-      <div className="w-full gap-4 flex flex-col items-center md:flex-row relative">
+      <div className="w-full gap-4 flex flex-col-reverse items-center md:flex-row relative">
         {expertData?.portfolio.length > 0 && (
           <div className="relative flex flex-col overflow-hidden text-foreground box-border bg-content1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none h-full flex-1 aspect-square">
             <Carousel slides={expertData?.portfolio} options={OPTIONS} />
@@ -56,6 +54,7 @@ function ExpertProfileViewModePage({
               radius={"md"}
             />
             <div className={" flex gap-2 absolute top-3 right-3"}>
+              <ShareBtn expertData={expertData} />
               <ContactBtn
                 expertData={expertData}
                 isLoggedIn={user ? true : false}

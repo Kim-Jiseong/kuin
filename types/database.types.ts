@@ -96,7 +96,7 @@ export type Database = {
           id: number
           introduction: string | null
           metadata: Json | null
-          owner: string | null
+          owner_profile: string | null
           status: string | null
           title: string | null
         }
@@ -108,7 +108,7 @@ export type Database = {
           id?: number
           introduction?: string | null
           metadata?: Json | null
-          owner?: string | null
+          owner_profile?: string | null
           status?: string | null
           title?: string | null
         }
@@ -120,14 +120,14 @@ export type Database = {
           id?: number
           introduction?: string | null
           metadata?: Json | null
-          owner?: string | null
+          owner_profile?: string | null
           status?: string | null
           title?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "project_owner_fkey"
-            columns: ["owner"]
+            foreignKeyName: "project_owner_profile_fkey"
+            columns: ["owner_profile"]
             isOneToOne: false
             referencedRelation: "profile"
             referencedColumns: ["id"]

@@ -1,17 +1,9 @@
 import {
   Navbar as NextUINavbar,
   NavbarContent,
-  NavbarMenu,
-  NavbarMenuToggle,
   NavbarBrand,
-  NavbarItem,
-  NavbarMenuItem,
 } from "@nextui-org/navbar";
-import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
-import clsx from "clsx";
-
-import { siteConfig } from "../config/site";
 // import {
 //   TwitterIcon,
 //   GithubIcon,
@@ -20,26 +12,15 @@ import { siteConfig } from "../config/site";
 //   SearchIcon,
 //   Logo,
 // } from "@/components/icons";
-import AvatarWrapper from "./common/Avatar";
-import { createClient } from "../utils/supabase/server";
+import AvatarWrapper from "../Avatar";
 import { Tables } from "@/types/database.types";
+import LinkWrapper from "./LinkWrapper";
 
 export const Navbar = ({
   profile,
 }: {
   profile: Tables<"profile">[] | null;
 }) => {
-  // const supabase = createClient();
-  // const {
-  //   data: { user },
-  //   error,
-  // } = await supabase.auth.getUser();
-
-  // const { data: profile, error: profileError } = user
-  //   ? await supabase.from("profile").select("*").eq("user_id", user.id)
-  //   : { data: null, error: null };
-
-  // console.log("여기", session, sessionError, user, error);
   return (
     <NextUINavbar maxWidth="xl" position="sticky" isBordered>
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -50,22 +31,7 @@ export const Navbar = ({
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className=" sm:flex basis-1/5 sm:basis-full" justify="end">
-        <ul className="flex gap-4 justify-end ml-2">
-          {siteConfig.navItems.map((item) => (
-            <NavbarItem key={item.href}>
-              <NextLink
-                className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium"
-                )}
-                color="foreground"
-                href={item.href}
-              >
-                {item.label}
-              </NextLink>
-            </NavbarItem>
-          ))}
-        </ul>
+        <LinkWrapper />
         <AvatarWrapper
           profile={profile && profile.length > 0 ? profile[0] : null}
         />

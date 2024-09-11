@@ -8,11 +8,13 @@ function SearchInput({
   setValue,
   onSubmit,
   onClear,
+  placeholder,
 }: {
   value: string;
   setValue: (value: string) => void;
   onSubmit: () => void;
   onClear: () => void;
+  placeholder?: string;
 }) {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -36,7 +38,7 @@ function SearchInput({
       //   </Kbd>
       // }
       labelPlacement="outside"
-      placeholder="검색..."
+      placeholder={placeholder}
       startContent={
         <div className="flex items-center gap-1">
           <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />

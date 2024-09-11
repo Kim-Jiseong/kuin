@@ -11,6 +11,8 @@ import { Tables } from "@/types/database.types";
 import Typography from "@/components/common/Typography";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import ProjectDisplayCard from "./components/ProjectDisplayCard";
+import { getMajorObjByCode } from "@/utils/getMajorObjByCode";
 
 export default function ProjectsPage() {
   const router = useRouter();
@@ -21,10 +23,13 @@ export default function ProjectsPage() {
 
   const getProfileList = async (query: string) => {
     setIsLoading(true);
-    const { data, error } = await supabase.rpc("search_projects", {
-      major_filter: major,
-      search_text: query,
-    } as { major_filter: string; search_text: string });
+    const { data, error } = await supabase.rpc(
+      "search_projects_with_owner_profile",
+      {
+        major_filter: major,
+        search_text: query,
+      } as { major_filter: string; search_text: string }
+    );
     if (data) {
       setProjectList(data);
     }
@@ -46,24 +51,8 @@ export default function ProjectsPage() {
   console.log(projectList);
 
   return (
-    <div className={"w-full flex flex-col pt-2"}>
+    <div className={"w-full flex flex-col pt-2"} role="button">
       <div className="w-full flex flex-col gap-4 pt-2 items-center">
-        <div className="w-full flex gap-1 items-center max-w-xl">
-          <SearchInput
-            value={searchQuery}
-            setValue={setSearchQuery}
-            onSubmit={handleClickSearch}
-            onClear={handleClickClear}
-          />
-          <Button
-            variant={"shadow"}
-            isIconOnly
-            color={"primary"}
-            onClick={handleClickSearch}
-          >
-            <Search />
-          </Button>
-        </div>
         <Tabs
           aria-label="Options"
           selectedKey={major}
@@ -77,17 +66,29 @@ export default function ProjectsPage() {
               major.isVisible && <Tab key={major.code} title={major.name}></Tab>
           )}
         </Tabs>
+        <div className="w-full flex gap-1 items-center max-w-xl">
+          <SearchInput
+            value={searchQuery}
+            setValue={setSearchQuery}
+            onSubmit={handleClickSearch}
+            onClear={handleClickClear}
+            placeholder={`${getMajorObjByCode(major)?.name} 프로젝트 검색...`}
+          />
+          <Button
+            variant={"shadow"}
+            isIconOnly
+            color={"primary"}
+            onClick={handleClickSearch}
+          >
+            <Search />
+          </Button>
+        </div>
       </div>
       <div className={"w-full flex flex-wrap gap-4 mt-4 pb-4"}>
         {!isLoading ? (
           projectList.length > 0 ? (
             projectList.map((project) => (
-              <div
-                key={project.id}
-                onClick={() => router.push(`/projects/${project.id}`)}
-              >
-                {project.title}
-              </div>
+              <ProjectDisplayCard key={project.id} project={project} />
               // <ExpertProfileDisplayCard key={profile.id} profile={profile} />
             ))
           ) : (
