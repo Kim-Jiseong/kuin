@@ -11,14 +11,18 @@ const OPTIONS: EmblaOptionsType = {};
 
 function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
   const router = useRouter();
-  const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
-  console.log(profile);
+  const [emblaRefMini, emblaApiMini] = useEmblaCarousel(OPTIONS);
+  const [emblaRefMobile, emblaApiMobile] = useEmblaCarousel(OPTIONS);
+
   const slides =
     profile.expert_profile?.portfolio &&
     profile.expert_profile?.portfolio.length > 0
       ? profile.expert_profile.portfolio
-      : Array(profile.expert_profile?.profileImage as string);
-
+      : profile.expert_profile?.profileImage
+        ? Array(profile.expert_profile?.profileImage as string)
+        : [
+            "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/default_user.webp",
+          ];
   const handleChildClick = (event: React.MouseEvent) => {
     event.stopPropagation(); // 이벤트 버블링을 막음
   };
@@ -33,7 +37,7 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
       className={`w-full lg:w-[calc(50%_-_0.5rem)] 
         h-[auto] lg:h-[200px] shadow-md rounded-large
          p-4 flex flex-col sm:flex-row gap-3 border-1 border-divider 
-         cursor-pointer `}
+         cursor-pointer hover:bg-content2 transition-all duration-200`}
     >
       <div className="flex flex-shrink-0">
         {/* <Image
@@ -55,7 +59,7 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
           onClick={handleChildClick}
           role="button"
         >
-          <div className="embla__mini__viewport" ref={emblaRef}>
+          <div className="embla__mini__viewport" ref={emblaRefMini}>
             <div className="embla__mini__container">
               {slides.map((src, index) => (
                 <div className="embla__mini__slide" key={index}>
@@ -69,12 +73,13 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
             </div>
           </div>
         </section>
+
         <section
           className="embla__mobile  sm:hidden aspect-square rounded-lg"
           onClick={handleChildClick}
           role="button"
         >
-          <div className="embla__mobile__viewport" ref={emblaRef}>
+          <div className="embla__mobile__viewport" ref={emblaRefMobile}>
             <div className="embla__mobile__container">
               {slides.map((src, index) => (
                 <div className="embla__mobile__slide" key={index}>

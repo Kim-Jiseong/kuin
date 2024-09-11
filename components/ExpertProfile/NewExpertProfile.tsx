@@ -23,7 +23,7 @@ function NewExpertProfileCard({
           variant={"flat"}
           color={"primary"}
           onClick={() => {
-            router.push("/experts/" + myId);
+            router.push("/experts/edit/" + myId);
             if (onClose) {
               onClose();
             }

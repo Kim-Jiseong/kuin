@@ -4,14 +4,14 @@ import { NextResponse } from "next/server";
 // The client you created from the Server-Side Auth instructions
 
 export async function GET(request: Request) {
-  // console.log("Started Callback", );
+  console.log("Started Callback", );
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
   // if "next" is in param, use it as the redirect URL
   let next = searchParams.get("next") ?? "/";
   
   if (code) {
-    // console.log("Callback code", code);
+    console.log("Callback code", code);
     const supabase = createClient();
     const { data: sessionData, error: sessionError } =
     await supabase.auth.exchangeCodeForSession(code);
@@ -20,25 +20,28 @@ export async function GET(request: Request) {
       .from("profile")
       .select("*")
       .eq("user_id", sessionData.user.id);
-      // console.log("Session Data:", sessionData);
-      // console.log("Callback profile", profile);
-      
+      console.log("Session Data:", sessionData);
+      console.log("Callback profile", profile);
+      if(profileError){
+        console.log(profileError)
+      }
       if (profile?.length === 0) {
+        console.log("Create Profile");
         // next = "/onboarding";
         const { data: insertData, error: insertError } = await supabase
         .from("profile")
         .insert([
           {
             user_id: sessionData.user.id,
+            name: sessionData.user.user_metadata.full_name,
             email: sessionData.user.email,
             provider: sessionData.user.app_metadata.provider,
             image: sessionData.user.user_metadata.avatar_url,
-            // profile_image_url: sessionData.user.user_metadata.avatar_url,
-            name: sessionData.user.user_metadata.full_name,
+            view: 0,
           },
         ])
         .select();
-        // console.log("Callback insert", insertData);
+        console.log("Callback insert", insertData, insertError);
 
       }
       const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer

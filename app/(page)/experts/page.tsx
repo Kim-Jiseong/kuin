@@ -2,21 +2,29 @@
 
 import { major as majorList } from "@/constant/major";
 import { returnMajorColor } from "@/utils/returnMajorColor";
-import { Button, Input, Tab, Tabs } from "@nextui-org/react";
+import { Button, Input, Link, Tab, Tabs } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Key } from "@react-types/shared";
 import { Tables } from "@/types/database.types";
 import SearchInput from "@/components/common/SearchInput";
 import { supabase } from "@/lib/supabaseClient";
 import { Frown, Search } from "lucide-react";
-import ExpertProfileDisplayCard from "./edit/[id]/components/expertProfileDisplayCard";
+import ExpertProfileDisplayCard from "./components/expertProfileDisplayCard";
 import Typography from "@/components/common/Typography";
+import { getMyProfile } from "./[id]/action";
 
 export default function ExpertsPage() {
   const [major, setMajor] = useState<any>(majorList[1].code);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [myProfile, setMyProfile] = useState<Tables<"profile">>();
   const [profileList, setProfileList] = useState<Tables<"profile">[]>([]);
 
+  const getMy = async () => {
+    const myProfile = await getMyProfile();
+    if (myProfile) {
+      setMyProfile(myProfile.profile);
+    }
+  };
   const getProfileList = async (query: string) => {
     const { data, error } = await supabase.rpc("search_expert_profiles", {
       major_filter: major,
@@ -36,6 +44,10 @@ export default function ExpertsPage() {
   };
 
   useEffect(() => {
+    getMy();
+  }, []);
+
+  useEffect(() => {
     getProfileList(searchQuery);
     setSearchQuery("");
   }, [major]);
@@ -47,8 +59,22 @@ export default function ExpertsPage() {
   }, [searchQuery]);
 
   return (
-    <div className={"w-full flex flex-col py-4"}>
-      <div className="w-full flex flex-col gap-4 items-center">
+    <div className={"w-full flex flex-col pt-2"}>
+      {myProfile?.expert_profile === null && (
+        <div
+          className={
+            " p-2 bg-primary-100 border-1 border-primary-500 text-center break-keep text-sm flex items-center justify-center gap-4 rounded-lg "
+          }
+        >
+          <p>
+            아직 전문가 프로필이 없으시네요! 전문가 프로필을 등록하시겠어요?
+          </p>
+          <Link size="sm" href={"/experts/edit/" + myProfile?.id}>
+            등록하기
+          </Link>
+        </div>
+      )}
+      <div className="w-full flex flex-col gap-4 pt-2 items-center">
         <div className="w-full flex gap-1 items-center max-w-xl">
           <SearchInput
             value={searchQuery}
@@ -79,7 +105,7 @@ export default function ExpertsPage() {
           )}
         </Tabs>
       </div>
-      <div className={"w-full flex flex-wrap gap-4 mt-4"}>
+      <div className={"w-full flex flex-wrap gap-4 mt-4 pb-4"}>
         {profileList.length > 0 ? (
           profileList.map((profile) => (
             <ExpertProfileDisplayCard key={profile.id} profile={profile} />

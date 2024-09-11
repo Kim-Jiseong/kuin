@@ -3,7 +3,7 @@ import { Spinner } from "@nextui-org/react";
 import { createClient } from "@/utils/supabase/server";
 import Error from "@/app/error";
 import ExpertProfileViewModePage from "./components/expertProfileViewModePage";
-import { incrementViewCount } from "./action";
+import { getMyProfile, incrementViewCount } from "./action";
 type Props = {
   params: {
     id: string;
@@ -11,17 +11,18 @@ type Props = {
 };
 
 async function ExpertDetail({ params }: Props) {
-  // console.log(params.id);
   const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+
+  const myProfile = await getMyProfile();
+
   const { data: profile, error: profileError } = await supabase
     .from("profile")
     .select("*")
     .eq("id", params.id);
-  await incrementViewCount(params.id);
+
+  if (myProfile?.profile?.id !== params.id)
+    await incrementViewCount(params.id, profile?.[0]?.view);
+
   return (
     <div className="w-full flex flex-col justify-center items-center gap-4 ">
       <Suspense
@@ -42,10 +43,10 @@ async function ExpertDetail({ params }: Props) {
             <div className="w-full flex flex-col justify-center items-center gap-4 ">
               {/* <ContentContainer user={user} profile={profile} /> */}
               <ExpertProfileViewModePage
-                user={user}
+                user={myProfile?.user}
                 profileId={params.id}
                 expertData={profile[0]?.expert_profile}
-                isMe={user?.id === profile?.[0]?.user_id || false}
+                isMe={myProfile?.user?.id === profile?.[0]?.user_id || false}
               />
             </div>
           ))}

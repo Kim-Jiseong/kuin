@@ -34,7 +34,19 @@ function ExpertProfileViewModePage({
             <Carousel slides={expertData?.portfolio} options={OPTIONS} />
           </div>
         )}
-        <div className="flex flex-col relative overflow-hidden text-foreground box-border bg-content1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none h-full flex-1 aspect-square">
+        <div
+          className={`
+            flex flex-col relative overflow-hidden 
+            text-foreground box-border bg-content1 
+            outline-none data-[focus-visible=true]:z-10 
+            data-[focus-visible=true]:outline-2 
+            data-[focus-visible=true]:outline-focus 
+            data-[focus-visible=true]:outline-offset-2 
+            shadow-medium rounded-large w-full 
+            transition-transform-background 
+            motion-reduce:transition-none h-full flex-1 
+            ${expertData?.portfolio.length > 0 && "aspect-square"}`}
+        >
           <div className="p-3 z-10 w-full items-center shrink-0 overflow-inherit color-inherit subpixel-antialiased rounded-t-large relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300 via-purple-300 to-primary">
             <Avatar
               size={"lg"}
