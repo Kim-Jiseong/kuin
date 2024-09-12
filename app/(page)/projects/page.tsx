@@ -97,7 +97,7 @@ export default function ProjectsPage() {
             isSelected={onProgressOnly}
             onValueChange={setOnProgressOnly}
           >
-            진행중인 프로젝트만 보기
+            진행중
           </Checkbox>
           <Select
             size="sm"
