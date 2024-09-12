@@ -2,7 +2,16 @@
 
 import { major as majorList } from "@/constant/major";
 import { returnMajorColor } from "@/utils/returnMajorColor";
-import { Button, Input, Link, Spinner, Tab, Tabs } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Link,
+  Select,
+  SelectItem,
+  Spinner,
+  Tab,
+  Tabs,
+} from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Tables } from "@/types/database.types";
 import SearchInput from "@/components/common/SearchInput";
@@ -19,6 +28,7 @@ export default function ExpertsPage() {
   const [myProfile, setMyProfile] = useState<Tables<"profile">>();
   const [profileList, setProfileList] = useState<Tables<"profile">[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [searchMode, setSearchMode] = useState<string>("view");
 
   const getMy = async () => {
     const myProfile = await getMyProfile();
@@ -28,10 +38,13 @@ export default function ExpertsPage() {
   };
   const getProfileList = async (query: string) => {
     setIsLoading(true);
-    const { data, error } = await supabase.rpc("search_expert_profiles", {
-      major_filter: major,
-      search_text: query,
-    } as { major_filter: string; search_text: string });
+    const { data, error } = await supabase.rpc(
+      `search_expert_profiles_${searchMode}_sort`,
+      {
+        major_filter: major,
+        search_text: query,
+      } as { major_filter: string; search_text: string }
+    );
     if (data) {
       setProfileList(data);
     }
@@ -52,14 +65,8 @@ export default function ExpertsPage() {
 
   useEffect(() => {
     getProfileList(searchQuery);
-    setSearchQuery("");
-  }, [major]);
-
-  useEffect(() => {
-    if (searchQuery === "") {
-      getProfileList(searchQuery);
-    }
-  }, [searchQuery]);
+    // setSearchQuery("");
+  }, [major, searchMode]);
 
   return (
     <div className={"w-full flex flex-col pt-2"}>
@@ -112,19 +119,20 @@ export default function ExpertsPage() {
             <Search />
           </Button>
         </div>
-        {/* <Tabs
-          aria-label="Options"
-          selectedKey={major}
-          onSelectionChange={setMajor}
-          size={"lg"}
-          radius={"full"}
-          color={returnMajorColor(major)}
-        >
-          {majorList.map(
-            (major) =>
-              major.isVisible && <Tab key={major.code} title={major.name}></Tab>
-          )}
-        </Tabs> */}
+        <div className={"w-full flex items-center justify-end py-4"}>
+          <Select
+            size="sm"
+            // label="정렬 기준"
+            variant="underlined"
+            selectedKeys={[searchMode]}
+            className="max-w-40"
+            disallowEmptySelection
+            onChange={(e) => setSearchMode(e.target.value)}
+          >
+            <SelectItem key={"view"}>인기순</SelectItem>
+            <SelectItem key={"new"}>최신순</SelectItem>
+          </Select>
+        </div>
       </div>
       <div className={"w-full flex flex-wrap gap-4 mt-4 pb-4"}>
         {!isLoading ? (

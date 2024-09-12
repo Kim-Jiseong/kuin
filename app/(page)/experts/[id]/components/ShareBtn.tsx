@@ -18,7 +18,7 @@ import { Tables } from "@/types/database.types";
 function ShareBtn({
   expertData,
 }: {
-  expertData: Tables<"profile">["expert_profile"];
+  expertData: Tables<"profile">["expert_profile"] | null | undefined;
 }) {
   const router = useRouter();
   const pathname = usePathname();

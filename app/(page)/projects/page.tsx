@@ -5,7 +5,14 @@ import { major as majorList } from "@/constant/major";
 import SearchInput from "@/components/common/SearchInput";
 import { Button } from "@nextui-org/button";
 import { Frown, Search } from "lucide-react";
-import { Spinner, Tab, Tabs } from "@nextui-org/react";
+import {
+  Checkbox,
+  Select,
+  SelectItem,
+  Spinner,
+  Tab,
+  Tabs,
+} from "@nextui-org/react";
 import { returnMajorColor } from "@/utils/returnMajorColor";
 import { Tables } from "@/types/database.types";
 import Typography from "@/components/common/Typography";
@@ -20,11 +27,13 @@ export default function ProjectsPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [projectList, setProjectList] = useState<Tables<"project">[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [searchMode, setSearchMode] = useState<string>("view");
+  const [onProgressOnly, setOnProgressOnly] = useState(false);
 
   const getProfileList = async (query: string) => {
     setIsLoading(true);
     const { data, error } = await supabase.rpc(
-      "search_projects_with_owner_profile",
+      `search_projects_${searchMode}_sort`,
       {
         major_filter: major,
         search_text: query,
@@ -46,9 +55,8 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     getProfileList(searchQuery);
-    setSearchQuery("");
-  }, [major]);
-  console.log(projectList);
+    // setSearchQuery("");
+  }, [major, searchMode]);
 
   return (
     <div className={"w-full flex flex-col pt-2"} role="button">
@@ -83,14 +91,38 @@ export default function ProjectsPage() {
             <Search />
           </Button>
         </div>
+        <div className={"w-full flex items-center justify-between gap-4 py-4"}>
+          <Checkbox
+            size="sm"
+            isSelected={onProgressOnly}
+            onValueChange={setOnProgressOnly}
+          >
+            진행중인 프로젝트만 보기
+          </Checkbox>
+          <Select
+            size="sm"
+            // label="정렬 기준"
+            variant="underlined"
+            selectedKeys={[searchMode]}
+            className="max-w-40"
+            disallowEmptySelection
+            onChange={(e) => setSearchMode(e.target.value)}
+          >
+            <SelectItem key={"view"}>인기순</SelectItem>
+            <SelectItem key={"new"}>최신순</SelectItem>
+          </Select>
+        </div>
       </div>
       <div className={"w-full flex flex-wrap gap-4 mt-4 pb-4"}>
         {!isLoading ? (
           projectList.length > 0 ? (
-            projectList.map((project) => (
-              <ProjectDisplayCard key={project.id} project={project} />
-              // <ExpertProfileDisplayCard key={profile.id} profile={profile} />
-            ))
+            projectList
+              .filter(
+                (project) => !onProgressOnly || project.status === "on_progress"
+              )
+              .map((project) => (
+                <ProjectDisplayCard key={project.id} project={project} />
+              ))
           ) : (
             <div
               className={

@@ -1,3 +1,4 @@
+import Typography from "@/components/common/Typography";
 import { Tables } from "@/types/database.types";
 import { getStatusNameByCode } from "@/utils/getStatusNameByCode";
 import { returnStatusColor } from "@/utils/returnStatusColor";
@@ -16,13 +17,13 @@ function ProjectDisplayCard({ project }: { project: Tables<"project"> }) {
          p-4 flex flex-col sm:flex-row gap-3 border-1 border-divider 
          cursor-pointer hover:bg-content2 transition-all duration-200`}
     >
-      <div className="flex flex-col gap-2 h-full">
-        <h4 className="font-bold text-large flex items-center justify-between sgap-2">
-          {project.title}
+      <div className="w-full h-full flex flex-col gap-2">
+        <div className="w-full  gap-2 flex items-center justify-between">
+          <Typography variant="subtitle1">{project.title}</Typography>
           <Chip size="sm" color={returnStatusColor(project.status as string)}>
             {getStatusNameByCode(project.status as string)}
           </Chip>
-        </h4>
+        </div>
         <ScrollShadow className={"w-full h-[80px] sm:h-full overflow-auto"}>
           {project.introduction}
         </ScrollShadow>

@@ -15,26 +15,16 @@ export const getMyProfile = async () => {
       return null
     }
 
-export async function incrementViewCount(profileId: string, prevView: number | undefined) {
+export async function incrementViewCount(projectId: string, prevView: number | undefined) {
   const supabase = createClient();
-  // const { data: profile, error: fetchError } = await supabase
-  //   .from('profile')
-  //   .select('view')
-  //   .eq('id', profileId)
-  //   .single();
-
-  // if (fetchError) {
-  //   console.error('Error fetching view count:', fetchError);
-  //   return null;
-  // }
 
   const currentViewCount = prevView ?? 0;
 
   // view 값을 1 증가시켜 업데이트
   const { data, error } = await supabase
-    .from('profile')
+    .from('project')
     .update({ view: currentViewCount + 1 })
-    .eq('id', profileId);
+    .eq('id', projectId);
 
   if (error) {
     console.error('Error incrementing view count:', error);

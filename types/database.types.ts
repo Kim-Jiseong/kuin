@@ -99,6 +99,7 @@ export type Database = {
           owner_profile: string | null
           status: string | null
           title: string | null
+          view: number
         }
         Insert: {
           contact?: string | null
@@ -111,6 +112,7 @@ export type Database = {
           owner_profile?: string | null
           status?: string | null
           title?: string | null
+          view?: number
         }
         Update: {
           contact?: string | null
@@ -123,6 +125,7 @@ export type Database = {
           owner_profile?: string | null
           status?: string | null
           title?: string | null
+          view?: number
         }
         Relationships: [
           {

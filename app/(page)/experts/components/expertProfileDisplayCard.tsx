@@ -6,6 +6,7 @@ import { Chip, Image, ScrollShadow } from "@nextui-org/react";
 import useEmblaCarousel from "embla-carousel-react";
 import React from "react";
 import { useRouter } from "next/navigation";
+import Typography from "@/components/common/Typography";
 
 const OPTIONS: EmblaOptionsType = {};
 
@@ -99,7 +100,9 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
 
       <div className="flex flex-col gap-2 h-full">
         <h4 className="font-bold text-large flex items-center gap-2">
-          {profile.expert_profile.name}
+          <Typography variant="subtitle2" ellipsis lines={1}>
+            {profile.expert_profile.name}
+          </Typography>
           <Chip
             size="sm"
             color={returnMajorColor(profile.expert_profile.major as string)}

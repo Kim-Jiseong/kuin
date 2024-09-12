@@ -9,6 +9,7 @@ import Carousel from "@/components/common/Carousel/Carousel";
 import EditBtn from "./EditBtn";
 import ContactBtn from "./ContactBtn";
 import ShareBtn from "./ShareBtn";
+import { Tables } from "@/types/database.types";
 
 const OPTIONS: EmblaOptionsType = {};
 
@@ -20,14 +21,14 @@ function ExpertProfileViewModePage({
 }: {
   user: any;
   profileId: string;
-  expertData: any;
-  // expertData: Tables<"profile">["expert_profile"] | undefined;
+  expertData: Tables<"profile">["expert_profile"] | undefined;
   isMe: boolean;
 }) {
+  if (!expertData) return null;
   return (
     <div className="w-full  flex flex-col justify-center items-center gap-4 py-4">
       <div className="w-full gap-4 flex flex-col-reverse items-center md:flex-row relative">
-        {expertData?.portfolio.length > 0 && (
+        {expertData?.portfolio && expertData?.portfolio?.length > 0 && (
           <div className="relative flex flex-col overflow-hidden text-foreground box-border bg-content1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none h-full flex-1 aspect-square">
             <Carousel slides={expertData?.portfolio} options={OPTIONS} />
           </div>
@@ -43,7 +44,7 @@ function ExpertProfileViewModePage({
             shadow-medium rounded-large w-full 
             transition-transform-background 
             motion-reduce:transition-none h-full flex-1 
-            ${expertData?.portfolio.length > 0 && "aspect-square"}`}
+            ${expertData?.portfolio && expertData?.portfolio.length > 0 && "aspect-square"}`}
         >
           <div className="p-3 z-10 w-full items-center shrink-0 overflow-inherit color-inherit subpixel-antialiased rounded-t-large relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300 via-purple-300 to-primary">
             <Avatar
@@ -72,7 +73,8 @@ function ExpertProfileViewModePage({
                   className={`relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 text-small rounded-full bg-${returnMajorColor(expertData?.major)} text-primary-foreground`}
                 >
                   <span className="flex-1 text-inherit font-normal px-2">
-                    {getMajorObjByCode(expertData?.major)?.name}
+                    {expertData?.major &&
+                      getMajorObjByCode(expertData?.major)?.name}
                   </span>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-export const returnMajorColor = (major: string) => {
+export const returnMajorColor = (major: string | null | undefined) => {
   switch (major) {
     case "dev":
       return "primary";
