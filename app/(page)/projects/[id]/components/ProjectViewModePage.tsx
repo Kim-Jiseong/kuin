@@ -15,7 +15,7 @@ function ProjectViewModePage({
   projectData: Tables<"project"> | undefined;
   isMe: boolean;
 }) {
-  console.log(projectData);
+  // console.log(projectData);
   return (
     <div className="w-full flex flex-col justify-center gap-4 py-4">
       <div className="w-full flex flex-col gap-4">

@@ -1,10 +1,12 @@
 export const returnStatusColor = (status: string) => {
     switch (status) {
-      case "on_progress":
+      case "open":
+        return "danger";
+      case "ongoing":
         return "primary";
-      case "finished":
+      case "done":
         return "success";
-      case "cancelled":
+      case "canceled":
         return "default";
       default:
         return "default";

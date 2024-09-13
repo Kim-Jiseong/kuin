@@ -14,6 +14,7 @@ import { revalidatePath } from "next/cache";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Image } from "@nextui-org/react";
+import MarkdownTutorialBtn from "@/components/MarkdownTutorial/MarkdownTutorialBtn";
 
 function ExpertProfileEditModePage({
   // userData,
@@ -228,17 +229,6 @@ function ExpertProfileEditModePage({
         />
         <Input
           variant={"bordered"}
-          id="introduction"
-          required
-          label={"한줄 소개"}
-          isRequired
-          isInvalid={result.errorField.includes("introduction")}
-          //   onValueChange={setPreviewIntroduction}
-          onChange={handleChange}
-          defaultValue={expertData?.introduction}
-        />
-        <Input
-          variant={"bordered"}
           id="contact"
           required
           label={"연락처"}
@@ -248,12 +238,23 @@ function ExpertProfileEditModePage({
           onChange={handleChange}
           defaultValue={expertData?.contact}
         />
+        <Input
+          variant={"bordered"}
+          id="introduction"
+          required
+          label={"한줄 소개"}
+          isRequired
+          isInvalid={result.errorField.includes("introduction")}
+          //   onValueChange={setPreviewIntroduction}
+          onChange={handleChange}
+          defaultValue={expertData?.introduction}
+        />
         <Textarea
           variant={"bordered"}
           id="detail"
           label={"상세 소개 - 마크다운 문법 지원"}
           placeholder={
-            "포트폴리오 등 외부 링크는 [주소에 대한 설명(선택)](http://www.google.co.kr) 형식으로 작성해주세요."
+            "포트폴리오 등 \n외부 링크는 [주소 이름](http://kuin.me) 형식으로 작성해주세요.\n보다 자세한 설명은 하단 링크를 참고해주세요"
           }
           minRows={5}
           required
@@ -263,6 +264,9 @@ function ExpertProfileEditModePage({
           onChange={handleChange}
           defaultValue={expertData?.detail}
         />
+        <div className="w-full flex">
+          <MarkdownTutorialBtn />
+        </div>
       </div>
       <div className="flex items-center gap-4 mt-6">
         <Typography variant={"subtitle1"}>포트폴리오</Typography>

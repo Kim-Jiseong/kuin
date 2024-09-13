@@ -51,7 +51,7 @@ function ExpertProfileViewModePage({
               size={"lg"}
               isBordered
               src={expertData?.profileImage}
-              className="h-20 w-20 translate-y-12 flex-shrink-0"
+              className="h-20 w-20 translate-y-11 flex-shrink-0"
               radius={"md"}
             />
             <div className={" flex gap-2 absolute top-3 right-3"}>
@@ -63,7 +63,7 @@ function ExpertProfileViewModePage({
               {isMe && <EditBtn profileId={profileId} />}
             </div>
           </div>
-          <div className="relative flex w-full p-3 flex-auto flex-col place-content-inherit align-items-inherit h-auto break-words text-left overflow-y-auto subpixel-antialiased pb-4 pt-6">
+          <div className="relative flex w-full p-3 flex-auto flex-col place-content-inherit align-items-inherit h-auto break-words text-left overflow-y-auto subpixel-antialiased pb-4 pt-8">
             <div>
               <Typography variant="subtitle2" ellipsis lines={1}>
                 {expertData?.name}

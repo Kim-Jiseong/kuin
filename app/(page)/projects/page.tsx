@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { major as majorList } from "@/constant/major";
 import SearchInput from "@/components/common/SearchInput";
 import { Button } from "@nextui-org/button";
-import { Frown, Search } from "lucide-react";
+import { Frown, Plus, Search } from "lucide-react";
 import {
   Checkbox,
   Select,
@@ -27,10 +27,10 @@ export default function ProjectsPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [projectList, setProjectList] = useState<Tables<"project">[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [searchMode, setSearchMode] = useState<string>("view");
+  const [searchMode, setSearchMode] = useState<string>("new");
   const [onProgressOnly, setOnProgressOnly] = useState(false);
 
-  const getProfileList = async (query: string) => {
+  const getProjectList = async (query: string) => {
     setIsLoading(true);
     const { data, error } = await supabase.rpc(
       `search_projects_${searchMode}_sort`,
@@ -46,20 +46,20 @@ export default function ProjectsPage() {
   };
 
   const handleClickClear = () => {
-    getProfileList("");
+    getProjectList("");
   };
 
   const handleClickSearch = () => {
-    getProfileList(searchQuery);
+    getProjectList(searchQuery);
   };
 
   useEffect(() => {
-    getProfileList(searchQuery);
+    getProjectList(searchQuery);
     // setSearchQuery("");
   }, [major, searchMode]);
 
   return (
-    <div className={"w-full flex flex-col pt-2"} role="button">
+    <div className={"w-full flex flex-col pt-2"}>
       <div className="w-full flex flex-col gap-4 pt-2 items-center">
         <Tabs
           aria-label="Options"
@@ -91,35 +91,51 @@ export default function ProjectsPage() {
             <Search />
           </Button>
         </div>
-        <div className={"w-full flex items-center justify-between gap-4 py-4"}>
-          <Checkbox
+        <div
+          className={
+            "w-full flex items-end sm:items-center justify-between gap-4 sm:py-4"
+          }
+        >
+          <Button
+            startContent={<Plus size={18} />}
             size="sm"
-            isSelected={onProgressOnly}
-            onValueChange={setOnProgressOnly}
+            color="primary"
+            onPress={() => router.push("/projects/new")}
           >
-            진행중
-          </Checkbox>
-          <Select
-            size="sm"
-            // label="정렬 기준"
-            variant="underlined"
-            selectedKeys={[searchMode]}
-            className="max-w-40"
-            disallowEmptySelection
-            onChange={(e) => setSearchMode(e.target.value)}
+            새 프로젝트
+          </Button>
+          <div
+            className={
+              "flex flex-col sm:flex-row items-end sm:items-center gap-2"
+            }
           >
-            <SelectItem key={"view"}>인기순</SelectItem>
-            <SelectItem key={"new"}>최신순</SelectItem>
-          </Select>
+            <Checkbox
+              size="sm"
+              isSelected={onProgressOnly}
+              onValueChange={setOnProgressOnly}
+            >
+              <Typography variant={"caption"}>모집중인 프로젝트만</Typography>
+            </Checkbox>
+            <Select
+              size="sm"
+              // label="정렬 기준"
+              variant="underlined"
+              selectedKeys={[searchMode]}
+              className="w-36"
+              disallowEmptySelection
+              onChange={(e) => setSearchMode(e.target.value)}
+            >
+              <SelectItem key={"view"}>인기순</SelectItem>
+              <SelectItem key={"new"}>최신순</SelectItem>
+            </Select>
+          </div>
         </div>
       </div>
       <div className={"w-full flex flex-wrap gap-4 mt-4 pb-4"}>
         {!isLoading ? (
           projectList.length > 0 ? (
             projectList
-              .filter(
-                (project) => !onProgressOnly || project.status === "on_progress"
-              )
+              .filter((project) => !onProgressOnly || project.status === "open")
               .map((project) => (
                 <ProjectDisplayCard key={project.id} project={project} />
               ))

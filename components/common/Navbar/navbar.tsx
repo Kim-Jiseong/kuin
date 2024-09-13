@@ -15,6 +15,7 @@ import NextLink from "next/link";
 import AvatarWrapper from "../Avatar";
 import { Tables } from "@/types/database.types";
 import LinkWrapper from "./LinkWrapper";
+import BackButton from "./BackBtn";
 
 export const Navbar = ({
   profile,
@@ -23,8 +24,12 @@ export const Navbar = ({
 }) => {
   return (
     <NextUINavbar maxWidth="xl" position="sticky" isBordered>
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand as="li" className="gap-3 max-w-fit">
+      <NavbarContent
+        className="basis-1/5 sm:basis-full flex gap-2"
+        justify="start"
+      >
+        <BackButton />
+        <NavbarBrand as="li" className="gap-2 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             <p className="font-bold text-inherit">KUIN</p>
           </NextLink>

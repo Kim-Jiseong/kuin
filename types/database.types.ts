@@ -92,7 +92,7 @@ export type Database = {
           contact: string | null
           created_at: string
           detail: string | null
-          files: string | null
+          files: string[] | null
           id: number
           introduction: string | null
           metadata: Json | null
@@ -105,7 +105,7 @@ export type Database = {
           contact?: string | null
           created_at?: string
           detail?: string | null
-          files?: string | null
+          files?: string[] | null
           id?: number
           introduction?: string | null
           metadata?: Json | null
@@ -118,7 +118,7 @@ export type Database = {
           contact?: string | null
           created_at?: string
           detail?: string | null
-          files?: string | null
+          files?: string[] | null
           id?: number
           introduction?: string | null
           metadata?: Json | null

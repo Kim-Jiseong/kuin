@@ -19,7 +19,9 @@ function ProjectDisplayCard({ project }: { project: Tables<"project"> }) {
     >
       <div className="w-full h-full flex flex-col gap-2">
         <div className="w-full  gap-2 flex items-center justify-between">
-          <Typography variant="subtitle1">{project.title}</Typography>
+          <Typography variant="subtitle1" ellipsis lines={1}>
+            {project.title}
+          </Typography>
           <Chip size="sm" color={returnStatusColor(project.status as string)}>
             {getStatusNameByCode(project.status as string)}
           </Chip>
