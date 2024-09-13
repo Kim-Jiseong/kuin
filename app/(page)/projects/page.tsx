@@ -155,8 +155,8 @@ export default function ProjectsPage() {
               "mx-auto flex flex-col items-center justify-center gap-2 my-10"
             }
           >
-            {/* <Typography variant={"text"}>로딩중입니다</Typography> */}
             <Spinner />
+            {/* <Typography variant={"text"}>로딩중입니다</Typography> */}
           </div>
         )}
       </div>
