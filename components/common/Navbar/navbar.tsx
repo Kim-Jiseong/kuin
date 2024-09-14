@@ -19,8 +19,10 @@ import BackButton from "./BackBtn";
 
 export const Navbar = ({
   profile,
+  projectList,
 }: {
-  profile: Tables<"profile">[] | null;
+  profile: Tables<"profile"> | null;
+  projectList: Tables<"project">[] | null;
 }) => {
   return (
     <NextUINavbar maxWidth="xl" position="sticky" isBordered>
@@ -37,9 +39,7 @@ export const Navbar = ({
       </NavbarContent>
       <NavbarContent className=" sm:flex basis-1/5 sm:basis-full" justify="end">
         <LinkWrapper />
-        <AvatarWrapper
-          profile={profile && profile.length > 0 ? profile[0] : null}
-        />
+        <AvatarWrapper profile={profile} projectList={projectList} />
       </NavbarContent>
 
       {/* <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">

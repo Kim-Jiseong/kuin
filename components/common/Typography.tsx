@@ -44,7 +44,7 @@ const Typography = ({
     case "headings":
       return (
         <h1
-          className={classNames(baseStyles, className, "text-6xl font-bold")}
+          className={classNames(className, baseStyles, "text-6xl font-bold")}
           style={style}
         >
           {children}
@@ -54,8 +54,8 @@ const Typography = ({
       return (
         <h2
           className={classNames(
-            baseStyles,
             className,
+            baseStyles,
             "text-3xl font-semibold"
           )}
           style={style}
@@ -66,7 +66,7 @@ const Typography = ({
     case "subtitle1":
       return (
         <h3
-          className={classNames(baseStyles, className, "text-xl font-semibold")}
+          className={classNames(className, baseStyles, "text-xl font-semibold")}
           style={style}
         >
           {children}
@@ -75,7 +75,7 @@ const Typography = ({
     case "subtitle2":
       return (
         <p
-          className={classNames(baseStyles, className, "text-lg font-semibold")}
+          className={classNames(className, baseStyles, "text-lg font-semibold")}
           style={style}
         >
           {children}
@@ -84,7 +84,7 @@ const Typography = ({
     case "textLarge":
       return (
         <p
-          className={classNames(baseStyles, className, "text-lg font-normal")}
+          className={classNames(className, baseStyles, "text-lg font-normal")}
           style={style}
         >
           {children}
@@ -93,7 +93,7 @@ const Typography = ({
     case "text":
       return (
         <p
-          className={classNames(baseStyles, className, "text-base font-normal")}
+          className={classNames(className, baseStyles, "text-base font-normal")}
           style={style}
         >
           {children}
@@ -103,8 +103,8 @@ const Typography = ({
       return (
         <span
           className={classNames(
-            baseStyles,
             className,
+            baseStyles,
             "text-sm font-normal text-gray-500"
           )}
           style={style}
@@ -115,7 +115,7 @@ const Typography = ({
     default:
       return (
         <p
-          className={classNames(baseStyles, className, "text-base font-normal")}
+          className={classNames(className, baseStyles, "text-base font-normal")}
           style={style}
         >
           {children}

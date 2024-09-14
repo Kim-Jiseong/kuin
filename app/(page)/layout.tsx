@@ -39,7 +39,14 @@ export default async function RootLayout({
   } = await supabase.auth.getUser();
 
   const { data: profile } = user
-    ? await supabase.from("profile").select("*").eq("user_id", user.id)
+    ? await supabase.from("profile").select("*").eq("user_id", user.id).single()
+    : { data: null };
+  const { data: projectList } = profile
+    ? await supabase
+        .from("project")
+        .select("*")
+        .eq("owner_profile", profile.id)
+        .order("created_at", { ascending: false })
     : { data: null };
   return (
     <html suppressHydrationWarning lang="en">
@@ -52,7 +59,7 @@ export default async function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
-            <Navbar profile={profile} />
+            <Navbar profile={profile} projectList={projectList} />
             <main className="container mx-auto w-full max-w-7xl px-6 flex-grow min-h-[calc(100vh - 4rem)]">
               {children}
             </main>

@@ -5,6 +5,13 @@ export type Json =
   | null
   | { [key: string]: Json | undefined }
   | Json[]
+export type FileObj = {
+    fullPath: string;
+    name: string;
+    size: number;
+    lastModified: number;
+  };
+  
 
   interface ExpertProfile {
     name?: string;
@@ -92,7 +99,7 @@ export type Database = {
           contact: string | null
           created_at: string
           detail: string | null
-          files: string[] | null
+          files: FileObj[] | null
           id: number
           introduction: string | null
           metadata: Json | null
@@ -105,7 +112,7 @@ export type Database = {
           contact?: string | null
           created_at?: string
           detail?: string | null
-          files?: string[] | null
+          files?: FileObj[] | null
           id?: number
           introduction?: string | null
           metadata?: Json | null
@@ -118,7 +125,7 @@ export type Database = {
           contact?: string | null
           created_at?: string
           detail?: string | null
-          files?: string[] | null
+          files?: FileObj[] | null
           id?: number
           introduction?: string | null
           metadata?: Json | null

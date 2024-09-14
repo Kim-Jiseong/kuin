@@ -6,7 +6,13 @@ import { useDisclosure } from "@nextui-org/modal";
 import { Tables } from "@/types/database.types";
 import { usePathname, useRouter } from "next/navigation";
 
-function Avatar({ profile }: { profile: Tables<"profile"> | null }) {
+function Avatar({
+  profile,
+  projectList,
+}: {
+  profile: Tables<"profile"> | null;
+  projectList: Tables<"project">[] | null;
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -33,6 +39,7 @@ function Avatar({ profile }: { profile: Tables<"profile"> | null }) {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         profile={profile}
+        projectList={projectList}
       />
     </div>
   );

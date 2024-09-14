@@ -1,5 +1,6 @@
 import Typography from "@/components/common/Typography";
 import { Tables } from "@/types/database.types";
+import { formatDateTime } from "@/utils/formatTime";
 import { getStatusNameByCode } from "@/utils/getStatusNameByCode";
 import { returnStatusColor } from "@/utils/returnStatusColor";
 import { Chip, ScrollShadow } from "@nextui-org/react";
@@ -29,6 +30,14 @@ function ProjectDisplayCard({ project }: { project: Tables<"project"> }) {
         <ScrollShadow className={"w-full h-[80px] sm:h-full overflow-auto"}>
           {project.introduction}
         </ScrollShadow>
+        <div className={"w-full flex justify-end"}>
+          <Typography variant="caption">
+            {formatDateTime(project.created_at, {
+              locale: "ko",
+              showRelative: false,
+            })}
+          </Typography>
+        </div>
       </div>
     </div>
   );

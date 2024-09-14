@@ -58,6 +58,8 @@ export default function ProjectsPage() {
     // setSearchQuery("");
   }, [major, searchMode]);
 
+  console.log(projectList);
+
   return (
     <div className={"w-full flex flex-col pt-2"}>
       <div className="w-full flex flex-col gap-4 pt-2 items-center">

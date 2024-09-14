@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface Fields {
-  [key: string]: string;
+  [key: string]: any;
 }
 
 interface FormState {
