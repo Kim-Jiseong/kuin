@@ -34,7 +34,7 @@ function ProjectDisplayCard({ project }: { project: Tables<"project"> }) {
           <Typography variant="caption">
             {formatDateTime(project.created_at, {
               locale: "ko",
-              showRelative: false,
+              // showRelative: false,
             })}
           </Typography>
         </div>

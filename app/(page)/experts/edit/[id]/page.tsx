@@ -1,6 +1,8 @@
 import React from "react";
 import ExpertProfileEditModePage from "./components/expertProfileEditModePage";
 import { createClient } from "@/utils/supabase/server";
+import { getMyProfile } from "../../[id]/action";
+import Forbidden from "@/components/common/Forbidden";
 
 type Props = {
   params: {
@@ -13,14 +15,18 @@ async function ExpertDetailEdit({ params }: Props) {
   const { data: profile, error: profileError } = await supabase
     .from("profile")
     .select("*")
-    .eq("id", params.id);
+    .eq("id", params.id)
+    .single();
+  const myProfile = await getMyProfile();
   return (
     <div className="w-full flex flex-col justify-center items-center gap-4 ">
-      {profile && (
+      {profile && myProfile?.profile?.id === profile?.id ? (
         <ExpertProfileEditModePage
-          expertData={profile[0]?.expert_profile}
-          profileId={profile[0]?.id}
+          expertData={profile.expert_profile}
+          profileId={profile.id}
         />
+      ) : (
+        <Forbidden />
       )}
     </div>
   );

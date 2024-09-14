@@ -1,4 +1,4 @@
-import { format, formatDistance } from 'date-fns';
+import { format, formatDistance, differenceInDays } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
 
 export type FormatOptions = {
@@ -10,17 +10,26 @@ export function formatDateTime(
   utcDateString: string,
   { locale = 'ko', showRelative = true }: FormatOptions = {}
 ): string {
-  const utcDate = new Date(utcDateString); 
-  const convertedDate = new Date(utcDate.getTime() - utcDate.getTimezoneOffset() * 60000); 
-  const nowLocal = new Date(); 
-  const selectedLocale = locale === 'ko' ? ko : enUS;
-
-  // 상대시간
-  if (showRelative) {
-    return formatDistance(convertedDate, nowLocal, { addSuffix: true, locale: selectedLocale });
+  if (!utcDateString.includes('Z') && !utcDateString.includes('+')) {
+    utcDateString += '+00:00';
   }
 
-  // 절대시간
+  const convertedDate = new Date(utcDateString);
+  const nowLocal = new Date();
+  const selectedLocale = locale === 'ko' ? ko : enUS;
+
+  // 두 날짜 간 차이를 계산
+  const daysDifference = differenceInDays(nowLocal, convertedDate);
+
+  // 상대시간 표시 여부 및 7일 이내일 경우 상대시간 표시
+  if (showRelative && daysDifference <= 7) {
+    return formatDistance(convertedDate, nowLocal, {
+      addSuffix: true,
+      locale: selectedLocale,
+    });
+  }
+
+  // 절대시간 (8일 이상일 때)
   const dateFormat = locale === 'ko' ? 'yyyy.MM.dd HH:mm' : 'MM/dd/yyyy HH:mm';
   return format(convertedDate, dateFormat);
 }
