@@ -20,6 +20,8 @@ import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import ProjectDisplayCard from "./components/ProjectDisplayCard";
 import { getMajorObjByCode } from "@/utils/getMajorObjByCode";
+import MajorSelectTab from "@/components/MajorSelectTab/MajorSelectTab";
+import FloatMenuContainer from "@/components/common/FloatMenu/FloatMenuContainer";
 
 export default function ProjectsPage() {
   const router = useRouter();
@@ -61,21 +63,9 @@ export default function ProjectsPage() {
   console.log(projectList);
 
   return (
-    <div className={"w-full flex flex-col pt-2"}>
+    <div className={"relative w-full flex flex-col pt-2"}>
       <div className="w-full flex flex-col gap-4 pt-2 items-center">
-        <Tabs
-          aria-label="Options"
-          selectedKey={major}
-          onSelectionChange={setMajor}
-          size={"lg"}
-          radius={"full"}
-          color={returnMajorColor(major)}
-        >
-          {majorList.map(
-            (major) =>
-              major.isVisible && <Tab key={major.code} title={major.name}></Tab>
-          )}
-        </Tabs>
+        <FloatMenuContainer major={major} setMajor={setMajor} />
         <div className="w-full flex gap-1 items-center max-w-xl">
           <SearchInput
             value={searchQuery}

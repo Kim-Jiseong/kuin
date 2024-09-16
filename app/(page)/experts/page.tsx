@@ -21,6 +21,7 @@ import ExpertProfileDisplayCard from "./components/expertProfileDisplayCard";
 import Typography from "@/components/common/Typography";
 import { getMyProfile } from "./[id]/action";
 import { getMajorObjByCode } from "@/utils/getMajorObjByCode";
+import FloatMenuContainer from "@/components/common/FloatMenu/FloatMenuContainer";
 
 export default function ExpertsPage() {
   const [major, setMajor] = useState<any>(majorList[1].code);
@@ -89,19 +90,7 @@ export default function ExpertsPage() {
         </div>
       )}
       <div className="w-full flex flex-col gap-4 pt-2 items-center">
-        <Tabs
-          aria-label="Options"
-          selectedKey={major}
-          onSelectionChange={setMajor}
-          size={"lg"}
-          radius={"full"}
-          color={returnMajorColor(major)}
-        >
-          {majorList.map(
-            (major) =>
-              major.isVisible && <Tab key={major.code} title={major.name}></Tab>
-          )}
-        </Tabs>
+        <FloatMenuContainer major={major} setMajor={setMajor} />
         <div className="w-full flex gap-1 items-center max-w-xl">
           <SearchInput
             value={searchQuery}

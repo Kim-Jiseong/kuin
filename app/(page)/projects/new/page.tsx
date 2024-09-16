@@ -93,6 +93,7 @@ const NewProjectPage: React.FC = () => {
           files: uploadingFiles,
         });
         console.log(updateResponse);
+        router.push("/projects/" + createProjectData.id);
       } catch (e) {
         console.log(e);
       } finally {
@@ -161,7 +162,7 @@ const NewProjectPage: React.FC = () => {
           required
           isRequired
           id="contact"
-          label="연락처"
+          label='연락처 - 프로젝트 상태가 "모집중"인 경우에만 공개됩니다.'
           placeholder="전문가들이 연락드릴 수 있는 연락처를 입력해주세요(이메일, 전화번호 등)"
           onChange={handleChange}
           isInvalid={result.errorField.includes("contact")}
@@ -217,7 +218,7 @@ const NewProjectPage: React.FC = () => {
             onChange={handleFileChange}
           />
 
-          {files.length > 0 && (
+          {files.length > 0 ? (
             <div className="flex flex-col gap-1 mt-2">
               {files.map((file, index) => (
                 <Card key={index}>
@@ -243,6 +244,13 @@ const NewProjectPage: React.FC = () => {
                   </CardBody>
                 </Card>
               ))}
+            </div>
+          ) : (
+            <div className={"pt-1 pb-4 flex"}>
+              <Typography variant={"caption"}>
+                왼쪽 상단의 &quot;파일 추가&quot; 버튼을 클릭하고 파일을
+                첨부하세요
+              </Typography>
             </div>
           )}
         </div>

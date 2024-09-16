@@ -16,7 +16,21 @@ function LinkWrapper() {
           <NextLink
             className={clsx(
               linkStyles({ color: "foreground" }),
-              "data-[active=true]:text-primary data-[active=true]:font-bold"
+              "data-[active=true]:text-primary data-[active=true]:font-bold",
+              [
+                "flex",
+                "relative",
+                "h-full",
+                "items-center",
+                "data-[active=true]:after:content-['']",
+                "data-[active=true]:after:absolute",
+                "data-[active=true]:after:bottom-0",
+                "data-[active=true]:after:left-0",
+                "data-[active=true]:after:right-0",
+                "data-[active=true]:after:h-[2px]",
+                "data-[active=true]:after:rounded-[2px]",
+                "data-[active=true]:after:bg-primary",
+              ]
             )}
             color="foreground"
             href={item.href}
