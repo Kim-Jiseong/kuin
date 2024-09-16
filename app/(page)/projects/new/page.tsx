@@ -162,7 +162,7 @@ const NewProjectPage: React.FC = () => {
           required
           isRequired
           id="contact"
-          label='연락처 - 프로젝트 상태가 "모집중"인 경우에만 공개됩니다.'
+          label='연락처 - 프로젝트가 "모집중"인 경우에만 공개'
           placeholder="전문가들이 연락드릴 수 있는 연락처를 입력해주세요(이메일, 전화번호 등)"
           onChange={handleChange}
           isInvalid={result.errorField.includes("contact")}
