@@ -34,12 +34,11 @@ async function ProjectDetail({ params }: Props) {
     .eq("id", params.id)
     .single();
 
-  if (myProfile?.profile?.id !== project?.owner_profile)
+  if (myProfile?.profile?.id !== project?.owner_profile?.id)
     await incrementViewCount(params.id, project?.view);
-  //
   return (
     <div className="w-full flex flex-col justify-center items-center gap-4 ">
-      <Suspense
+      {/* <Suspense
         fallback={
           <div
             className={
@@ -49,20 +48,22 @@ async function ProjectDetail({ params }: Props) {
             <Spinner />
           </div>
         }
-      >
-        {!project ? (
-          <Error />
-        ) : (
-          <div className="w-full flex flex-col justify-center items-center gap-4 ">
-            <ProjectViewModePage
-              user={myProfile?.user}
-              projectId={params.id}
-              projectData={project}
-              isMe={myProfile?.user?.id === project?.owner_profile || false}
-            />
-          </div>
-        )}
-      </Suspense>
+      > */}
+      {!project ? (
+        <Error />
+      ) : (
+        <div className="w-full flex flex-col justify-center items-center gap-4 ">
+          <ProjectViewModePage
+            user={myProfile?.user}
+            projectId={params.id}
+            projectData={project}
+            isMe={
+              myProfile?.profile?.id === project?.owner_profile?.id || false
+            }
+          />
+        </div>
+      )}
+      {/* </Suspense> */}
     </div>
   );
 }

@@ -19,9 +19,9 @@ function ExpertProfileCard({
       <CardBody>
         {profile?.expert_profile ? (
           <ExpertProfile
-            profile={profile?.expert_profile}
+            profile={profile}
+            expertProfile={profile?.expert_profile}
             onClose={onClose}
-            myId={profile?.id}
           />
         ) : (
           <NewExpertProfileCard myId={profile?.id} onClose={onClose} />

@@ -13,6 +13,7 @@ import {
 import Typography from "../common/Typography";
 import { useRouter } from "next/navigation";
 import { Tables } from "@/types/database.types";
+import ProjectContentRow from "./ProjectContentRow";
 
 function ProjectMenuContent({
   projectList,
@@ -46,57 +47,26 @@ function ProjectMenuContent({
         </CardHeader>
         <Divider />
         <CardBody>
-          {/* {projectList?.map((project, index) => (
-            <div
-              key={project.id}
-              className="flex w-full items-center justify-between"
-            >
-              <Typography variant={"text"} ellipsis lines={1}>
-                {project.title}
-              </Typography>
-              <ThemeSwitch />
-            </div>
-          ))} */}
-          <Listbox
+          {/* <Listbox
             aria-label="Actions"
             onAction={(key) => handleRouting(`/projects/${key}`)}
             items={projectList || []}
           >
             {(project) => (
-              <ListboxItem key={project.id}>
-                <div className={`w-full flex justify-between items-center`}>
-                  <div className={`flex flex-col gap-1`}>
-                    <Typography
-                      variant={"text"}
-                      ellipsis
-                      lines={1}
-                      style={{ fontWeight: 600 }}
-                    >
-                      {project.title}
-                    </Typography>
-                    <Typography
-                      variant={"caption"}
-                      ellipsis={true}
-                      lines={2}
-                      className={"text-xs"}
-                      //   style={{ fontSize: "0.75rem" }}
-                    >
-                      {project.introduction}
-                    </Typography>
-                  </div>
-                  {/* <Button
-                    variant={"flat"}
-                    color={"success"}
-                    size="sm"
-                    //   startContent={<BookUser size={16} />}
-                    onPress={() => handleRouting(`/projects/${project.id}`)}
-                  >
-                    자세히
-                  </Button> */}
-                </div>
-              </ListboxItem>
+              <ProjectContentRow key={project.id} project={project} />
             )}
-          </Listbox>
+          </Listbox> */}
+          <div className={`flex flex-col w-full gap-2`}>
+            {projectList?.map((project, index) => (
+              <div key={project.id}>
+                <ProjectContentRow
+                  project={project}
+                  handleRouting={handleRouting}
+                />
+                <Divider />
+              </div>
+            ))}
+          </div>
         </CardBody>
       </Card>
     </ModalBody>

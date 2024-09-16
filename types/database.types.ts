@@ -37,6 +37,7 @@ export type Database = {
           provider: string | null
           user_id: string | null
           view: number
+          status: string
         }
         Insert: {
           created_at?: string
@@ -48,6 +49,7 @@ export type Database = {
           provider?: string | null
           user_id?: string | null
           view?: number
+          status?: string
         }
         Update: {
           created_at?: string
@@ -59,6 +61,7 @@ export type Database = {
           provider?: string | null
           user_id?: string | null
           view?: number
+          status?: string
         }
         Relationships: [
           {
@@ -100,39 +103,42 @@ export type Database = {
           created_at: string
           detail: string | null
           files: FileObj[] | null
-          id: number
+          id: string
           introduction: string | null
           metadata: Json | null
           owner_profile: string | null
           status: string | null
           title: string | null
           view: number
+          major:string
         }
         Insert: {
           contact?: string | null
           created_at?: string
           detail?: string | null
           files?: FileObj[] | null
-          id?: number
+          id?: string
           introduction?: string | null
           metadata?: Json | null
           owner_profile?: string | null
           status?: string | null
           title?: string | null
           view?: number
+          major?:string
         }
         Update: {
           contact?: string | null
           created_at?: string
           detail?: string | null
           files?: FileObj[] | null
-          id?: number
+          id?: string
           introduction?: string | null
           metadata?: Json | null
           owner_profile?: string | null
           status?: string | null
           title?: string | null
           view?: number
+          major?:string
         }
         Relationships: [
           {

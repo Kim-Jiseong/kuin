@@ -24,24 +24,26 @@ function ProjectViewModePage({
     return (
       <div className="w-full flex flex-col justify-center gap-4 py-4">
         <div className="w-full flex flex-col gap-0">
-          <div className="text-2xl font-bold inline-flex items-center gap-2 flex-wrap">
-            <div
-              className={`relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-xs rounded-full bg-${returnStatusColor(projectData.status as string)} text-primary-foreground`}
-            >
-              <span className="flex-1 text-inherit font-normal px-2">
-                {getStatusNameByCode(projectData.status as string)}
-              </span>
-            </div>
-            <span className="break-words">{projectData.title}</span>
+          <div className="text-xl font-bold inline-flex items-center gap-2 flex-wrap">
+            <span className="break-words ">
+              <div
+                className={`relative mb-1 align-middle max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-xs rounded-full bg-${returnStatusColor(projectData.status as string)} text-primary-foreground`}
+              >
+                <span className="flex-1 text-inherit font-normal px-2">
+                  {getStatusNameByCode(projectData.status as string)}
+                </span>
+              </div>
+              &nbsp;&nbsp;
+              {projectData.title}
+            </span>
           </div>
           <p className="text-sm text-gray-500">{projectData.introduction}</p>
         </div>
         <OwnerCard
-          owner_profile={projectData.owner_profile}
-          created_at={projectData.created_at}
-          contact={projectData.contact}
-          status={projectData.status}
+          projectData={projectData}
+          ownerProfile={projectData.owner_profile}
           user={user}
+          isMe={isMe}
         />
         <div className={"w-full flex flex-col"}>
           {/* <div className="flex flex-col relative overflow-hidden h-auto text-foreground box-border bg-content1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none">

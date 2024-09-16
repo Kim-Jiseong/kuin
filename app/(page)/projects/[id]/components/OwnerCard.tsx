@@ -5,41 +5,47 @@ import { formatDateTime } from "@/utils/formatTime";
 import { Button, User } from "@nextui-org/react";
 import React from "react";
 import ContactBtn from "./ContactBtn";
+import EditBtn from "./EditBtn";
 
 function OwnerCard({
-  owner_profile,
-  created_at,
-  contact,
+  projectData,
+  ownerProfile,
   user,
-  status,
+  isMe,
 }: {
-  owner_profile: any;
-  created_at: string;
-  contact: string | null;
+  projectData: Tables<"project"> | undefined;
+  ownerProfile: any;
   user: any;
-  status: string | null;
+  isMe: boolean;
 }) {
+  console.log("projectData", projectData);
+  console.log("ownerProfile", ownerProfile);
+
+  if (!projectData) return null;
   return (
-    <div className={`flex gap-4`}>
+    <div className={`flex gap-4 flex-col items-start sm:flex-row`}>
       <User
-        name={owner_profile?.name}
+        name={ownerProfile?.name}
         description={
-          formatDateTime(created_at, {
+          formatDateTime(projectData?.created_at, {
             locale: "ko",
             // showRelative: false,
           }) + "에 업로드"
         }
         avatarProps={{
-          src: owner_profile?.image,
+          src: ownerProfile?.image,
           size: "sm",
         }}
       />
-      <ContactBtn
-        status={status}
-        owner_profile={owner_profile}
-        contact={contact}
-        isLoggedIn={user ? true : false}
-      />
+      <div className={`flex gap-2`}>
+        <ContactBtn
+          status={projectData?.status}
+          owner_profile={projectData?.owner_profile}
+          contact={projectData?.contact}
+          isLoggedIn={user ? true : false}
+        />
+        {isMe && <EditBtn projectId={projectData?.id} />}
+      </div>
     </div>
   );
 }

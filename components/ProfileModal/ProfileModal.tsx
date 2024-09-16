@@ -63,31 +63,44 @@ function ProfileModal({
         return "content4";
     }
   };
+  const switchMenuStyle = (id: string) => {
+    if (selectedMenu === id) {
+      return "font-bold text-foreground";
+    } else {
+      return "font-normal text-content4-foreground";
+    }
+  };
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size={"3xl"}>
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      size={"3xl"}
+      scrollBehavior={"inside"}
+    >
       <ModalContent>
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2 h-5">
                 <span
                   role="button"
                   id="settings"
                   onClick={handleClick}
                   className={`cursor-pointer 
                     transition-all duration-200
- text-${selectedMenu === "settings" ? "text" : "content4"}
+                   ${switchMenuStyle("settings")}
                     `}
                 >
                   설정
                 </span>
+                <Divider orientation={"vertical"} />
                 <span
                   role="button"
                   id="projects"
                   onClick={handleClick}
                   className={`cursor-pointer
  transition-all duration-200 
- text-${selectedMenu === "projects" ? "text" : "content4"}`}
+          ${switchMenuStyle("projects")}`}
                 >
                   내 프로젝트
                 </span>

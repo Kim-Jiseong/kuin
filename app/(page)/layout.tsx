@@ -41,13 +41,16 @@ export default async function RootLayout({
   const { data: profile } = user
     ? await supabase.from("profile").select("*").eq("user_id", user.id).single()
     : { data: null };
+
   const { data: projectList } = profile
     ? await supabase
         .from("project")
         .select("*")
         .eq("owner_profile", profile.id)
+        .not("status", "is", null)
         .order("created_at", { ascending: false })
     : { data: null };
+
   return (
     <html suppressHydrationWarning lang="en">
       <head />

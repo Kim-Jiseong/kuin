@@ -1,59 +1,77 @@
 import { Avatar, Button, User } from "@nextui-org/react";
-import { BookUser } from "lucide-react";
+// import { BookUser } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "../common/Typography";
+import ExpertProfileStausEditDropdown from "../common/ExpertProfileStausEditDropdown";
+import { Tables } from "@/types/database.types";
+import { updateProfileStatus } from "@/service/profile/action";
 
 function ExpertProfile({
   profile,
-  myId,
+  expertProfile,
   onClose,
 }: {
-  profile: any;
-  myId: string | undefined;
+  profile: Tables<"profile">;
+  expertProfile: any;
   onClose?: () => void;
 }) {
   const router = useRouter();
+  const [isInitial, setIsInitial] = useState(true);
+  const [status, setStatus] = useState(profile.status);
+  console.log(profile);
+
+  const handleUpdateStatus = async () => {
+    await updateProfileStatus(status, profile.id);
+  };
+
+  useEffect(() => {
+    if (!isInitial) {
+      handleUpdateStatus();
+    }
+    setIsInitial(false);
+  }, [status]);
+
+  const handleRouting = (url: string) => {
+    router.push(url);
+    if (onClose) {
+      onClose();
+    }
+  };
   return (
-    <div className="flex w-full justify-between items-center">
-      {/* <User
-        name={profile?.name}
-        description={profile?.introduction}
-        avatarProps={{
-          className: "flex-shrink-0",
-          radius: "md",
-          src: profile?.profileImage,
-          isBordered: true,
+    <div className="flex w-full justify-between items-center gap-4">
+      <div
+        role="button"
+        className={"flex items-center  w-[calc(100%-10rem)] gap-2 "}
+        onClick={() => {
+          handleRouting("/experts/" + profile.id);
         }}
-      /> */}
-      <div className={"w-full flex items-center gap-4 justify-between"}>
+      >
         <Avatar
           className={"flex flex-shrink-0"}
           radius="md"
-          src={profile?.profileImage}
+          src={expertProfile?.profileImage}
           isBordered
         />
-        <div className="flex flex-col w-[calc(100%-8.5rem)]">
-          <Typography variant={"text"}>{profile?.name}</Typography>
+        <div className="flex flex-col w-full">
+          <Typography variant={"text"}>{expertProfile?.name}</Typography>
           <Typography variant={"caption"} ellipsis lines={1}>
-            {profile?.introduction}
+            {expertProfile?.introduction}
           </Typography>
         </div>
-        <Button
-          variant={"flat"}
-          color={"success"}
-          size="sm"
-          startContent={<BookUser size={16} />}
-          onClick={() => {
-            router.push("/experts/" + myId);
-            if (onClose) {
-              onClose();
-            }
-          }}
-        >
-          자세히
-        </Button>
       </div>
+      {/* <Button
+        variant={"flat"}
+        color={"success"}
+        size="sm"
+        startContent={<BookUser size={16} />}
+        onClick={() => {
+          handleRouting("/experts/" + myId);
+        }}
+      >
+        자세히
+      </Button> */}
+      <ExpertProfileStausEditDropdown status={status} setStatus={setStatus} />
     </div>
   );
 }

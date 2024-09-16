@@ -8,13 +8,6 @@ import {
   CardBody,
   Tabs,
   Tab,
-  Select,
-  SelectItem,
-  Chip,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Dropdown,
 } from "@nextui-org/react";
 import Typography from "@/components/common/Typography";
 import { useRouter } from "next/navigation";
@@ -25,10 +18,9 @@ import { major } from "@/constant/major";
 import { returnMajorColor } from "@/utils/returnMajorColor";
 import { updateProject } from "@/service/project/action";
 import MarkdownTutorialBtn from "@/components/MarkdownTutorial/MarkdownTutorialBtn";
-import { PlusIcon, Trash2 } from "lucide-react";
+import { ChevronDown, PlusIcon, Trash2 } from "lucide-react";
 import { getMyProfile } from "../../../action";
-import { returnStatusColor } from "@/utils/returnStatusColor";
-import { getStatusNameByCode } from "@/utils/getStatusNameByCode";
+import StatusEditDropdown from "@/components/common/ProjectStatusEditDropdown";
 
 const ProjectEditModePage = ({
   projectData,
@@ -140,7 +132,7 @@ const ProjectEditModePage = ({
     getMy();
   }, []);
 
-  console.log(projectData);
+  // console.log(projectData);
 
   return (
     <div className="container mx-auto py-4">
@@ -166,36 +158,7 @@ const ProjectEditModePage = ({
         </div>
         <div className={`flex items-center gap-4`}>
           <Typography variant="subtitle2">프로젝트 상태:</Typography>
-          {status && (
-            <Dropdown backdrop="blur">
-              <DropdownTrigger>
-                <Button variant={"light"}>
-                  <Chip color={returnStatusColor(status)}>
-                    {getStatusNameByCode(status)}
-                  </Chip>
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="change-status"
-                onAction={(key) => setStatus(key as string)}
-                selectionMode="single"
-              >
-                <DropdownItem key="open">
-                  <Chip color={returnStatusColor("open")}>모집중</Chip>
-                </DropdownItem>
-                <DropdownItem key="ongoing">
-                  <Chip color={returnStatusColor("ongoing")}>진행중</Chip>
-                </DropdownItem>
-                <DropdownItem key="done">
-                  <Chip color={returnStatusColor("done")}>완료됨</Chip>
-                </DropdownItem>
-                <DropdownItem key="canceled">
-                  <Chip color={returnStatusColor("canceled")}>취소됨</Chip>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          )}
+          <StatusEditDropdown status={status} setStatus={setStatus} />
         </div>
 
         <Input
@@ -221,27 +184,6 @@ const ProjectEditModePage = ({
             isInvalid={result.errorField.includes("contact")}
             defaultValue={projectData.contact as string}
           />
-          {/* <Select
-            size="sm"
-            variant="underlined"
-            selectedKeys={[status || "open"]}
-            className="w-full"
-            disallowEmptySelection
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <SelectItem key={"open"}>
-              <Chip color={returnStatusColor("open")}>모집중</Chip>
-            </SelectItem>
-            <SelectItem key={"ongoing"}>
-              <Chip color={returnStatusColor("open")}>진행중</Chip>
-            </SelectItem>
-            <SelectItem key={"done"}>
-              <Chip color={returnStatusColor("done")}>완료됨</Chip>
-            </SelectItem>
-            <SelectItem key={"canceled"}>
-              <Chip color={returnStatusColor("canceled")}>취소됨</Chip>
-            </SelectItem>
-          </Select> */}
         </div>
 
         <Textarea

@@ -13,3 +13,17 @@ export const updateProfile = async (profileId:string, profile: TablesUpdate<"pro
     revalidatePath("/", "layout");
     return { data, error };
 }
+
+export const updateProfileStatus = async (status:string, projectId:string) => {
+    const supabase = createClient();
+    const { data: updatedProject, error } = await supabase
+      .from("profile")
+      .update({
+        status: status,
+      })
+      .eq("id", projectId)
+      .select()
+      .single();
+    revalidatePath("/", "layout");
+    return { updatedProject, error };
+  };

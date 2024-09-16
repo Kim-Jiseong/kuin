@@ -40,6 +40,7 @@ function FileViewBtn({ file }: { file: FileObj }) {
       onPress={downloadFile}
       isLoading={isPending}
       color={fileFormatObj.color}
+      size="sm"
       startContent={!isPending && fileFormatObj.icon}
     >
       <Typography variant="text" style={{ fontSize: 14 }} ellipsis lines={1}>
