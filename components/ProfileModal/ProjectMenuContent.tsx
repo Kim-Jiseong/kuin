@@ -28,7 +28,7 @@ function ProjectMenuContent({
     onClose();
   };
   return (
-    <ModalBody>
+    <ModalBody className="max-h-[70vh]">
       <Card shadow={"sm"}>
         <CardHeader>
           <div className={"flex w-full items-center justify-between"}>

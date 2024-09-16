@@ -71,12 +71,7 @@ function ProfileModal({
     }
   };
   return (
-    <Modal
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      size={"3xl"}
-      scrollBehavior={"inside"}
-    >
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size={"3xl"}>
       <ModalContent>
         {(onClose) => (
           <>

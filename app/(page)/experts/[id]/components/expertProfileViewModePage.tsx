@@ -56,6 +56,10 @@ function ExpertProfileViewModePage({
             />
             <div className={" flex gap-2 absolute top-3 right-3"}>
               <ShareBtn expertData={expertData} />
+              <ContactBtn
+                expertData={expertData}
+                isLoggedIn={user ? true : false}
+              />
               {isMe && <EditBtn profileId={profileId} />}
             </div>
           </div>
