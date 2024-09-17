@@ -17,7 +17,9 @@ export const metadata: Metadata = {
 const ExpertLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     // <Suspense fallback={<FullPageSpinner />}>
-    <main>{children}</main>
+    <main className="container mx-auto w-full max-w-7xl px-6 flex-grow min-h-[calc(100vh-4rem)]">
+      {children}
+    </main>
     // </Suspense>
   );
 };

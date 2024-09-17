@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@media screen and (max-width: 375px) {
+  html {
+    @apply text-[14px];
+  }
+}
+
+@media screen and (min-width: 376px) {
+  html {
+    @apply text-[16px];
+  }
+}
+
+/* --------------------------------------- */
 .embla {
   margin: auto;
   --slide-spacing: 1rem;
