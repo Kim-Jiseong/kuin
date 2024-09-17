@@ -97,7 +97,7 @@ const ProjectEditModePage = ({
         const updateResponse = await updateProject(updatedProject.id, {
           files: fileUrls,
         });
-        console.log(updateResponse);
+        // console.log(updateResponse);
       } catch (e) {
         console.log(e);
       } finally {

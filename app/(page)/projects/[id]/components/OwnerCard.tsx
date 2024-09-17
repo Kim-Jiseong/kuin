@@ -18,8 +18,8 @@ function OwnerCard({
   user: any;
   isMe: boolean;
 }) {
-  console.log("projectData", projectData);
-  console.log("ownerProfile", ownerProfile);
+  // console.log("projectData", projectData);
+  // console.log("ownerProfile", ownerProfile);
 
   if (!projectData) return null;
   return (

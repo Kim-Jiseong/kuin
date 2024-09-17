@@ -4,11 +4,48 @@ import { createClient } from "@/utils/supabase/server";
 import Error from "@/app/error";
 import ExpertProfileViewModePage from "./components/expertProfileViewModePage";
 import { getMyProfile, incrementViewCount } from "./action";
+import { Metadata, ResolvingMetadata } from "next";
 type Props = {
   params: {
     id: string;
   };
 };
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+) {
+  const supabase = createClient();
+  const { data: profile, error: profileError } = await supabase
+    .from("profile")
+    .select("*")
+    .eq("id", params.id)
+    .single();
+  if (profile) {
+    const slides =
+      profile &&
+      profile.expert_profile?.portfolio &&
+      profile.expert_profile?.portfolio.length > 0
+        ? profile.expert_profile.portfolio
+        : profile.expert_profile?.profileImage
+          ? Array(profile.expert_profile?.profileImage as string)
+          : [
+              "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/default_user.webp",
+            ];
+    // optionally access and extend (rather than replace) parent metadata
+    const previousImages = (await parent).openGraph?.images || [];
+
+    return {
+      title: profile?.expert_profile?.name + "님의 프로필 - KUIN",
+      description: profile?.expert_profile?.introduction,
+      openGraph: {
+        title: profile?.expert_profile?.name + "님의 프로필 - KUIN",
+        description: profile?.expert_profile?.introduction,
+        images: [...slides, ...previousImages],
+      },
+    };
+  }
+}
 
 async function ExpertDetail({ params }: Props) {
   const supabase = createClient();

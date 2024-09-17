@@ -16,8 +16,37 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  keywords: [
+    "외주",
+    "단기외주",
+    "개발 외주",
+    "급한 외주",
+    "프리랜서",
+    "디자인 외주",
+    "웹사이트 개발",
+    "쿠인",
+    "Kuin",
+    "kuin",
+  ],
   icons: {
     icon: "/favicon.ico",
+  },
+  alternates: {
+    canonical: "https://kuin.me/",
+  },
+  openGraph: {
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: "https://kuin.me/",
+    siteName: "쿠인",
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    // images: ['https://example.com/image.jpg'],
   },
 };
 
@@ -63,7 +92,7 @@ export default async function RootLayout({
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
             <Navbar profile={profile} projectList={projectList} />
-            <main className="container mx-auto w-full max-w-7xl px-6 flex-grow min-h-[calc(100vh - 4rem)]">
+            <main className="container mx-auto w-full max-w-7xl px-6 flex-grow min-h-[calc(100vh-4rem)]">
               {children}
             </main>
             {/* <footer className="w-full flex items-center justify-center py-3">

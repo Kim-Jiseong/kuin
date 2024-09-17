@@ -21,6 +21,7 @@ import { returnMajorColor } from "@/utils/returnMajorColor";
 import { updateProject } from "@/service/project/action";
 import MarkdownTutorialBtn from "@/components/MarkdownTutorial/MarkdownTutorialBtn";
 import { PlusIcon, Trash2 } from "lucide-react";
+import FullPageSpinner from "@/components/common/FullPageSpinner";
 
 const NewProjectPage: React.FC = () => {
   const router = useRouter();
@@ -37,6 +38,7 @@ const NewProjectPage: React.FC = () => {
 
   const [previewMajor, setPreviewMajor] = useState<any>(major[1].code);
   const [files, setFiles] = useState<File[]>([]);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [isPending, setIsPending] = useState(false);
 
   const handleFilesUpload = async (file: File, projectId: string) => {
@@ -44,7 +46,7 @@ const NewProjectPage: React.FC = () => {
     const fileExt = file.name.split(".").pop();
     const fileName = `${projectId}-${Date.now()}.${fileExt}`;
     const filePath = `project_files/${projectId}/${fileName}`;
-    console.log(fileName, filePath);
+    // console.log(fileName, filePath);
     const { error, data } = await supabase.storage
       .from("files")
       .upload(filePath, file, { cacheControl: "3500", upsert: true });
@@ -52,7 +54,7 @@ const NewProjectPage: React.FC = () => {
     if (error) {
       console.error("Upload error:", error.message);
     } else {
-      console.log("File uploaded successfully:", data, filePath);
+      // console.log("File uploaded successfully:", data, filePath);
       return data.fullPath;
     }
   };
@@ -60,7 +62,7 @@ const NewProjectPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validation = validate();
-    console.log(result, validation);
+    // console.log(result, validation);
     if (validation) {
       try {
         setIsPending(true);
@@ -76,7 +78,7 @@ const NewProjectPage: React.FC = () => {
           ])
           .select()
           .single();
-        console.log(createProjectData);
+        // console.log(createProjectData);
         let uploadingFiles: FileObj[] = [];
         for (let file of files) {
           const filePath = await handleFilesUpload(file, createProjectData.id);
@@ -92,7 +94,7 @@ const NewProjectPage: React.FC = () => {
         const updateResponse = await updateProject(createProjectData.id, {
           files: uploadingFiles,
         });
-        console.log(updateResponse);
+        // console.log(updateResponse);
         router.push("/projects/" + createProjectData.id);
       } catch (e) {
         console.log(e);
@@ -118,12 +120,29 @@ const NewProjectPage: React.FC = () => {
     if (myProfile) {
       setMyProfile(myProfile.profile);
     }
+    setInitialLoading(false);
   };
 
   useEffect(() => {
     getMy();
   }, []);
 
+  if (initialLoading) return <FullPageSpinner />;
+  else if (!myProfile)
+    return (
+      <div
+        className={`flex flex-col w-full items-center h-[50vh] justify-center gap-4`}
+      >
+        <Typography variant="subtitle2">
+          5초만에 로그인하고 48시간 내에 원하는 결과물을 받아보세요
+        </Typography>
+        <Button color="primary" onClick={() => router.push("/auth")}>
+          <Typography variant="text" className={"font-semibold"}>
+            로그인하기
+          </Typography>
+        </Button>
+      </div>
+    );
   return (
     <div className="container mx-auto py-4">
       <h1 className="text-2xl font-bold mb-6">새 프로젝트 만들기</h1>

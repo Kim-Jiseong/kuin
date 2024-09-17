@@ -213,3 +213,14 @@
   min-width: 0;
   padding-left: var(--slide-spacing);
 }
+/* ------------------------------ */
+.blinking-cursor {
+  display: inline-block;
+  animation: blink 0.7s step-start infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

@@ -26,6 +26,7 @@ export const Navbar = ({
 }) => {
   return (
     <NextUINavbar
+      height={"3rem"}
       maxWidth="xl"
       position="sticky"
       isBordered

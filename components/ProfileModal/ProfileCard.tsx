@@ -46,12 +46,12 @@ function ProfileCard({
             ? `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL}${url}`
             : profile.image,
         });
-        console.log("updatedProfile", updatedProfile);
+        // console.log("updatedProfile", updatedProfile);
         return updatedProfile;
       }
     },
     onSuccess: async (data) => {
-      console.log("User Updated", data);
+      // console.log("User Updated", data);
     },
   });
 
@@ -77,7 +77,7 @@ function ProfileCard({
     if (error) {
       console.error("Upload error:", error.message);
     } else {
-      console.log("File uploaded successfully:", data, filePath);
+      // console.log("File uploaded successfully:", data, filePath);
       return data.fullPath;
     }
   };

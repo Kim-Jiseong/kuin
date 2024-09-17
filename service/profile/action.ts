@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export const updateProfile = async (profileId:string, profile: TablesUpdate<"profile">) => {
     const supabase = createClient();
-    console.log(profile);
+    // console.log(profile);
     const { data, error } = await supabase.from("profile")
     .update(profile)
     .eq("id", profileId)

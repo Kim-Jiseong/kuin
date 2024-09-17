@@ -57,15 +57,21 @@ function ProjectMenuContent({
             )}
           </Listbox> */}
           <div className={`flex flex-col w-full gap-2`}>
-            {projectList?.map((project, index) => (
-              <div key={project.id}>
-                <ProjectContentRow
-                  project={project}
-                  handleRouting={handleRouting}
-                />
-                <Divider />
-              </div>
-            ))}
+            {projectList && projectList.length > 0 ? (
+              projectList?.map((project, index) => (
+                <div key={project.id}>
+                  <ProjectContentRow
+                    project={project}
+                    handleRouting={handleRouting}
+                  />
+                  <Divider />
+                </div>
+              ))
+            ) : (
+              <Typography variant="text">
+                새 프로젝트를 만들어보세요!
+              </Typography>
+            )}
           </div>
         </CardBody>
       </Card>

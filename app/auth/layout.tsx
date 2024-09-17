@@ -1,4 +1,3 @@
-"use client";
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
@@ -7,6 +6,18 @@ import { Providers } from "../providers";
 
 import { fontSans } from "@/config/fonts";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "KUIN-로그인",
+  alternates: {
+    canonical: "https://kuin.me/auth",
+  },
+  openGraph: {
+    title: "KUIN-로그인",
+    description: "KUIN-로그인",
+    url: "https://kuin.me/auth",
+  },
+};
 
 export default function RootLayout({
   children,

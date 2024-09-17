@@ -60,7 +60,7 @@ export default function ProjectsPage() {
     // setSearchQuery("");
   }, [major, searchMode]);
 
-  console.log(projectList);
+  // console.log(projectList);
 
   return (
     <div className={"relative w-full flex flex-col pt-2"}>

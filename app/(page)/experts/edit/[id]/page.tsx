@@ -4,6 +4,8 @@ import { createClient } from "@/utils/supabase/server";
 import { getMyProfile } from "../../[id]/action";
 import Forbidden from "@/components/common/Forbidden";
 
+import type { Metadata, ResolvingMetadata } from "next";
+
 type Props = {
   params: {
     id: string;

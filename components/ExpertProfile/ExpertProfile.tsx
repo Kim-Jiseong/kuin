@@ -19,7 +19,6 @@ function ExpertProfile({
   const router = useRouter();
   const [isInitial, setIsInitial] = useState(true);
   const [status, setStatus] = useState(profile.status);
-  console.log(profile);
 
   const handleUpdateStatus = async () => {
     await updateProfileStatus(status, profile.id);

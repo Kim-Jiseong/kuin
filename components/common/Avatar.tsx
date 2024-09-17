@@ -18,7 +18,6 @@ function Avatar({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const handleClick = () => {
     if (profile) {
-      console.log("clicked");
       onOpen();
     } else {
       router.push("/auth?next=" + pathname);

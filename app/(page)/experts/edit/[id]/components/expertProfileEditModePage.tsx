@@ -61,7 +61,7 @@ function ExpertProfileEditModePage({
       console.error("Upload error:", error.message);
       return null;
     } else {
-      console.log("File uploaded successfully:", data, filePath);
+      // console.log("File uploaded successfully:", data, filePath);
       return data.fullPath;
     }
   };
@@ -135,7 +135,7 @@ function ExpertProfileEditModePage({
         },
       });
 
-      console.log("제출됨", updateResponse);
+      // console.log("제출됨", updateResponse);
       setIsPending(false);
       handleClickCancel();
     }

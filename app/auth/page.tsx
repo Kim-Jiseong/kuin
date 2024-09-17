@@ -6,7 +6,7 @@ import { OAuthButtons } from "./oauth-signin";
 import { useParams } from "next/navigation";
 
 function Auth({ searchParams }: { searchParams: any }) {
-  console.log(searchParams.next);
+  // console.log(searchParams.next);
   const next = searchParams?.next || null;
   // const next = searchParams.get("next") || null;
   return (
@@ -14,9 +14,9 @@ function Auth({ searchParams }: { searchParams: any }) {
       <div className="max-w-xl text-center justify-center flex flex-col gap-4 p-8">
         <Typography variant={"headings"}>KUIN&nbsp;</Typography>
         <Typography variant={"title"}>
-          대학생과 함께하는 <br />
-          <span className={"text-primary"}>빠르고 합리적인</span> 프로젝트 매칭
-          플랫폼
+          <span className={"text-primary"}>48시간 안에 완료되는 </span>
+          <br />
+          <span className={"text-primary"}>초단기 </span>프로젝트 외주 플랫폼
         </Typography>
         {/* <Button
           radius="sm"
