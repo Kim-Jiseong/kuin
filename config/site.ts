@@ -1,8 +1,8 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "KUIN - 48시간 안에 끝나는 초단기 프로젝트 외주 플랫폼",
-  description: "KUIN: 48시간 안에 끝나는 초단기 프로젝트 외주 플랫폼",
+  name: "KUIN - 48시간 안에 끝나는 초단기 아웃소싱 플랫폼",
+  description: "KUIN: 48시간 안에 끝나는 초단기 아웃소싱 플랫폼",
   // description: "간단한데 귀찮은일을 저렴하고 빠르게, KUIN",
   navItems: [
     {

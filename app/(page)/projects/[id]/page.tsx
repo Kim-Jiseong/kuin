@@ -38,15 +38,16 @@ export async function generateMetadata(
     .single();
   if (project) {
     // optionally access and extend (rather than replace) parent metadata
-    const previousImages = (await parent).openGraph?.images || [];
+    // const previousImages = (await parent).openGraph?.images || [];
 
     return {
       title: project.title + " - KUIN",
       description: project.introduction,
+      url: process.env.NEXT_PUBLIC_SITE_URL + "/projects/" + params.id,
       openGraph: {
         title: project.title + " - KUIN",
         description: project.introduction,
-        images: [...previousImages],
+        // images: [...previousImages],
       },
     };
   }

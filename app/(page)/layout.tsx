@@ -32,12 +32,12 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
   alternates: {
-    canonical: "https://kuin.me/",
+    canonical: process.env.NEXT_PUBLIC_SITE_URL,
   },
   openGraph: {
     title: siteConfig.name,
     description: siteConfig.description,
-    url: "https://kuin.me/",
+    url: process.env.NEXT_PUBLIC_SITE_URL,
     siteName: "쿠인",
     locale: "ko_KR",
     type: "website",

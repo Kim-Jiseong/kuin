@@ -1,9 +1,10 @@
 import { title, subtitle } from "../../components/primitives";
 import HeroSection from "./components/HeroSection/HeroSection";
+import FirstSection from "./components/Section1/FirstSection";
 
 export default async function Home() {
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col min-h-dvh">
       {/* <div className="inline-block max-w-xl text-center justify-center">
         <h1 className={title()}>Make&nbsp;</h1>
         <h1 className={title({ color: "violet" })}>beautiful&nbsp;</h1>
@@ -16,6 +17,7 @@ export default async function Home() {
         </h2>
       </div> */}
       <HeroSection />
+      <FirstSection />
     </section>
   );
 }

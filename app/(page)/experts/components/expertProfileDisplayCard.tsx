@@ -22,7 +22,7 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
       : profile.expert_profile?.profileImage
         ? Array(profile.expert_profile?.profileImage as string)
         : [
-            "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/default_user.webp",
+            "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/source/default_user.webp",
           ];
   const handleChildClick = (event: React.MouseEvent) => {
     event.stopPropagation(); // 이벤트 버블링을 막음

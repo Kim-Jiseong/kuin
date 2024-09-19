@@ -10,7 +10,7 @@ function MarkdownTutorialContainer() {
     try {
       setIsLoading(true);
       const res = await fetch(
-        "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/markdown_tutorial.md"
+        "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/source/markdown_tutorial.md"
       );
       if (res) {
         const buffer = await res.arrayBuffer();

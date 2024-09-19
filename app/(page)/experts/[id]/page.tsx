@@ -30,7 +30,7 @@ export async function generateMetadata(
         : profile.expert_profile?.profileImage
           ? Array(profile.expert_profile?.profileImage as string)
           : [
-              "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/default_user.webp",
+              "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/source/default_user.webp",
             ];
     // optionally access and extend (rather than replace) parent metadata
     const previousImages = (await parent).openGraph?.images || [];

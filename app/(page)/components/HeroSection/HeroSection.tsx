@@ -27,7 +27,7 @@ function HeroSection() {
           </div>
         </h1>
         <p className="mt-4 text-lg text-gray-500 break-keep">
-          간단하지만 까다로운 일들을 위한 합리적인 초단기 아웃소싱
+          귀찮지만 꼭 필요한 일들을 위한 합리적인 초단기 아웃소싱
         </p>
         <CTABtn />
       </div>
