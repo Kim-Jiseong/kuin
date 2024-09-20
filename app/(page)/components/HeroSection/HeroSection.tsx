@@ -23,7 +23,7 @@ function HeroSection() {
           </div>
           <div className="inline-block break-keep text-gray-50">
             <b className="text-primary">48시간&nbsp;</b>
-            안에 끝내드립니다
+            안에 끝내보세요
           </div>
         </h1>
         <p className="mt-4 text-lg text-gray-500 break-keep">

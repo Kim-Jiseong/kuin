@@ -2,6 +2,8 @@ import { title, subtitle } from "../../components/primitives";
 import HeroSection from "./components/HeroSection/HeroSection";
 import FirstSection from "./components/Section1/FirstSection";
 import SecondSection from "./components/Section2/SecondSection";
+import ThirdSection from "./components/Section3/ThirdSection";
+import FourthSection from "./components/Section4/FourthSection";
 
 export default async function Home() {
   return (
@@ -20,6 +22,8 @@ export default async function Home() {
       <HeroSection />
       <FirstSection />
       <SecondSection />
+      <ThirdSection />
+      <FourthSection />
     </section>
   );
 }

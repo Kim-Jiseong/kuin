@@ -16,6 +16,10 @@ module.exports = {
       translate: {
         "3d": "translate3d(0, 0, 0)",
       },
+      animation: {
+        wiggle: "wiggle 1s ease-in-out infinite",
+        floating: "bounce 2s linear infinite",
+      },
     },
   },
   darkMode: "class",
