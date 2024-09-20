@@ -11,10 +11,10 @@ function ThirdSection() {
       <div className={`w-full flex flex-col items-center gap-4`}>
         <div className="flex gap-4">
           <Typography variant={"subtitle1"} color="primary">
-            No 수수료
+            NO 수수료
           </Typography>
           <Typography variant={"subtitle1"} color="primary">
-            No 광고비
+            NO 광고비
           </Typography>
         </div>
         <Typography variant={"headings"} className={`text-center`}>
