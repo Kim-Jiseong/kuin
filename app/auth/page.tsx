@@ -14,9 +14,10 @@ function Auth({ searchParams }: { searchParams: any }) {
       <div className="max-w-xl text-center justify-center flex flex-col gap-4 p-8">
         <Typography variant={"headings"}>KUIN&nbsp;</Typography>
         <Typography variant={"title"}>
-          <span className={"text-primary"}>48시간 안에 완료되는 </span>
+          <span className={"text-primary"}>48시간 </span>안에 끝나는
           <br />
-          <span className={"text-primary"}>초단기 </span>프로젝트 외주 플랫폼
+          합리적인 <span className={"text-primary"}>초단기 아웃소싱 </span>
+          플랫폼
         </Typography>
         {/* <Button
           radius="sm"

@@ -60,7 +60,7 @@ export function OAuthButtons({
         startContent={<GoogleIcon />}
         className={" bg-background border-2 border-primary mt-10"}
       >
-        <Typography variant={"text"} style={{ fontWeight: 500 }}>
+        <Typography variant={"text"} style={{ fontWeight: 700 }}>
           구글 계정으로 5초만에 시작하기
         </Typography>
       </Button>

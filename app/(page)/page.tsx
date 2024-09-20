@@ -1,3 +1,4 @@
+import { createClient } from "@/utils/supabase/server";
 import { title, subtitle } from "../../components/primitives";
 import HeroSection from "./components/HeroSection/HeroSection";
 import FirstSection from "./components/Section1/FirstSection";
@@ -6,6 +7,14 @@ import ThirdSection from "./components/Section3/ThirdSection";
 import FourthSection from "./components/Section4/FourthSection";
 
 export default async function Home() {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { data: profile } = user
+    ? await supabase.from("profile").select("*").eq("user_id", user.id).single()
+    : { data: null };
+
   return (
     <section className="flex flex-col min-h-dvh">
       {/* <div className="inline-block max-w-xl text-center justify-center">
@@ -21,9 +30,9 @@ export default async function Home() {
       </div> */}
       <HeroSection />
       <FirstSection />
-      <SecondSection />
+      <SecondSection user={user} />
       <ThirdSection />
-      <FourthSection />
+      <FourthSection user={user} profile={profile} />
     </section>
   );
 }
