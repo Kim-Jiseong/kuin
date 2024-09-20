@@ -24,7 +24,7 @@ import { getMajorObjByCode } from "@/utils/getMajorObjByCode";
 import FloatMenuContainer from "@/components/common/FloatMenu/FloatMenuContainer";
 
 export default function ExpertsPage() {
-  const [major, setMajor] = useState<any>(majorList[1].code);
+  const [major, setMajor] = useState<any>(majorList[2].code);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [myProfile, setMyProfile] = useState<Tables<"profile">>();
   const [profileList, setProfileList] = useState<Tables<"profile">[]>([]);
