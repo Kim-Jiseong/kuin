@@ -1,5 +1,5 @@
 
-export const getStatusNameByCode = (code: string) => {
+export const getStatusNameByCode = (code: string| null) => {
     switch (code) {
         case "open":
           return "모집중";

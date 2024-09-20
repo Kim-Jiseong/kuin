@@ -56,19 +56,19 @@ export default async function Image({ params }: { params: { id: string } }) {
           // justifyContent: "center",
         }}
       >
-        <p style={{ color: "#006FEE", fontSize: "1.5rem", margin: 0 }}>
+        <p style={{ color: "#006FEE", fontSize: "2.5rem", margin: 0 }}>
           KUIN Project - by {project?.owner_profile?.name}
         </p>
-        <h2 style={{ margin: 0, fontSize: "4rem", fontWeight: 600 }}>
+        <h2 style={{ margin: 0, fontSize: "6rem", fontWeight: 600 }}>
           {project?.title}
         </h2>
         <span
           style={{
-            fontSize: "1.25rem",
+            fontSize: "2rem",
             color: "#006FEE",
             position: "absolute",
-            bottom: 8,
-            right: 16,
+            bottom: 32,
+            right: 32,
             fontWeight: 600,
           }}
         >

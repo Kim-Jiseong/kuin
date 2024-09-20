@@ -5,6 +5,7 @@ import Error from "@/app/error";
 import ProjectViewModePage from "./components/ProjectViewModePage";
 import { createClient } from "@/utils/supabase/server";
 import { ResolvingMetadata } from "next";
+import { getStatusNameByCode } from "@/utils/getStatusNameByCode";
 type Props = {
   params: {
     id: string;
@@ -46,7 +47,8 @@ export async function generateMetadata(
       url: process.env.NEXT_PUBLIC_SITE_URL + "/projects/" + params.id,
       openGraph: {
         title: project.title + " - KUIN",
-        description: project.introduction,
+        description:
+          `[${getStatusNameByCode(project.status)}] ` + project.introduction,
         // images: [...previousImages],
       },
     };
