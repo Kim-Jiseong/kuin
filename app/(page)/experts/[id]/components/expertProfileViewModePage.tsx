@@ -46,7 +46,7 @@ function ExpertProfileViewModePage({
             motion-reduce:transition-none h-full flex-1 
             ${expertData?.portfolio && expertData?.portfolio.length > 0 && "aspect-square"}`}
         >
-          <div className="p-4 z-10 w-full items-center shrink-0 overflow-inherit color-inherit subpixel-antialiased rounded-t-large relative flex h-[100px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300 via-purple-300 to-primary">
+          <div className="p-4 z-10 w-full items-center shrink-0 overflow-inherit color-inherit subpixel-antialiased rounded-t-large relative flex h-[120px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300 via-purple-300 to-primary">
             <Avatar
               size={"lg"}
               isBordered
