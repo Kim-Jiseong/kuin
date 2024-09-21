@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata, Viewport } from "next";
 import "@/styles/markdown.css";
 import clsx from "clsx";
@@ -109,6 +110,7 @@ export default async function RootLayout({
           </div>
         </Providers>
       </body>
+      <GoogleAnalytics gaId="GTM-KQG559XD" />
     </html>
   );
 }

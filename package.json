@@ -9,6 +9,7 @@
 		"lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
 	},
 	"dependencies": {
+		"@next/third-parties": "^14.2.13",
 		"@nextui-org/avatar": "^2.0.32",
 		"@nextui-org/button": "2.0.37",
 		"@nextui-org/code": "2.0.32",
