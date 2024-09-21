@@ -14,7 +14,9 @@ export default async function sitemap({
     const supabase = createClient();
     const { data: profileList, error: profileError } = await supabase
       .from("profile")
-      .select("*")
+      .select("*")      
+      .not("status", "is", "private")
+      .order("created_at", { ascending: false })
   // const start = id * 50000
   // const end = start + 50000
   

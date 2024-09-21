@@ -11,6 +11,8 @@ export default async function sitemap({
     const { data: projectList, error: projectError } = await supabase
       .from("project")
       .select("*")
+      .not("status", "is", null)
+      .order("created_at", { ascending: false })
 //   const start = id * 50000
 //   const end = start + 50000
   
