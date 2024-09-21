@@ -10,6 +10,7 @@ import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/common/Navbar/navbar";
 import { createClient } from "@/utils/supabase/server";
+import GoogleAdsense from "@/components/GoogleAdsense";
 
 export const metadata: Metadata = {
   title: {
@@ -112,6 +113,7 @@ export default async function RootLayout({
       </body>
       {/* <GoogleAnalytics gaId="GTM-KQG559XD" /> */}
       <GoogleAnalytics gaId="G-54X8Q3QSTE" />
+      <GoogleAdsense pId="8710277766749613" />
     </html>
   );
 }
