@@ -16,6 +16,7 @@ export default async function sitemap({
       .from("profile")
       .select("*")      
       .not("status", "is", "private")
+      .not("expert_profile", "is", null)
       .order("created_at", { ascending: false })
   // const start = id * 50000
   // const end = start + 50000
