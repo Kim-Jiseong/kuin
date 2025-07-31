@@ -77,7 +77,7 @@ function ProfileCard({
     if (error) {
       console.error("Upload error:", error.message);
     } else {
-      // console.log("File uploaded successfully:", data, filePath);
+      console.log("File uploaded successfully:", data);
       return data.fullPath;
     }
   };

@@ -15,6 +15,7 @@ export const getMyProfile = async () => {
       return null
     }
 
+    
 export async function incrementViewCount(projectId: string, prevView: number | undefined) {
   const supabase = createClient();
 
