@@ -3,8 +3,10 @@ import React from "react";
 
 function ThirdSection() {
   return (
-    <section className={"w-full px-6 py-24 flex flex-col justify-center "}>
-      <div className={`w-full flex flex-col items-center gap-4`}>
+    <section className={"w-full py-24 flex flex-col justify-center"}>
+      <div
+        className={`w-full flex flex-col items-center gap-4 container mx-auto max-w-7xl`}
+      >
         <div className="flex gap-4">
           <Typography variant={"subtitle1"} color="primary">
             NO 수수료

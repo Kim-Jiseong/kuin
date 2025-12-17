@@ -1,19 +1,25 @@
 "use client";
 import { siteConfig } from "@/config/site";
-import NextLink from "next/link";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
-import React from "react";
 import { usePathname } from "next/navigation";
 
-function LinkWrapper() {
+function LinkWrapper({
+  className,
+  onLinkClick,
+}: {
+  className?: string;
+  onLinkClick?: () => void;
+}) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex gap-6 ml-2">
+    <nav className={cn("flex gap-6 ml-2", className)}>
       {siteConfig.navItems.map((item) => (
-        <NextLink
+        <Link
           key={item.href}
           href={item.href}
+          onClick={onLinkClick}
           className={cn(
             "text-sm font-medium transition-colors hover:text-primary",
             "relative flex items-center h-full",
@@ -23,7 +29,7 @@ function LinkWrapper() {
           )}
         >
           {item.label}
-        </NextLink>
+        </Link>
       ))}
     </nav>
   );
