@@ -1,14 +1,15 @@
-import { supabase } from "../../../../lib/supabaseClient";
+import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
+  const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from("user")
+    .from("profile")
     .select("*")
     .eq("id", id)
     .single();
@@ -22,12 +23,13 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
+  const supabase = await createClient();
   const { email, name, image, provider, expert_profile } = await req.json();
   const { data, error } = await supabase
-    .from("user")
+    .from("profile")
     .update({ email, name, image, provider, expert_profile })
     .eq("id", id)
     .select();
@@ -40,11 +42,12 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
+  const supabase = await createClient();
 
-  const { error } = await supabase.from("user").delete().eq("id", id).select();
+  const { error } = await supabase.from("profile").delete().eq("id", id).select();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

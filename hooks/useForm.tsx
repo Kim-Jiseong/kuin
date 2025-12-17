@@ -14,7 +14,7 @@ interface ResultState {
 }
 
 interface UseFormReturn {
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   result: ResultState;
   validate: () => boolean;
 }
@@ -23,7 +23,7 @@ function useForm(fields: Fields): UseFormReturn {
   const [formState, setFormState] = useState<FormState>(fields);
   const [errorFields, setErrorFields] = useState<string[]>([]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value, required } = event.target;
 
     setFormState((prevState) => ({
@@ -53,7 +53,7 @@ function useForm(fields: Fields): UseFormReturn {
     Object.keys(fields).forEach((field) => {
       const inputElement = document.getElementById(
         field
-      ) as HTMLInputElement | null;
+      ) as HTMLInputElement | HTMLTextAreaElement | null;
       if (
         inputElement?.required &&
         (!formState[field] || formState[field].trim() === "")

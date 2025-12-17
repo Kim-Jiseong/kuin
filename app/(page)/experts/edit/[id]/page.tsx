@@ -13,7 +13,7 @@ type Props = {
 };
 
 async function ExpertDetailEdit({ params }: Props) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: profile, error: profileError } = await supabase
     .from("profile")
     .select("*")

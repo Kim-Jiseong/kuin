@@ -14,7 +14,7 @@ export const contentType = "image/png";
 
 // Image generation
 export default async function Image({ params }: { params: { id: string } }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: profile, error: profileError } = await supabase
     .from("profile")
     .select("*")
@@ -45,9 +45,9 @@ export default async function Image({ params }: { params: { id: string } }) {
           KUIN Expert
         </p>
         <h2 style={{ margin: 0, fontSize: "4rem", fontWeight: 600 }}>
-          {profile?.expert_profile?.name}
+          {(profile?.expert_profile as any)?.name}
         </h2>
-        <p>- {profile?.expert_profile?.introduction}</p>
+        <p>- {(profile?.expert_profile as any)?.introduction}</p>
         <span
           style={{
             fontSize: "1.25rem",

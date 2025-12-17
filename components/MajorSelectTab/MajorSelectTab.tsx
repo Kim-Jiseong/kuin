@@ -1,7 +1,7 @@
-import { Tab, Tabs } from "@nextui-org/react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import { major as majorList } from "@/constant/major";
-import { returnMajorColor } from "@/utils/returnMajorColor";
+import { cn } from "@/lib/utils";
 
 function MajorSelectTab({
   major,
@@ -9,26 +9,25 @@ function MajorSelectTab({
   bgColor,
 }: {
   major: string;
-  setMajor: any;
+  setMajor: (major: string) => void;
   bgColor?: string;
-  //   setMajor: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
-    <Tabs
-      aria-label="Major Option"
-      selectedKey={major}
-      onSelectionChange={setMajor}
-      size={"lg"}
-      radius={"full"}
-      color={returnMajorColor(major)}
-      classNames={{
-        tabList: bgColor ? `bg-${bgColor}` : "",
-      }}
-    >
-      {majorList.map(
-        (major) =>
-          major.isVisible && <Tab key={major.code} title={major.name}></Tab>
-      )}
+    <Tabs value={major} onValueChange={setMajor}>
+      <TabsList className={cn("rounded-full", bgColor && `bg-${bgColor}`)}>
+        {majorList.map(
+          (majorItem) =>
+            majorItem.isVisible && (
+              <TabsTrigger
+                key={majorItem.code}
+                value={majorItem.code}
+                className="rounded-full"
+              >
+                {majorItem.name}
+              </TabsTrigger>
+            )
+        )}
+      </TabsList>
     </Tabs>
   );
 }

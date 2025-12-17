@@ -1,11 +1,12 @@
-import { supabase } from "../../../../lib/supabaseClient";
+import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("project")
@@ -22,9 +23,10 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
+  const supabase = await createClient();
   const { title, introduction, detail, files, owner, contact, metadata } =
     await req.json();
 
@@ -42,9 +44,10 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
+  const supabase = await createClient();
 
   const { error } = await supabase.from("project").delete().eq("id", id);
 

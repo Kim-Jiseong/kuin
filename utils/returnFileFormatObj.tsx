@@ -11,7 +11,7 @@ import {
 
 export type FileFormatObj = {
   fileType: string;
-  icon: JSX.Element;
+  icon: React.ReactElement;
   color: "danger" | "primary" | "default" | "success" | "warning" | "secondary";
 };
 

@@ -1,16 +1,14 @@
 "use client";
-import { Button } from "@nextui-org/button";
+import { Button } from "@/components/ui/button";
 import { Check, Contact, Copy, Link, Share, Share2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  Input,
-} from "@nextui-org/react";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import Typography from "@/components/common/Typography";
 import { Tables } from "@/types/database.types";
@@ -18,15 +16,15 @@ import { Tables } from "@/types/database.types";
 function ShareBtn({
   expertData,
 }: {
-  expertData: Tables<"profile">["expert_profile"] | null | undefined;
+  expertData: any;
 }) {
   const router = useRouter();
   const pathname = usePathname();
   const [copied, setCopied] = useState(false);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleShareClick = () => {
-    onOpen();
+    setIsOpen(true);
   };
 
   const handleCopyClick = () => {
@@ -44,47 +42,36 @@ function ShareBtn({
   return (
     <div>
       <Button
-        color="primary"
-        variant={"flat"}
+        variant="secondary"
         size="sm"
-        radius="full"
-        onPress={handleShareClick}
-        isIconOnly
+        onClick={handleShareClick}
+        className="h-8 w-8 p-0 rounded-full"
       >
         <Share2 size={20} />
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                {expertData?.name}님의 프로필 공유
-              </ModalHeader>
-              <ModalBody>
-                <div className={"flex gap-4"}>
-                  <Input
-                    readOnly
-                    value={process.env.NEXT_PUBLIC_SITE_URL + pathname}
-                    startContent={<Link size={18} />}
-                    endContent={
-                      <Button
-                        // variant={"bordered"}
-                        color="primary"
-                        isIconOnly
-                        size="sm"
-                        onClick={handleCopyClick}
-                      >
-                        {copied ? <Check size={16} /> : <Copy size={16} />}
-                      </Button>
-                    }
-                  />
-                </div>
-              </ModalBody>
-              <ModalFooter></ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent>
+          <DialogHeader className="flex flex-col gap-1">
+            {expertData?.name}님의 프로필 공유
+          </DialogHeader>
+          <div>
+            <div className="flex gap-2">
+              <Input
+                readOnly
+                value={process.env.NEXT_PUBLIC_SITE_URL + pathname}
+                className="flex-1"
+              />
+              <Button
+                className="h-8 w-8 p-0"
+                size="sm"
+                onClick={handleCopyClick}
+              >
+                {copied ? <Check size={16} /> : <Copy size={16} />}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

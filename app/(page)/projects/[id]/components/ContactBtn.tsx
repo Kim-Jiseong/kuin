@@ -1,17 +1,15 @@
 "use client";
 import Typography from "@/components/common/Typography";
-import { Button } from "@nextui-org/button";
+import { Button } from "@/components/ui/button";
 import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/modal";
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+} from "@/components/ui/dialog";
 import { Contact } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 function ContactBtn({
   status,
@@ -26,66 +24,52 @@ function ContactBtn({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
   const handleContactClick = () => {
-    onOpen();
+    setIsOpen(true);
   };
   return (
     <div>
       <Button
-        color="primary"
-        variant={"flat"}
+        variant="secondary"
         size="sm"
-        radius="full"
-        // className=" bg-white/20  dark:bg-black/20"
-        startContent={<Contact size={18} />}
-        onPress={handleContactClick}
+        className="rounded-full"
+        onClick={handleContactClick}
       >
+        <Contact size={18} className="mr-2" />
         연락처 보기
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                {owner_profile.name} 님의 연락처
-              </ModalHeader>
-              <ModalBody>
-                {isLoggedIn ? (
-                  <Typography variant={"subtitle2"} color={"primary"}>
-                    {status === "open"
-                      ? contact
-                      : "모집 중인 프로젝트에서만 연락처를 확인하실 수 있습니다"}
-                  </Typography>
-                ) : (
-                  <div
-                    className={
-                      "flex flex-col items-center justify-center gap-4"
-                    }
-                  >
-                    <Typography variant={"subtitle2"} color={"primary"}>
-                      로그인하고 {owner_profile.name} 님의 연락처를 확인해보세요
-                    </Typography>
-                    <Button
-                      radius="full"
-                      color="primary"
-                      onPress={() => {
-                        const next = pathname ? `?next=${pathname}` : "";
-                        router.push("/auth" + next);
-                      }}
-                    >
-                      <Typography variant={"text"} className={"font-semibold"}>
-                        로그인
-                      </Typography>
-                    </Button>
-                  </div>
-                )}
-              </ModalBody>
-              <ModalFooter></ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent>
+          <DialogHeader className="flex flex-col gap-1">
+            {owner_profile.name} 님의 연락처
+          </DialogHeader>
+          <div>
+            {isLoggedIn ? (
+              <Typography variant={"subtitle2"} color={"primary"}>
+                {status === "open"
+                  ? contact
+                  : "모집 중인 프로젝트에서만 연락처를 확인하실 수 있습니다"}
+              </Typography>
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-4">
+                <Typography variant={"subtitle2"} color={"primary"}>
+                  로그인하고 {owner_profile.name} 님의 연락처를 확인해보세요
+                </Typography>
+                <Button
+                  className="rounded-full"
+                  onClick={() => {
+                    const next = pathname ? `?next=${pathname}` : "";
+                    router.push("/auth" + next);
+                  }}
+                >
+                  로그인
+                </Button>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

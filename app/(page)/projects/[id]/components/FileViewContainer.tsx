@@ -1,7 +1,7 @@
 "use client";
 import Typography from "@/components/common/Typography";
-import { FileObj } from "@/types/database.types";
-import { Card, CardBody } from "@nextui-org/react";
+import { FileObj } from "@/types";
+import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import FileViewBtn from "./FileViewBtn";
 

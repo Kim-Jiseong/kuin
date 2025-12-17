@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { getMyProfile, incrementViewCount } from "./action";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@/components/ui/spinner";
 import Error from "@/app/error";
 import ProjectViewModePage from "./components/ProjectViewModePage";
 import { createClient } from "@/utils/supabase/server";
@@ -16,7 +16,7 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: project, error: projectError } = await supabase
     .from("project")
     .select(
@@ -57,7 +57,7 @@ export async function generateMetadata(
 
 async function ProjectDetail({ params }: Props) {
   const myProfile = await getMyProfile();
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: project, error: projectError } = await supabase
     .from("project")
     .select(
@@ -80,7 +80,7 @@ async function ProjectDetail({ params }: Props) {
     .single();
 
   if (myProfile?.profile?.id !== project?.owner_profile?.id)
-    await incrementViewCount(params.id, project?.view);
+    await incrementViewCount(params.id, project?.view ?? undefined);
   return (
     <div className="w-full flex flex-col justify-center items-center gap-4 ">
       {/* <Suspense

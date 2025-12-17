@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@/components/ui/spinner";
 import { createClient } from "@/utils/supabase/server";
 import Error from "@/app/error";
 import ExpertProfileViewModePage from "./components/expertProfileViewModePage";
@@ -15,20 +15,22 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: profile, error: profileError } = await supabase
     .from("profile")
     .select("*")
     .eq("id", params.id)
     .single();
   if (profile) {
+    const expertProfile = profile.expert_profile as any;
     const slides =
       profile &&
-      profile.expert_profile?.portfolio &&
-      profile.expert_profile?.portfolio.length > 0
-        ? profile.expert_profile.portfolio
-        : profile.expert_profile?.profileImage
-          ? Array(profile.expert_profile?.profileImage as string)
+      expertProfile?.portfolio &&
+      Array.isArray(expertProfile.portfolio) &&
+      expertProfile.portfolio.length > 0
+        ? expertProfile.portfolio
+        : expertProfile?.profileImage
+          ? [expertProfile.profileImage as string]
           : [
               "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/source/default_user.webp",
             ];
@@ -36,11 +38,11 @@ export async function generateMetadata(
     const previousImages = (await parent).openGraph?.images || [];
 
     return {
-      title: profile?.expert_profile?.name + "님의 프로필 - KUIN",
-      description: profile?.expert_profile?.introduction,
+      title: (expertProfile?.name || "전문가") + "님의 프로필 - KUIN",
+      description: expertProfile?.introduction,
       openGraph: {
-        title: profile?.expert_profile?.name + "님의 프로필 - KUIN",
-        description: profile?.expert_profile?.introduction,
+        title: (expertProfile?.name || "전문가") + "님의 프로필 - KUIN",
+        description: expertProfile?.introduction,
         images: [...slides, ...previousImages],
       },
     };
@@ -48,7 +50,7 @@ export async function generateMetadata(
 }
 
 async function ExpertDetail({ params }: Props) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const myProfile = await getMyProfile();
 

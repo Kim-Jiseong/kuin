@@ -2,21 +2,16 @@
 
 import React, { useState } from "react";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@nextui-org/modal";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
-import {
-  Avatar,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Divider,
-} from "@nextui-org/react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 import Typography from "../common/Typography";
 import { ThemeSwitch } from "../theme-switch";
@@ -71,42 +66,32 @@ function ProfileModal({
     }
   };
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size={"3xl"}>
-      <ModalContent>
-        {(onClose) => (
-          <>
-            <ModalHeader className="flex flex-col gap-1">
-              <div className="flex items-center gap-2 h-5">
-                <span
-                  role="button"
-                  id="settings"
-                  onClick={handleClick}
-                  className={`cursor-pointer 
-                    transition-all duration-200
-                   ${switchMenuStyle("settings")}
-                    `}
-                >
-                  설정
-                </span>
-                <Divider orientation={"vertical"} />
-                <span
-                  role="button"
-                  id="projects"
-                  onClick={handleClick}
-                  className={`cursor-pointer
- transition-all duration-200 
-          ${switchMenuStyle("projects")}`}
-                >
-                  내 프로젝트
-                </span>
-              </div>
-            </ModalHeader>
-            {switchMenu(onClose)}
-            <ModalFooter></ModalFooter>
-          </>
-        )}
-      </ModalContent>
-    </Modal>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader className="flex flex-col gap-1">
+          <div className="flex items-center gap-2 h-5">
+            <span
+              role="button"
+              id="settings"
+              onClick={handleClick}
+              className={`cursor-pointer transition-all duration-200 ${switchMenuStyle("settings")}`}
+            >
+              설정
+            </span>
+            <Separator orientation={"vertical"} />
+            <span
+              role="button"
+              id="projects"
+              onClick={handleClick}
+              className={`cursor-pointer transition-all duration-200 ${switchMenuStyle("projects")}`}
+            >
+              내 프로젝트
+            </span>
+          </div>
+        </DialogHeader>
+        {switchMenu(() => onOpenChange(false))}
+      </DialogContent>
+    </Dialog>
   );
 }
 

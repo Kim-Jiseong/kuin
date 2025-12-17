@@ -1,17 +1,13 @@
 "use client";
 
-import {
-  Avatar,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Input,
-} from "@nextui-org/react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import Typography from "../common/Typography";
 import { LogOut, Pencil } from "lucide-react";
-import { supabase } from "../../lib/supabaseClient";
+import { createClient } from "@/utils/supabase/client";
 import { useMutation } from "@tanstack/react-query";
 import { Tables } from "@/types/database.types";
 import { signOut } from "@/app/auth/login/action";
@@ -66,6 +62,7 @@ function ProfileCard({
   const handleUpload = async () => {
     if (!image) return;
 
+    const supabase = createClient();
     const fileExt = image.name.split(".").pop();
     const fileName = `profile-${Date.now()}.${fileExt}`;
     const filePath = `profile/${profile?.id}/${fileName}`;
@@ -107,18 +104,20 @@ function ProfileCard({
     return (
       <Card>
         <CardHeader>계정</CardHeader>
-        <CardBody>
+        <CardContent>
           <div
             className="w-full flex flex-col justify-center items-center gap-4 
             "
           >
             <div className="flex flex-col items-center gap-2 ">
-              <Avatar
-                size={"lg"}
-                isBordered
-                src={previewUrl ? previewUrl : (profile?.image as string)}
-                className="flex-shrink-0"
-              />
+              <Avatar className="h-20 w-20">
+                <AvatarImage
+                  src={previewUrl ? previewUrl : (profile?.image as string)}
+                />
+                <AvatarFallback>
+                  {profile?.name?.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
               {editMode && (
                 <div>
                   <label
@@ -142,8 +141,8 @@ function ProfileCard({
               <div className="flex flex-col gap-1 text-center">
                 {editMode ? (
                   <Input
-                    onValueChange={setPreviewName}
-                    size={"sm"}
+                    onChange={(e) => setPreviewName(e.target.value)}
+                    className="h-8"
                     defaultValue={profile.name as string}
                   />
                 ) : (
@@ -158,20 +157,13 @@ function ProfileCard({
             </div>
             {editMode ? (
               <div className="flex gap-2 ">
-                <Button
-                  size="sm"
-                  color={"default"}
-                  variant="flat"
-                  onPress={handleClickCancel}
-                >
+                <Button size="sm" variant="outline" onClick={handleClickCancel}>
                   취소
                 </Button>
                 <Button
                   size="sm"
-                  color={"primary"}
-                  variant="flat"
-                  onPress={handleClickUpdate}
-                  isLoading={updateLoading}
+                  onClick={handleClickUpdate}
+                  disabled={updateLoading}
                 >
                   저장
                 </Button>
@@ -180,29 +172,27 @@ function ProfileCard({
               <div className="flex gap-2 ">
                 <Button
                   size="sm"
-                  color={"success"}
-                  variant="flat"
-                  startContent={<Pencil size={16} />}
-                  onPress={() => setEditMode(true)}
+                  variant="outline"
+                  onClick={() => setEditMode(true)}
                 >
+                  <Pencil size={16} className="mr-2" />
                   계정 정보 수정
                 </Button>
                 <Button
                   size="sm"
-                  color="danger"
-                  variant="flat"
-                  startContent={<LogOut size={16} />}
-                  onPress={async () => {
+                  variant="destructive"
+                  onClick={async () => {
                     await signOut();
                     onClose();
                   }}
                 >
+                  <LogOut size={16} className="mr-2" />
                   로그아웃
                 </Button>
               </div>
             )}
           </div>
-        </CardBody>
+        </CardContent>
       </Card>
     );
 }

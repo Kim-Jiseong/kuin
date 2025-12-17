@@ -1,46 +1,31 @@
 "use client";
 import { siteConfig } from "@/config/site";
-import { NavbarItem } from "@nextui-org/navbar";
 import NextLink from "next/link";
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 import React from "react";
-import { link as linkStyles } from "@nextui-org/theme";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 function LinkWrapper() {
   const pathname = usePathname();
+
   return (
-    <ul className="flex gap-4 justify-end ml-2">
+    <nav className="flex gap-6 ml-2">
       {siteConfig.navItems.map((item) => (
-        <NavbarItem key={item.href}>
-          <NextLink
-            className={clsx(
-              linkStyles({ color: "foreground" }),
-              "data-[active=true]:text-primary data-[active=true]:font-bold",
-              [
-                "flex",
-                "relative",
-                "h-full",
-                "items-center",
-                "data-[active=true]:after:content-['']",
-                "data-[active=true]:after:absolute",
-                "data-[active=true]:after:bottom-0",
-                "data-[active=true]:after:left-0",
-                "data-[active=true]:after:right-0",
-                "data-[active=true]:after:h-[2px]",
-                "data-[active=true]:after:rounded-[2px]",
-                "data-[active=true]:after:bg-primary",
-              ]
-            )}
-            color="foreground"
-            href={item.href}
-            data-active={pathname === item.href ? "true" : undefined}
-          >
-            {item.label}
-          </NextLink>
-        </NavbarItem>
+        <NextLink
+          key={item.href}
+          href={item.href}
+          className={cn(
+            "text-sm font-medium transition-colors hover:text-primary",
+            "relative flex items-center h-full",
+            pathname === item.href
+              ? "text-primary font-semibold after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:rounded-[2px] after:bg-primary"
+              : "text-muted-foreground"
+          )}
+        >
+          {item.label}
+        </NextLink>
       ))}
-    </ul>
+    </nav>
   );
 }
 

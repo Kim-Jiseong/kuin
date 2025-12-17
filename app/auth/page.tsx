@@ -1,13 +1,14 @@
-"use client";
 import Typography from "@/components/common/Typography";
-
 import React from "react";
 import { OAuthButtons } from "./oauth-signin";
-import { useParams } from "next/navigation";
 
-function Auth({ searchParams }: { searchParams: any }) {
-  // console.log(searchParams.next);
-  const next = searchParams?.next || null;
+async function Auth({ 
+  searchParams 
+}: { 
+  searchParams: Promise<{ next?: string }> 
+}) {
+  const params = await searchParams;
+  const next = params?.next || null;
   // const next = searchParams.get("next") || null;
   return (
     <div className={"w-full h-full flex flex-col items-center justify-center "}>

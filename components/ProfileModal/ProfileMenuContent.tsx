@@ -1,8 +1,8 @@
-import { ModalBody } from "@nextui-org/modal";
 import React from "react";
 import ProfileCard from "./ProfileCard";
 import ExpertProfileCard from "./ExpertProfileCard";
-import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import Typography from "../common/Typography";
 import { ThemeSwitch } from "../theme-switch";
 import { Tables } from "@/types/database.types";
@@ -15,22 +15,22 @@ function ProfileMenuContent({
   onClose: any;
 }) {
   return (
-    <ModalBody>
+    <div>
       <ProfileCard profile={profile} onClose={onClose} />
       <ExpertProfileCard profile={profile} onClose={onClose} />
-      <Card shadow={"sm"}>
+      <Card>
         <CardHeader>일반</CardHeader>
-        <Divider />
-        <CardBody>
+        <Separator />
+        <CardContent>
           <div className="flex w-full items-center justify-between">
             <Typography variant={"caption"} style={{ fontWeight: 500 }}>
               테마
             </Typography>
             <ThemeSwitch />
           </div>
-        </CardBody>
+        </CardContent>
       </Card>
-    </ModalBody>
+    </div>
   );
 }
 

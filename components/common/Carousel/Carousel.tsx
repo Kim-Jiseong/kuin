@@ -2,15 +2,10 @@
 import React, { useCallback } from "react";
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 import { DotButton, useDotButton } from "./CarouselDotButtons";
-// import {
-//   PrevButton,
-//   NextButton,
-//   usePrevNextButtons,
-// } from "./CarouselArrowButtons";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import FullPageModal from "./FullPageModal";
-import { Image } from "@nextui-org/react";
+import Image from "next/image";
 
 type PropType = {
   slides: string[];
@@ -53,17 +48,15 @@ const Carousel: React.FC<PropType> = (props) => {
           {slides.map((src, index) => (
             <div className="embla__slide" key={index}>
               <Image
-                isZoomed
-                removeWrapper
                 role="presentation"
                 onClick={() => {
                   setIsFullPageModalOpen(true);
                 }}
                 src={src}
                 alt={"carousel_image-" + index}
-                className={
-                  "w-full h-full object-cover object-center cursor-pointer"
-                }
+                className="w-full h-full object-cover object-center cursor-pointer"
+                width={800}
+                height={800}
               />
             </div>
           ))}

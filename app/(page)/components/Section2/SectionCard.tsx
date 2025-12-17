@@ -1,12 +1,11 @@
 "use client";
 import React from "react";
-import styled from "styled-components";
 
 function SectionCard({
   title,
   content,
   headerBgColor,
-  headerTextColor,
+  headerTextColor = "white",
   delay = 0,
   children,
 }: {
@@ -18,16 +17,13 @@ function SectionCard({
   children?: React.ReactNode;
 }) {
   return (
-    <CardContainer
-      className={`w-full flex flex-col items-center overflow-hidden rounded-lg shadow-lg`}
-      delay={delay}
+    <div
+      className="w-full flex flex-col items-center overflow-hidden rounded-lg shadow-lg animate-float"
+      style={{ animationDelay: `${delay}s` }}
     >
       <div
-        className={`
-            w-full py-2 px-4 flex justify-center 
-            bg-${headerBgColor} text-${headerTextColor}
-            text-lg font-bold
-            `}
+        className="w-full py-2 px-4 flex justify-center text-lg font-bold"
+        style={{ backgroundColor: headerBgColor, color: headerTextColor }}
       >
         {title}
       </div>
@@ -35,21 +31,8 @@ function SectionCard({
         {content}
         {children}
       </p>
-    </CardContainer>
+    </div>
   );
 }
 
 export default SectionCard;
-
-const CardContainer = styled.div<{ delay: number }>`
-  animation: float 1s ease-out infinite alternate;
-  animation-delay: ${({ delay }) => delay}s;
-  @keyframes float {
-    0% {
-      transform: translateY(2%);
-    }
-    100% {
-      transform: translateY(-2%);
-    }
-  }
-`;

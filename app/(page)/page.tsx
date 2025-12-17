@@ -7,7 +7,7 @@ import ThirdSection from "./components/Section3/ThirdSection";
 import FourthSection from "./components/Section4/FourthSection";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

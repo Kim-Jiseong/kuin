@@ -1,43 +1,65 @@
-"use server"
-import { TablesUpdate } from "@/types/database.types";
+"use server";
+
+import { Tables, TablesUpdate } from "@/types/database.types";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { PostgrestError } from "@supabase/supabase-js";
 
-export const updateProject = async (projectId:string, project: TablesUpdate<"project">) => {
-    const supabase = createClient();
-    // console.log(project);
-    const { data, error } = await supabase.from("project")
+export type UpdateProjectResult = {
+  data: Tables<"project">[] | null;
+  error: PostgrestError | null;
+};
+
+export type UpdateProjectStatusResult = {
+  updatedProject: Tables<"project"> | null;
+  error: PostgrestError | null;
+};
+
+export async function updateProject(
+  projectId: string,
+  project: TablesUpdate<"project">
+): Promise<UpdateProjectResult> {
+  const supabase = await createClient();
+  
+  const { data, error } = await supabase
+    .from("project")
     .update(project)
     .eq("id", projectId)
     .select();
-    revalidatePath("/", "layout");
-    return { data, error };
+  
+  revalidatePath("/", "layout");
+  return { data, error };
 }
 
-export const updateProjectStatus = async (status:string|null, projectId:string) => {
-    const supabase = createClient();
-    const { data: updatedProject, error } = await supabase
-      .from("project")
-      .update({
-        status: status,
-      })
-      .eq("id", projectId)
-      .select()
-      .single();
-    revalidatePath("/", "layout");
-    return { updatedProject, error };
-  };
+export async function updateProjectStatus(
+  status: string | null,
+  projectId: string
+): Promise<UpdateProjectStatusResult> {
+  const supabase = await createClient();
   
-export const deleteProject = async (projectId:string) => {
-    const supabase = createClient();
-    const { data: updatedProject, error } = await supabase
-      .from("project")
-      .update({
-        status: null,
-      })
-      .eq("id", projectId)
-      .select()
-      .single();
-    revalidatePath("/", "layout");
-    return { updatedProject, error };
-  };
+  const { data: updatedProject, error } = await supabase
+    .from("project")
+    .update({ status })
+    .eq("id", projectId)
+    .select()
+    .single();
+  
+  revalidatePath("/", "layout");
+  return { updatedProject, error };
+}
+
+export async function deleteProject(
+  projectId: string
+): Promise<UpdateProjectStatusResult> {
+  const supabase = await createClient();
+  
+  const { data: updatedProject, error } = await supabase
+    .from("project")
+    .update({ status: null })
+    .eq("id", projectId)
+    .select()
+    .single();
+  
+  revalidatePath("/", "layout");
+  return { updatedProject, error };
+}

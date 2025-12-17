@@ -9,7 +9,7 @@ type Props = {
   };
 };
 async function ProjectEdit({ params }: Props) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: project, error: projectError } = await supabase
     .from("project")
     .select("*")

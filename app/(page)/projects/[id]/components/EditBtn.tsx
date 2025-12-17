@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@nextui-org/button";
+import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -13,12 +13,12 @@ function EditBtn({ projectId }: { projectId: string }) {
   return (
     <div>
       <Button
-        radius="full"
+        className="rounded-full"
         size="sm"
-        variant="flat"
-        startContent={<Pencil size={16} />}
-        onPress={handleEditClick}
+        variant="secondary"
+        onClick={handleEditClick}
       >
+        <Pencil size={16} className="mr-2" />
         프로젝트 수정
       </Button>
     </div>

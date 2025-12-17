@@ -2,7 +2,7 @@ import MarkdownRenderer from "@/components/common/MarkdownRenderer";
 import Typography from "@/components/common/Typography";
 import { getMajorObjByCode } from "@/utils/getMajorObjByCode";
 import { returnMajorColor } from "@/utils/returnMajorColor";
-import { Avatar } from "@nextui-org/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import React from "react";
 import { EmblaOptionsType } from "embla-carousel";
 import Carousel from "@/components/common/Carousel/Carousel";
@@ -21,16 +21,16 @@ function ExpertProfileViewModePage({
 }: {
   user: any;
   profileId: string;
-  expertData: Tables<"profile">["expert_profile"] | undefined;
+  expertData: any;
   isMe: boolean;
 }) {
   if (!expertData) return null;
   return (
     <div className="w-full  flex flex-col justify-center items-center gap-4 py-4 pb-8">
       <div className="w-full gap-4 flex flex-col items-center md:flex-row relative">
-        {expertData?.portfolio && expertData?.portfolio?.length > 0 && (
+        {expertData?.portfolio && Array.isArray(expertData.portfolio) && expertData.portfolio.length > 0 && (
           <div className="relative flex flex-col overflow-hidden text-foreground box-border bg-content1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none h-full flex-1 aspect-square">
-            <Carousel slides={expertData?.portfolio} options={OPTIONS} />
+            <Carousel slides={expertData.portfolio as string[]} options={OPTIONS} />
           </div>
         )}
         <div
@@ -47,13 +47,10 @@ function ExpertProfileViewModePage({
             ${expertData?.portfolio && expertData?.portfolio.length > 0 && "aspect-square"}`}
         >
           <div className="p-4 z-10 w-full items-center shrink-0 overflow-inherit color-inherit subpixel-antialiased rounded-t-large relative flex h-[120px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300 via-purple-300 to-primary">
-            <Avatar
-              size={"lg"}
-              isBordered
-              src={expertData?.profileImage}
-              className="h-20 w-20 translate-y-11 flex-shrink-0"
-              radius={"md"}
-            />
+            <Avatar className="h-20 w-20 translate-y-11 flex-shrink-0 border-4 border-background">
+              <AvatarImage src={expertData?.profileImage} />
+              <AvatarFallback>{expertData?.name?.charAt(0).toUpperCase()}</AvatarFallback>
+            </Avatar>
             <div className={" flex gap-2 absolute top-3 right-3"}>
               <ShareBtn expertData={expertData} />
               <ContactBtn

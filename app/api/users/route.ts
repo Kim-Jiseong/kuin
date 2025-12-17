@@ -1,15 +1,16 @@
-import { supabase } from "../../../lib/supabaseClient";
+import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 // GET 메서드
 export async function GET(req: NextRequest) {
+  const supabase = await createClient();
   const { searchParams } = new URL(req.url);
   const filter = searchParams.get("filter") || "";
   const search = searchParams.get("search") || "";
   const sort = searchParams.get("sort") || "created_at";
   const order = searchParams.get("order") === "asc" ? true : false;
 
-  let query = supabase.from("user").select("*");
+  let query = supabase.from("profile").select("*");
   // 필터링: filter 파라미터는 완전 일치 검색
   if (filter) {
     query = query.eq("email", filter).or(`name.eq.${filter}`);
@@ -33,11 +34,12 @@ export async function GET(req: NextRequest) {
 
 // POST 메서드
 export async function POST(req: NextRequest) {
+  const supabase = await createClient();
   const { email, name, image, provider, profile } = await req.json();
 
   const { data, error } = await supabase
-    .from("user")
-    .insert([{ email, name, image, provider, profile }])
+    .from("profile")
+    .insert([{ email, name, image, provider, expert_profile: profile as any } as any])
     .select();
 
   if (error) {

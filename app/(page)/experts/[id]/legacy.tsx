@@ -1,9 +1,9 @@
 // "use client";
 // import Typography from "../../../../components/common/Typography";
 // import { getUser } from "../../../../service/user/user";
-// import { Avatar } from "@nextui-org/avatar";
-// import { Button } from "@nextui-org/button";
-// import { Input } from "@nextui-org/input";
+// import { Avatar } from "@/components/ui/avatar";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
 // import { useQuery } from "@tanstack/react-query";
 // import { Pencil } from "lucide-react";
 // import { useSession } from "next-auth/react";
@@ -11,7 +11,7 @@
 // import React, { useEffect, useState } from "react";
 // import ExpertProfileEditModePage from "./components/expertProfileEditModePage";
 // import ExpertProfileViewModePage from "./components/expertProfileViewModePage";
-// import { Spinner } from "@nextui-org/react";
+// import { Spinner } from "@/components/ui/spinner";
 // type Props = {
 //   params: {
 //     id: string;

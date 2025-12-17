@@ -10,7 +10,7 @@ import { cookies } from "next/headers";
 import { getURL } from "@/utils/helpers";
 
 export async function signOut() {
-  const supabase = createClient();
+  const supabase = await createClient();
   await supabase.auth.signOut({ scope: "local" });
   revalidatePath("/", "layout");
   redirect("/", RedirectType.push);
@@ -25,7 +25,7 @@ export async function oAuthSignIn(provider: Provider, nextUrl?: string | null) {
     );
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const next = nextUrl ? `?next=${nextUrl}` : "";
     const redirectUrl = getURL("/auth/callback");
     // console.log("redirectUrl", redirectUrl);
@@ -46,7 +46,7 @@ export async function oAuthSignIn(provider: Provider, nextUrl?: string | null) {
     redirect(`/login?message=${encodeURIComponent("로그인에 실패했습니다.")}`);
   }
 
-  const cookieJar = cookies();
+  const cookieJar = await cookies();
   cookieJar.set("lastSignedInMethod", provider);
   revalidatePath("/", "layout");
 
@@ -54,7 +54,7 @@ export async function oAuthSignIn(provider: Provider, nextUrl?: string | null) {
 }
 
 export async function login(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -74,7 +74,7 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // type-casting here for convenience
   // in practice, you should validate your inputs

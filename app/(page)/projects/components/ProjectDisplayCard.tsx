@@ -3,7 +3,7 @@ import { Tables } from "@/types/database.types";
 import { formatDateTime } from "@/utils/formatTime";
 import { getStatusNameByCode } from "@/utils/getStatusNameByCode";
 import { returnStatusColor } from "@/utils/returnStatusColor";
-import { Chip, ScrollShadow } from "@nextui-org/react";
+import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -23,13 +23,13 @@ function ProjectDisplayCard({ project }: { project: Tables<"project"> }) {
           <Typography variant="subtitle1" ellipsis lines={1}>
             {project.title}
           </Typography>
-          <Chip size="sm" color={returnStatusColor(project.status as string)}>
+          <Badge variant="secondary">
             {getStatusNameByCode(project.status as string)}
-          </Chip>
+          </Badge>
         </div>
-        <ScrollShadow className={"w-full h-[80px] sm:h-full overflow-auto"}>
+        <div className="w-full h-[80px] sm:h-full overflow-auto">
           {project.introduction}
-        </ScrollShadow>
+        </div>
         <div className={"w-full flex justify-end"}>
           <Typography variant="caption">
             {formatDateTime(project.created_at, {

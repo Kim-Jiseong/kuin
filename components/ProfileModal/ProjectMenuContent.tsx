@@ -1,15 +1,8 @@
 import React from "react";
 import { ThemeSwitch } from "../theme-switch";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Divider,
-  Listbox,
-  ListboxItem,
-  ModalBody,
-} from "@nextui-org/react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import Typography from "../common/Typography";
 import { useRouter } from "next/navigation";
 import { Tables } from "@/types/database.types";
@@ -28,8 +21,8 @@ function ProjectMenuContent({
     onClose();
   };
   return (
-    <ModalBody className="max-h-[70vh]">
-      <Card shadow={"sm"}>
+    <div className="max-h-[70vh]">
+      <Card>
         <CardHeader>
           <div className={"flex w-full items-center justify-between"}>
             <Typography variant="text" style={{ fontWeight: 700 }}>
@@ -38,15 +31,15 @@ function ProjectMenuContent({
             <Button
               size="sm"
               color="primary"
-              variant={"flat"}
-              onPress={() => handleRouting("/projects/new")}
+              variant="secondary"
+              onClick={() => handleRouting("/projects/new")}
             >
               + 새 프로젝트
             </Button>
           </div>
         </CardHeader>
-        <Divider />
-        <CardBody>
+        <Separator />
+        <CardContent>
           {/* <Listbox
             aria-label="Actions"
             onAction={(key) => handleRouting(`/projects/${key}`)}
@@ -64,7 +57,7 @@ function ProjectMenuContent({
                     project={project}
                     handleRouting={handleRouting}
                   />
-                  <Divider />
+                  <Separator />
                 </div>
               ))
             ) : (
@@ -73,9 +66,9 @@ function ProjectMenuContent({
               </Typography>
             )}
           </div>
-        </CardBody>
+        </CardContent>
       </Card>
-    </ModalBody>
+    </div>
   );
 }
 

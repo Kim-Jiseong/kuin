@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export const getMyProfile = async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
       error,
@@ -16,7 +16,7 @@ export const getMyProfile = async () => {
     }
 
 export async function incrementViewCount(profileId: string, prevView: number | undefined) {
-  const supabase = createClient();
+  const supabase = await createClient();
   // const { data: profile, error: fetchError } = await supabase
   //   .from('profile')
   //   .select('view')

@@ -1,8 +1,8 @@
 "use client";
 import Typography from "@/components/common/Typography";
-import { FileObj } from "@/types/database.types";
+import { FileObj } from "@/types";
 import { returnFileFormatObj } from "@/utils/returnFileFormatObj";
-import { Button } from "@nextui-org/button";
+import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 
 function FileViewBtn({ file }: { file: FileObj }) {
@@ -37,12 +37,12 @@ function FileViewBtn({ file }: { file: FileObj }) {
   };
   return (
     <Button
-      onPress={downloadFile}
-      isLoading={isPending}
-      color={fileFormatObj.color}
+      onClick={downloadFile}
+      disabled={isPending}
       size="sm"
-      startContent={!isPending && fileFormatObj.icon}
+      variant="outline"
     >
+      {!isPending && fileFormatObj.icon}
       <Typography variant="text" style={{ fontSize: 14 }} ellipsis lines={1}>
         {file.name}
       </Typography>

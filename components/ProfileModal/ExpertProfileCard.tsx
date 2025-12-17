@@ -1,5 +1,5 @@
-import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
-import { Session } from "next-auth";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import React from "react";
 import Typography from "../common/Typography";
 import NewExpertProfileCard from "../ExpertProfile/NewExpertProfile";
@@ -16,7 +16,7 @@ function ExpertProfileCard({
   return (
     <Card>
       <CardHeader>전문가 프로필</CardHeader>
-      <CardBody>
+      <CardContent>
         {profile?.expert_profile ? (
           <ExpertProfile
             profile={profile}
@@ -26,7 +26,7 @@ function ExpertProfileCard({
         ) : (
           <NewExpertProfileCard myId={profile?.id} onClose={onClose} />
         )}
-      </CardBody>
+      </CardContent>
     </Card>
   );
 }

@@ -1,4 +1,5 @@
-import { Avatar, Button, User } from "@nextui-org/react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 // import { BookUser } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -21,7 +22,9 @@ function ExpertProfile({
   const [status, setStatus] = useState(profile.status);
 
   const handleUpdateStatus = async () => {
-    await updateProfileStatus(status, profile.id);
+    if (status) {
+      await updateProfileStatus(status, profile.id);
+    }
   };
 
   useEffect(() => {
@@ -46,12 +49,10 @@ function ExpertProfile({
           handleRouting("/experts/" + profile.id);
         }}
       >
-        <Avatar
-          className={"flex flex-shrink-0"}
-          radius="md"
-          src={expertProfile?.profileImage}
-          isBordered
-        />
+        <Avatar className="flex flex-shrink-0 h-16 w-16 border-2 border-background">
+          <AvatarImage src={expertProfile?.profileImage} />
+          <AvatarFallback>{profile.name?.charAt(0).toUpperCase()}</AvatarFallback>
+        </Avatar>
         <div className="flex flex-col w-full">
           <Typography variant={"text"}>{expertProfile?.name}</Typography>
           <Typography variant={"caption"} ellipsis lines={1}>
@@ -60,7 +61,7 @@ function ExpertProfile({
         </div>
       </div>
       {/* <Button
-        variant={"flat"}
+        variant="secondary"
         color={"success"}
         size="sm"
         startContent={<BookUser size={16} />}

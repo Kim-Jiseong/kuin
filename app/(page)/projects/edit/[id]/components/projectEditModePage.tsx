@@ -1,18 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  Input,
-  Textarea,
-  Button,
-  Card,
-  CardBody,
-  Tabs,
-  Tab,
-} from "@nextui-org/react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
 import Typography from "@/components/common/Typography";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
-import { FileObj, Tables } from "@/types/database.types";
+import { createClient } from "@/utils/supabase/client";
+import { Tables } from "@/types/database.types";
+import { FileObj } from "@/types";
 import useForm from "@/hooks/useForm";
 import { major } from "@/constant/major";
 import { returnMajorColor } from "@/utils/returnMajorColor";
@@ -42,17 +40,19 @@ const ProjectEditModePage = ({
   const [myProfile, setMyProfile] = useState<Tables<"profile">>();
   const [previewMajor, setPreviewMajor] = useState<any>(major[1].code);
   const [existingFiles, setExistingFiles] = useState<FileObj[]>(
-    projectData.files || []
+    (projectData.files as any) || []
   );
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [isPending, setIsPending] = useState(false);
   const [status, setStatus] = useState(projectData.status);
 
+  const supabase = createClient();
+
   const handleFilesUpload = async (file: File, projectId: string) => {
     const fileExt = file.name.split(".").pop();
     const fileName = `${projectId}-${Date.now()}.${fileExt}`;
     const filePath = `project_files/${projectId}/${fileName}`;
-    const { error, data } = await supabase.storage
+    const { error, data} = await supabase.storage
       .from("files")
       .upload(filePath, file, { cacheControl: "3500", upsert: true });
 
@@ -82,22 +82,24 @@ const ProjectEditModePage = ({
           .single();
 
         let fileUrls: FileObj[] = [...existingFiles];
-        for (let file of newFiles) {
-          const filePath = await handleFilesUpload(file, updatedProject.id);
-          if (filePath) {
-            fileUrls.push({
-              fullPath: process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL + filePath,
-              name: file.name,
-              size: file.size,
-              lastModified: file.lastModified,
-            });
+        if (updatedProject) {
+          for (let file of newFiles) {
+            const filePath = await handleFilesUpload(file, updatedProject.id);
+            if (filePath) {
+              fileUrls.push({
+                fullPath: process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL + filePath,
+                name: file.name,
+                size: file.size,
+                lastModified: file.lastModified,
+              });
+            }
           }
-        }
 
-        const updateResponse = await updateProject(updatedProject.id, {
-          files: fileUrls,
-        });
-        // console.log(updateResponse);
+          const updateResponse = await updateProject(updatedProject.id, {
+            files: fileUrls as any,
+          });
+          // console.log(updateResponse);
+        }
       } catch (e) {
         console.log(e);
       } finally {
@@ -141,19 +143,19 @@ const ProjectEditModePage = ({
         <div className={`flex items-center gap-4`}>
           <Typography variant="subtitle2">프로젝트 분야:</Typography>
           <Tabs
-            aria-label="Options"
-            selectedKey={previewMajor}
-            onSelectionChange={setPreviewMajor}
-            size={"lg"}
-            radius={"full"}
-            color={returnMajorColor(previewMajor)}
+            value={previewMajor}
+            onValueChange={setPreviewMajor}
           >
-            {major.map(
-              (major) =>
-                major.isVisible && (
-                  <Tab key={major.code} title={major.name}></Tab>
-                )
-            )}
+            <TabsList className="rounded-full">
+              {major.map(
+                (major) =>
+                  major.isVisible && (
+                    <TabsTrigger key={major.code} value={major.code} className="rounded-full">
+                      {major.name}
+                    </TabsTrigger>
+                  )
+              )}
+            </TabsList>
           </Tabs>
         </div>
         <div className={`flex items-center gap-4`}>
@@ -161,53 +163,51 @@ const ProjectEditModePage = ({
           <StatusEditDropdown status={status} setStatus={setStatus} />
         </div>
 
-        <Input
-          fullWidth
-          required
-          isRequired
-          id="title"
-          label="제목"
-          placeholder="프로젝트 제목을 입력하세요"
-          onChange={handleChange}
-          isInvalid={result.errorField.includes("title")}
-          defaultValue={projectData.title as string}
-        />
-        <div className={"flex gap-2 items-center"}>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="title">제목 *</Label>
           <Input
-            fullWidth
             required
-            isRequired
+            id="title"
+            placeholder="프로젝트 제목을 입력하세요"
+            onChange={handleChange}
+            className={result.errorField.includes("title") ? "border-destructive" : ""}
+            defaultValue={projectData.title as string}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="contact">연락처 *</Label>
+          <Input
+            required
             id="contact"
-            label="연락처"
             placeholder="전문가들이 연락드릴 수 있는 연락처를 입력해주세요(이메일, 전화번호 등)"
             onChange={handleChange}
-            isInvalid={result.errorField.includes("contact")}
+            className={result.errorField.includes("contact") ? "border-destructive" : ""}
             defaultValue={projectData.contact as string}
           />
         </div>
 
-        <Textarea
-          id="introduction"
-          required
-          isRequired
-          fullWidth
-          label="소개"
-          placeholder="프로젝트에 대한 간단한 소개를 입력하세요"
-          isInvalid={result.errorField.includes("introduction")}
-          onChange={handleChange}
-          defaultValue={projectData.introduction as string}
-        />
-        <div className={"flex flex-col"}>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="introduction">소개 *</Label>
+          <Textarea
+            id="introduction"
+            required
+            placeholder="프로젝트에 대한 간단한 소개를 입력하세요"
+            className={result.errorField.includes("introduction") ? "border-destructive" : ""}
+            onChange={handleChange}
+            defaultValue={projectData.introduction as string}
+            rows={3}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="detail">상세 내용 - 마크다운 문법 지원 *</Label>
           <Textarea
             id="detail"
             required
-            isRequired
-            fullWidth
-            label="상세 내용 - 마크다운 문법 지원"
-            placeholder={`프로젝트의 상세한 내용을 설명해주세요.\n외부 링크는 [주소 이름](http://kuin.me) 형식으로 작성해주세요.\n보다 자세한 설명은 하단 링크를 참고해주세요.`}
+            placeholder="프로젝트의 상세한 내용을 설명해주세요.&#10;외부 링크는 [주소 이름](http://kuin.me) 형식으로 작성해주세요.&#10;보다 자세한 설명은 하단 링크를 참고해주세요."
             onChange={handleChange}
-            isInvalid={result.errorField.includes("detail")}
+            className={result.errorField.includes("detail") ? "border-destructive" : ""}
             defaultValue={projectData.detail as string}
+            rows={8}
           />
           <div className="w-full flex pt-2">
             <MarkdownTutorialBtn />
@@ -241,7 +241,7 @@ const ProjectEditModePage = ({
             <div className="flex flex-col gap-1 mt-2">
               {existingFiles.map((file, index) => (
                 <Card key={index}>
-                  <CardBody>
+                  <CardContent>
                     <li className="flex justify-between items-center">
                       <Typography
                         variant="text"
@@ -254,13 +254,13 @@ const ProjectEditModePage = ({
                       <Button
                         color="danger"
                         size="sm"
-                        isIconOnly
+                        className="h-8 w-8 p-0"
                         onClick={() => handleFileDelete(index, true)}
                       >
                         <Trash2 size={16} />
                       </Button>
                     </li>
-                  </CardBody>
+                  </CardContent>
                 </Card>
               ))}
             </div>
@@ -270,7 +270,7 @@ const ProjectEditModePage = ({
             <div className="flex flex-col gap-1 mt-2">
               {newFiles.map((file, index) => (
                 <Card key={index}>
-                  <CardBody>
+                  <CardContent>
                     <li className="flex justify-between items-center">
                       <Typography
                         variant="text"
@@ -283,13 +283,13 @@ const ProjectEditModePage = ({
                       <Button
                         color="danger"
                         size="sm"
-                        isIconOnly
+                        className="h-8 w-8 p-0"
                         onClick={() => handleFileDelete(index, false)}
                       >
                         <Trash2 size={16} />
                       </Button>
                     </li>
-                  </CardBody>
+                  </CardContent>
                 </Card>
               ))}
             </div>
@@ -299,23 +299,18 @@ const ProjectEditModePage = ({
       <div className="flex gap-2 w-full mt-4">
         <Button
           size="lg"
-          color={"default"}
-          onPress={() => router.back()}
-          variant={"solid"}
-          fullWidth
-          radius={"md"}
+          onClick={() => router.back()}
+          variant="outline"
+          className="w-full"
         >
           취소
         </Button>
         <Button
           size="lg"
-          color={"primary"}
-          variant={"solid"}
-          fullWidth
-          radius={"md"}
           type="submit"
-          isLoading={isPending}
+          disabled={isPending}
           onClick={handleSubmit}
+          className="w-full"
         >
           저장하기
         </Button>

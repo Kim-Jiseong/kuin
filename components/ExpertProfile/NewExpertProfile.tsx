@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Typography from "../common/Typography";
-import { Button } from "@nextui-org/button";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 function NewExpertProfileCard({
@@ -20,7 +20,7 @@ function NewExpertProfileCard({
           아직 전문가 프로필이 존재하지 않아요
         </Typography>
         <Button
-          variant={"flat"}
+          variant="secondary"
           color={"primary"}
           onClick={() => {
             router.push("/experts/edit/" + myId);

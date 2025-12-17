@@ -1,8 +1,7 @@
 "use client";
-import { Avatar as NextUIAvatar } from "@nextui-org/avatar";
-import React, { useEffect } from "react";
+import { Avatar as UIAvatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import React, { useEffect, useState } from "react";
 import ProfileModal from "../ProfileModal/ProfileModal";
-import { useDisclosure } from "@nextui-org/modal";
 import { Tables } from "@/types/database.types";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -15,10 +14,11 @@ function Avatar({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
+  
   const handleClick = () => {
     if (profile) {
-      onOpen();
+      setIsOpen(true);
     } else {
       router.push("/auth?next=" + pathname);
     }
@@ -26,17 +26,16 @@ function Avatar({
 
   return (
     <div>
-      <NextUIAvatar
-        className="cursor-pointer"
+      <UIAvatar
+        className="cursor-pointer h-8 w-8"
         onClick={handleClick}
-        isBordered
-        src={profile ? (profile.image as string) : undefined}
-        style={{ flexShrink: 0 }}
-        size="sm"
-      />
+      >
+        <AvatarImage src={profile ? (profile.image as string) : undefined} />
+        <AvatarFallback>{profile?.name?.charAt(0).toUpperCase()}</AvatarFallback>
+      </UIAvatar>
       <ProfileModal
         isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        onOpenChange={setIsOpen}
         profile={profile}
         projectList={projectList}
       />

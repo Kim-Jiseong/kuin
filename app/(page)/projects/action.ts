@@ -2,7 +2,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export const getMyProfile = async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
       error,

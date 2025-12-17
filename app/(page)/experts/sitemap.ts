@@ -6,12 +6,8 @@ import type { MetadataRoute } from 'next'
 //   return [{ id: 0 }]
 // }
  
-export default async function sitemap({
-  id,
-}: {
-  id: number
-}): Promise<MetadataRoute.Sitemap> {
-    const supabase = createClient();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const supabase = await createClient();
     const { data: profileList, error: profileError } = await supabase
       .from("profile")
       .select("*")      

@@ -3,16 +3,18 @@ import { updateProfile } from "@/service/profile/action";
 import Typography from "@/components/common/Typography";
 import { major } from "@/constant/major";
 import useForm from "@/hooks/useForm";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/utils/supabase/client";
 import { returnMajorColor } from "@/utils/returnMajorColor";
-import { Avatar } from "@nextui-org/avatar";
-import { Button } from "@nextui-org/button";
-import { Input, Textarea } from "@nextui-org/input";
-import { Tab, Tabs } from "@nextui-org/react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
 import { PlusIcon, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Image } from "@nextui-org/react";
+import Image from "next/image";
 import MarkdownTutorialBtn from "@/components/MarkdownTutorial/MarkdownTutorialBtn";
 
 function ExpertProfileEditModePage({
@@ -45,6 +47,8 @@ function ExpertProfileEditModePage({
     expertData?.major || major[1].code
   );
   const [isPending, setIsPending] = useState(false);
+
+  const supabase = createClient();
 
   // 파일 업로드 통합 함수
   const uploadFile = async (file: File, type: "profile" | "portfolio") => {
@@ -148,13 +152,10 @@ function ExpertProfileEditModePage({
       </Typography>
 
       <div className="flex flex-col items-center gap-2 w-full">
-        <Avatar
-          size={"lg"}
-          radius="md"
-          isBordered
-          src={previewProfileUrl ? previewProfileUrl : undefined}
-          className="flex-shrink-0"
-        />
+        <Avatar className="h-20 w-20 flex-shrink-0 border-4 border-background">
+          <AvatarImage src={previewProfileUrl ? previewProfileUrl : undefined} />
+          <AvatarFallback>?</AvatarFallback>
+        </Avatar>
         <label htmlFor="profileImageInput" className={"cursor-pointer"}>
           <Typography variant="caption" color={"primary"}>
             사진 {previewProfileUrl ? "수정" : "업로드"}
@@ -171,66 +172,62 @@ function ExpertProfileEditModePage({
 
       <div className="flex flex-col gap-4 text-center items-center w-full">
         <Tabs
-          aria-label="Options"
-          selectedKey={previewMajor}
-          onSelectionChange={setPreviewMajor}
-          size={"lg"}
-          radius={"full"}
-          color={returnMajorColor(previewMajor)}
+          value={previewMajor}
+          onValueChange={setPreviewMajor}
         >
-          {major.map(
-            (major) =>
-              major.isVisible && <Tab key={major.code} title={major.name}></Tab>
-          )}
+          <TabsList className="rounded-full">
+            {major.map(
+              (major) =>
+                major.isVisible && (
+                  <TabsTrigger key={major.code} value={major.code} className="rounded-full">
+                    {major.name}
+                  </TabsTrigger>
+                )
+            )}
+          </TabsList>
         </Tabs>
-        <Input
-          variant={"bordered"}
-          id="name"
-          required
-          label={"이름"}
-          isRequired
-          //   onValueChange={setPreviewName}
-          isInvalid={result.errorField.includes("name")}
-          onChange={handleChange}
-          defaultValue={expertData?.name}
-        />
-        <Input
-          variant={"bordered"}
-          id="contact"
-          required
-          label={"연락처"}
-          isRequired
-          isInvalid={result.errorField.includes("contact")}
-          //   onValueChange={setPreviewIntroduction}
-          onChange={handleChange}
-          defaultValue={expertData?.contact}
-        />
-        <Input
-          variant={"bordered"}
-          id="introduction"
-          required
-          label={"한줄 소개"}
-          isRequired
-          isInvalid={result.errorField.includes("introduction")}
-          //   onValueChange={setPreviewIntroduction}
-          onChange={handleChange}
-          defaultValue={expertData?.introduction}
-        />
-        <Textarea
-          variant={"bordered"}
-          id="detail"
-          label={"상세 소개 - 마크다운 문법 지원"}
-          placeholder={
-            "포트폴리오 등 \n외부 링크는 [주소 이름](http://kuin.me) 형식으로 작성해주세요.\n보다 자세한 설명은 하단 링크를 참고해주세요"
-          }
-          minRows={5}
-          required
-          isRequired
-          isInvalid={result.errorField.includes("detail")}
-          //   onValueChange={setPreviewDetail}
-          onChange={handleChange}
-          defaultValue={expertData?.detail}
-        />
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="name">이름 *</Label>
+          <Input
+            id="name"
+            required
+            onChange={handleChange}
+            defaultValue={expertData?.name}
+            className={result.errorField.includes("name") ? "border-destructive" : ""}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="contact">연락처 *</Label>
+          <Input
+            id="contact"
+            required
+            onChange={handleChange}
+            defaultValue={expertData?.contact}
+            className={result.errorField.includes("contact") ? "border-destructive" : ""}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="introduction">한줄 소개 *</Label>
+          <Input
+            id="introduction"
+            required
+            onChange={handleChange}
+            defaultValue={expertData?.introduction}
+            className={result.errorField.includes("introduction") ? "border-destructive" : ""}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="detail">상세 소개 - 마크다운 문법 지원 *</Label>
+          <Textarea
+            id="detail"
+            placeholder="포트폴리오 등&#10;외부 링크는 [주소 이름](http://kuin.me) 형식으로 작성해주세요.&#10;보다 자세한 설명은 하단 링크를 참고해주세요"
+            rows={5}
+            required
+            onChange={handleChange}
+            defaultValue={expertData?.detail}
+            className={result.errorField.includes("detail") ? "border-destructive" : ""}
+          />
+        </div>
         <div className="w-full flex">
           <MarkdownTutorialBtn />
         </div>
@@ -238,8 +235,9 @@ function ExpertProfileEditModePage({
 
       <div className="flex items-center gap-4 mt-6">
         <Typography variant={"subtitle1"}>포트폴리오</Typography>
-        <Button startContent={<PlusIcon />} color="primary" size="sm">
-          <label htmlFor="portfolioImageInput" className={"cursor-pointer"}>
+        <Button size="sm" asChild>
+          <label htmlFor="portfolioImageInput" className="cursor-pointer">
+            <PlusIcon className="mr-2" size={16} />
             사진 {expertData ? "추가" : "업로드"}
           </label>
         </Button>
@@ -258,17 +256,15 @@ function ExpertProfileEditModePage({
             <Image
               src={url}
               alt={`preview-${index}`}
-              className={
-                "max-w-[160px] max-h-[160px] rounded-md overflow-hidden object-cover"
-              }
+              className="max-w-[160px] max-h-[160px] rounded-md overflow-hidden object-cover"
+              width={160}
+              height={160}
             />
             <Button
               size="sm"
-              color="danger"
-              onPress={() => handlePortfolioImageDelete(index)}
-              className="absolute top-[-12px] right-[-12px] z-10"
-              isIconOnly
-              variant={"solid"}
+              variant="destructive"
+              onClick={() => handlePortfolioImageDelete(index)}
+              className="absolute top-[-12px] right-[-12px] z-10 h-8 w-8 p-0"
             >
               <Trash2 size={16} />
             </Button>
@@ -280,23 +276,18 @@ function ExpertProfileEditModePage({
         {expertData && (
           <Button
             size="lg"
-            color={"default"}
-            onPress={handleClickCancel}
-            variant={"solid"}
-            fullWidth
-            radius={"md"}
+            onClick={handleClickCancel}
+            variant="outline"
+            className="w-full"
           >
             취소
           </Button>
         )}
         <Button
           size="lg"
-          color={"primary"}
-          variant={"solid"}
-          fullWidth
-          radius={"md"}
-          onPress={handleClickSubmit}
-          isLoading={isPending}
+          onClick={handleClickSubmit}
+          disabled={isPending}
+          className="w-full"
         >
           저장하기
         </Button>

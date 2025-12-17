@@ -1,8 +1,7 @@
 "use client";
 
 import { Provider } from "@supabase/supabase-js";
-
-import { Button } from "@nextui-org/button";
+import { Button } from "@/components/ui/button";
 import { GoogleIcon } from "@/components/icons";
 import { oAuthSignIn } from "./login/action";
 import Typography from "@/components/common/Typography";
@@ -50,17 +49,14 @@ export function OAuthButtons({
         </Button>
       ))} */}
       <Button
-        radius="sm"
-        // onClick={() => console.log(callbackUrl)}
-        variant={"shadow"}
         onClick={async () => {
           await oAuthSignIn("google", next);
         }}
         size="lg"
-        startContent={<GoogleIcon />}
-        className={" bg-background border-2 border-primary mt-10"}
+        className="bg-background border-2 border-primary mt-10 shadow-lg"
       >
-        <Typography variant={"text"} style={{ fontWeight: 700 }}>
+        <GoogleIcon />
+        <Typography variant="text" style={{ fontWeight: 700 }}>
           구글 계정으로 5초만에 시작하기
         </Typography>
       </Button>

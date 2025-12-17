@@ -1,17 +1,4 @@
-import {
-  Navbar as NextUINavbar,
-  NavbarContent,
-  NavbarBrand,
-} from "@nextui-org/navbar";
 import NextLink from "next/link";
-// import {
-//   TwitterIcon,
-//   GithubIcon,
-//   DiscordIcon,
-//   HeartFilledIcon,
-//   SearchIcon,
-//   Logo,
-// } from "@/components/icons";
 import AvatarWrapper from "../Avatar";
 import { Tables } from "@/types/database.types";
 import LinkWrapper from "./LinkWrapper";
@@ -25,71 +12,20 @@ export const Navbar = ({
   projectList: Tables<"project">[] | null;
 }) => {
   return (
-    <NextUINavbar
-      height={"3rem"}
-      maxWidth="xl"
-      position="sticky"
-      isBordered
-      classNames={{
-        item: [
-          "flex",
-          "relative",
-          "h-full",
-          "items-center",
-          "data-[active=true]:after:content-['']",
-          "data-[active=true]:after:absolute",
-          "data-[active=true]:after:bottom-0",
-          "data-[active=true]:after:left-0",
-          "data-[active=true]:after:right-0",
-          "data-[active=true]:after:h-[2px]",
-          "data-[active=true]:after:rounded-[2px]",
-          "data-[active=true]:after:bg-primary",
-        ],
-      }}
-    >
-      <NavbarContent
-        className="basis-1/5 sm:basis-full flex gap-2"
-        justify="start"
-      >
-        <BackButton />
-        <NavbarBrand as="li" className="gap-2 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/">
-            <p className="font-bold text-inherit">KUIN</p>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-12 max-w-screen-xl items-center px-4">
+        <div className="flex items-center gap-2 flex-1">
+          <BackButton />
+          <NextLink href="/" className="flex items-center gap-2">
+            <span className="font-bold">KUIN</span>
           </NextLink>
-        </NavbarBrand>
-      </NavbarContent>
-      <NavbarContent className=" sm:flex basis-1/5 sm:basis-full" justify="end">
-        <LinkWrapper />
-        <AvatarWrapper profile={profile} projectList={projectList} />
-      </NavbarContent>
-
-      {/* <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <ThemeSwitch />
-        <NavbarMenuToggle />
-      </NavbarContent> */}
-
-      {/* <NavbarMenu>
-        <SearchInput />
-        <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                // color={
-                //   index === 2
-                //     ? "primary"
-                //     : index === siteConfig.navMenuItems.length - 1
-                //       ? "danger"
-                //       : "foreground"
-                // }
-                href={item.href}
-                size="lg"
-              >
-                {item.label}
-              </Link>
-            </NavbarMenuItem>
-          ))}
         </div>
-      </NavbarMenu> */}
-    </NextUINavbar>
+
+        <div className="flex items-center gap-4 flex-1 justify-end">
+          <LinkWrapper />
+          <AvatarWrapper profile={profile} projectList={projectList} />
+        </div>
+      </div>
+    </header>
   );
 };

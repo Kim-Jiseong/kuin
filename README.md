@@ -1,52 +1,96 @@
-# Next.js & NextUI Template
+# Kuin - 프리랜서 플랫폼
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+외주 프로젝트와 전문가를 연결하는 플랫폼입니다.
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
+## 기술 스택
 
-## Technologies Used
+### Core
+- [Next.js 16](https://nextjs.org/) - React 19, App Router
+- [TypeScript](https://www.typescriptlang.org/) - Type-safe development
+- [Supabase](https://supabase.com/) - Database, Auth, Storage
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [NextUI v2](https://nextui.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+### UI & Styling
+- [shadcn/ui](https://ui.shadcn.com/) - Re-usable components
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS
+- [Radix UI](https://www.radix-ui.com/) - Headless UI primitives
+- [Lucide Icons](https://lucide.dev/) - Beautiful icons
+- [next-themes](https://github.com/pacocoursey/next-themes) - Dark mode support
+- [Framer Motion](https://www.framer.com/motion/) - Animations
 
-## How to Use
+### State Management & Data
+- [Zustand](https://github.com/pmndrs/zustand) - Lightweight state management
+- [TanStack Query](https://tanstack.com/query) - Data fetching & caching
 
-### Use the template with create-next-app
+### Development
+- [ESLint](https://eslint.org/) - Code linting
+- [Prettier](https://prettier.io/) - Code formatting
 
-To create a new project based on this template using `create-next-app`, run the following command:
+## 시작하기
 
-```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
-```
-
-### Install dependencies
-
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+### 의존성 설치
 
 ```bash
 npm install
+# or
+yarn install
+# or
+pnpm install
 ```
 
-### Run the development server
+### 환경 변수 설정
+
+`.env.local` 파일을 생성하고 다음 환경 변수를 설정하세요:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_SUPABASE_STORAGE_URL=your_storage_url
+NEXT_PUBLIC_SITE_URL=your_site_url
+```
+
+### 개발 서버 실행
 
 ```bash
 npm run dev
 ```
 
-### Setup pnpm (optional)
+브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 결과를 확인하세요.
 
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
+### 빌드
 
 ```bash
-public-hoist-pattern[]=*@nextui-org/*
+npm run build
+npm start
 ```
 
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+## 프로젝트 구조
+
+```
+kuin-app/
+├── app/                    # Next.js App Router
+│   ├── (page)/            # Public pages
+│   ├── api/               # API routes
+│   └── auth/              # Authentication pages
+├── components/            # React components
+│   ├── ui/               # shadcn/ui components
+│   └── common/           # Shared components
+├── utils/                 # Utility functions
+│   └── supabase/         # Supabase clients
+├── stores/               # Zustand stores
+├── styles/               # Global styles
+├── types/                # TypeScript types
+└── public/               # Static files
+```
+
+## 주요 기능
+
+- 🔐 Supabase Auth (OAuth, Email/Password)
+- 📦 Supabase Storage (파일 업로드)
+- 🎨 Dark Mode 지원
+- 📱 반응형 디자인
+- ⚡ Server Components & Server Actions
+- 🔍 검색 및 필터링
+- 📊 프로필 및 프로젝트 관리
 
 ## License
 

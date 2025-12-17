@@ -3,20 +3,22 @@
 import { useEffect, useState } from "react";
 import { major as majorList } from "@/constant/major";
 import SearchInput from "@/components/common/SearchInput";
-import { Button } from "@nextui-org/button";
+import { Button } from "@/components/ui/button";
 import { Frown, Plus, Search } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
-  Checkbox,
   Select,
+  SelectContent,
   SelectItem,
-  Spinner,
-  Tab,
-  Tabs,
-} from "@nextui-org/react";
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Spinner } from "@/components/ui/spinner";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { returnMajorColor } from "@/utils/returnMajorColor";
 import { Tables } from "@/types/database.types";
 import Typography from "@/components/common/Typography";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import ProjectDisplayCard from "./components/ProjectDisplayCard";
 import { getMajorObjByCode } from "@/utils/getMajorObjByCode";
@@ -32,10 +34,12 @@ export default function ProjectsPage() {
   const [searchMode, setSearchMode] = useState<string>("new");
   const [onProgressOnly, setOnProgressOnly] = useState(false);
 
+  const supabase = createClient();
+
   const getProjectList = async (query: string) => {
     setIsLoading(true);
     const { data, error } = await supabase.rpc(
-      `search_projects_${searchMode}_sort`,
+      `search_projects_${searchMode}_sort` as any,
       {
         major_filter: major,
         search_text: query,
@@ -75,9 +79,8 @@ export default function ProjectsPage() {
             placeholder={`${getMajorObjByCode(major)?.name} 프로젝트 검색...`}
           />
           <Button
-            variant={"shadow"}
-            isIconOnly
-            color={"primary"}
+            variant="default"
+            className="h-8 w-8 p-0 shadow-lg"
             onClick={handleClickSearch}
           >
             <Search />
@@ -89,11 +92,10 @@ export default function ProjectsPage() {
           }
         >
           <Button
-            startContent={<Plus size={18} />}
             size="sm"
-            color="primary"
-            onPress={() => router.push("/projects/new")}
+            onClick={() => router.push("/projects/new")}
           >
+            <Plus size={18} className="mr-2" />
             새 프로젝트
           </Button>
           <div
@@ -101,24 +103,24 @@ export default function ProjectsPage() {
               "flex flex-col sm:flex-row items-end sm:items-center gap-2"
             }
           >
-            <Checkbox
-              size="sm"
-              isSelected={onProgressOnly}
-              onValueChange={setOnProgressOnly}
-            >
+            <div className="flex items-center gap-2">
+              <Checkbox
+                checked={onProgressOnly}
+                onCheckedChange={(checked) => setOnProgressOnly(checked === true)}
+              />
               <Typography variant={"caption"}>모집중인 프로젝트만</Typography>
-            </Checkbox>
+            </div>
             <Select
-              size="sm"
-              // label="정렬 기준"
-              variant="underlined"
-              selectedKeys={[searchMode]}
-              className="w-36"
-              disallowEmptySelection
-              onChange={(e) => setSearchMode(e.target.value)}
+              value={searchMode}
+              onValueChange={(value) => setSearchMode(value)}
             >
-              <SelectItem key={"view"}>인기순</SelectItem>
-              <SelectItem key={"new"}>최신순</SelectItem>
+              <SelectTrigger className="w-36">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="view">인기순</SelectItem>
+                <SelectItem value="new">최신순</SelectItem>
+              </SelectContent>
             </Select>
           </div>
         </div>

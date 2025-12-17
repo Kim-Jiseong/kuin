@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import MarkdownRenderer from "../common/MarkdownRenderer";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@/components/ui/spinner";
 
 function MarkdownTutorialContainer() {
   const [isLoading, setIsLoading] = useState(true);

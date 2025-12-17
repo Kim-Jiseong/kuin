@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Typography from "../common/Typography";
 import { Tables } from "@/types/database.types";
-import { Button, Chip } from "@nextui-org/react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { ChevronDown, Trash2 } from "lucide-react";
 import StatusEditDropdown from "../common/ProjectStatusEditDropdown";
 import { deleteProject, updateProjectStatus } from "@/service/project/action";
@@ -40,13 +41,9 @@ function ProjectContentRow({
           lines={1}
           className={"mb-1 font-semibold"}
         >
-          <Chip
-            color={returnMajorColor(project.major)}
-            size="sm"
-            className={"align-middle"}
-          >
-            {getMajorObjByCode(project.major)?.name}
-          </Chip>
+          <Badge variant="secondary" className="align-middle">
+            {getMajorObjByCode(project.major as string)?.name}
+          </Badge>
           &nbsp;&nbsp;{project.title}
         </Typography>
         <Typography
@@ -61,11 +58,11 @@ function ProjectContentRow({
       <div className="flex gap-2 items-center flex-shrink-0">
         <StatusEditDropdown status={status} setStatus={setStatus} />
         <Button
-          variant={"flat"}
+          variant="secondary"
           color={"danger"}
           size="sm"
-          isIconOnly
-          onPress={() => deleteProject(project.id)}
+          className="h-8 w-8 p-0"
+          onClick={() => deleteProject(project.id)}
         >
           <Trash2 size={18} />
         </Button>

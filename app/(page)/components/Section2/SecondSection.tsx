@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import SectionCard from "./SectionCard";
-import { Button } from "@nextui-org/button";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Tables } from "@/types/database.types";
 import { User } from "@supabase/supabase-js";
@@ -47,7 +47,7 @@ function SecondSection({ user }: { user: User | null }) {
             <Button
               color="danger"
               className="mt-4 font-bold"
-              onPress={handleClick}
+              onClick={handleClick}
             >
               바로 시작하기
             </Button>

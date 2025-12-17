@@ -2,17 +2,16 @@
 
 import React, { useCallback } from "react";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@nextui-org/modal";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { DotButton, useDotButton } from "./CarouselDotButtons";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
-import { Image } from "@nextui-org/react";
+import Image from "next/image";
 
 const OPTIONS: EmblaOptionsType = {};
 
@@ -45,62 +44,46 @@ function FullPageModal({
     onNavButtonClick
   );
   return (
-    <Modal
-      isOpen={isOpen}
+    <Dialog
+      open={isOpen}
       onOpenChange={onOpenChange}
-      size="full"
-      backdrop={"blur"}
     >
-      <ModalContent className="bg-transparent scrollbar-hide">
-        {(onClose) => (
-          <>
-            <ModalHeader></ModalHeader>
-            {/* <ModalBody> */}
-            <section className="embla embla_fullpage">
-              <div className="embla__viewport--full" ref={emblaRef}>
-                <div className="embla__container">
-                  {imageList.map((src, index) => (
-                    <div className="embla__slide" key={index}>
-                      <Image
-                        removeWrapper
-                        role="presentation"
-                        onClick={() => {
-                          setIsFullPageModalOpen(true);
-                        }}
-                        src={src}
-                        alt={"carousel_image-" + index}
-                        className={"w-full h-full object-contain"}
-                      />
-                    </div>
-                  ))}
+      <DialogContent className="bg-transparent scrollbar-hide max-w-full h-full">
+        <section className="embla embla_fullpage">
+          <div className="embla__viewport--full" ref={emblaRef}>
+            <div className="embla__container">
+              {imageList.map((src, index) => (
+                <div className="embla__slide" key={index}>
+                  <Image
+                    role="presentation"
+                    src={src}
+                    alt={"carousel_image-" + index}
+                    className="w-full h-full object-contain"
+                    width={1200}
+                    height={1200}
+                  />
                 </div>
-              </div>
+              ))}
+            </div>
+          </div>
 
-              <div className="embla__controls">
-                {/* <div className="embla__buttons">
-          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-          </div> */}
-
-                <div className="embla__dots">
-                  {scrollSnaps.map((_, index) => (
-                    <DotButton
-                      key={index}
-                      role="presentation"
-                      onClick={() => onDotButtonClick(index)}
-                      className={"embla__dot".concat(
-                        index === selectedIndex ? " embla__dot--selected" : ""
-                      )}
-                    />
-                  ))}
-                </div>
-              </div>
-            </section>
-            {/* </ModalBody> */}
-          </>
-        )}
-      </ModalContent>
-    </Modal>
+          <div className="embla__controls">
+            <div className="embla__dots">
+              {scrollSnaps.map((_, index) => (
+                <DotButton
+                  key={index}
+                  role="presentation"
+                  onClick={() => onDotButtonClick(index)}
+                  className={"embla__dot".concat(
+                    index === selectedIndex ? " embla__dot--selected" : ""
+                  )}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      </DialogContent>
+    </Dialog>
   );
 }
 

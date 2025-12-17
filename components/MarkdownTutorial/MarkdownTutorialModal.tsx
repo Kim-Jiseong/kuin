@@ -1,10 +1,9 @@
 import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "@nextui-org/modal";
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+} from "@/components/ui/dialog";
 import React from "react";
 import MarkdownTutorialContainer from "./MarkdownTutorialContainer";
 
@@ -16,24 +15,17 @@ function MarkdownTutorialModal({
   onOpenChange: (open: boolean) => void;
 }) {
   return (
-    <Modal
-      isOpen={isOpen}
+    <Dialog
+      open={isOpen}
       onOpenChange={onOpenChange}
-      size={"3xl"}
-      scrollBehavior={"inside"}
     >
-      <ModalContent>
-        {(onClose) => (
-          <>
-            <ModalHeader></ModalHeader>
-            <ModalBody>
-              <MarkdownTutorialContainer />
-            </ModalBody>
-            <ModalFooter />
-          </>
-        )}
-      </ModalContent>
-    </Modal>
+      <DialogContent className="max-h-[80vh] overflow-y-auto">
+        <DialogHeader>마크다운 튜토리얼</DialogHeader>
+        <div>
+          <MarkdownTutorialContainer />
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 

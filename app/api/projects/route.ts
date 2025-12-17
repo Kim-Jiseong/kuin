@@ -1,8 +1,9 @@
-import { supabase } from "../../../lib/supabaseClient";
+import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 // GET 메서드
 export async function GET(req: NextRequest) {
+  const supabase = await createClient();
   const { searchParams } = new URL(req.url);
   const filter = searchParams.get("filter") || "";
   const search = searchParams.get("search") || "";
@@ -35,6 +36,7 @@ export async function GET(req: NextRequest) {
 
 // POST 메서드
 export async function POST(req: NextRequest) {
+  const supabase = await createClient();
   const { title, introduction, detail, files, owner, contact, metadata } =
     await req.json();
 

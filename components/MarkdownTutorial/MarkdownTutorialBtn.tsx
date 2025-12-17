@@ -1,17 +1,22 @@
 "use client";
-import { Link } from "@nextui-org/link";
-import { useDisclosure } from "@nextui-org/modal";
-import React from "react";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import MarkdownTutorialModal from "./MarkdownTutorialModal";
 
 function MarkdownTutorialBtn() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
-      <Link size="sm" href="#" onClick={() => onOpen()}>
+      <Button
+        variant="link"
+        size="sm"
+        className="text-sm"
+        onClick={() => setIsOpen(true)}
+      >
         마크다운 도움말
-      </Link>
-      <MarkdownTutorialModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      </Button>
+      <MarkdownTutorialModal isOpen={isOpen} onOpenChange={setIsOpen} />
     </>
   );
 }

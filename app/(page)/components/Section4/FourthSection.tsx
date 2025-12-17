@@ -1,7 +1,7 @@
 "use client";
 import Typography from "@/components/common/Typography";
 import { Tables } from "@/types/database.types";
-import { Button } from "@nextui-org/button";
+import { Button } from "@/components/ui/button";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -41,16 +41,14 @@ function FourthSection({
           </Typography>
           <div className="flex items-center gap-2">
             <Button
-              className={`mt-4 font-bold`}
-              color="primary"
-              variant={"bordered"}
+              className="mt-4 font-bold"
+              variant="outline"
               onClick={() => handleClick("/projects/new")}
             >
               프로젝트 등록하기
             </Button>
             <Button
-              className={`mt-4 font-bold`}
-              color="primary"
+              className="mt-4 font-bold"
               onClick={() => handleClick("/experts/edit/" + profile?.id)}
             >
               전문가 등록하기

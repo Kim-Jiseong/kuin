@@ -1,7 +1,8 @@
-import { Input } from "@nextui-org/input";
+import { Input } from "@/components/ui/input";
 import React from "react";
 import { SearchIcon } from "../icons";
-import { Kbd } from "@nextui-org/kbd";
+import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 function SearchInput({
   value,
@@ -23,35 +24,30 @@ function SearchInput({
   };
 
   return (
-    <Input
-      aria-label="Search"
-      variant={"bordered"}
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      value={value}
-      onValueChange={setValue}
-      // endContent={
-      //   <Kbd className="hidden lg:inline-block" keys={["enter"]}>
-      //     Enter
-      //   </Kbd>
-      // }
-      labelPlacement="outside"
-      placeholder={placeholder}
-      startContent={
-        <div className="flex items-center gap-1">
-          <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-          <Kbd className="hidden lg:inline-block" keys={["enter"]}>
-            {/* Enter */}
-          </Kbd>
-        </div>
-      }
-      type="search"
-      isClearable
-      onKeyDown={handleKeyDown}
-      onClear={onClear}
-    />
+    <div className="relative w-full">
+      <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+        <SearchIcon className="h-4 w-4 text-muted-foreground" />
+        <kbd className="hidden lg:inline-block pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+          Enter
+        </kbd>
+      </div>
+      <Input
+        type="search"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onKeyDown={handleKeyDown}
+        className={cn("pl-20", value && "pr-8")}
+      />
+      {value && (
+        <button
+          onClick={onClear}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      )}
+    </div>
   );
 }
 

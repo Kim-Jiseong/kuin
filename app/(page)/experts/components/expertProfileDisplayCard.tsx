@@ -2,11 +2,12 @@ import { Tables } from "@/types/database.types";
 import { getMajorObjByCode } from "@/utils/getMajorObjByCode";
 import { returnMajorColor } from "@/utils/returnMajorColor";
 import { EmblaOptionsType } from "embla-carousel";
-import { Chip, Image, ScrollShadow } from "@nextui-org/react";
+import { Badge } from "@/components/ui/badge";
 import useEmblaCarousel from "embla-carousel-react";
 import React from "react";
 import { useRouter } from "next/navigation";
 import Typography from "@/components/common/Typography";
+import Image from "next/image";
 
 const OPTIONS: EmblaOptionsType = {};
 
@@ -15,12 +16,14 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
   const [emblaRefMini, emblaApiMini] = useEmblaCarousel(OPTIONS);
   const [emblaRefMobile, emblaApiMobile] = useEmblaCarousel(OPTIONS);
 
+  const expertProfile = profile.expert_profile as any;
   const slides =
-    profile.expert_profile?.portfolio &&
-    profile.expert_profile?.portfolio.length > 0
-      ? profile.expert_profile.portfolio
-      : profile.expert_profile?.profileImage
-        ? Array(profile.expert_profile?.profileImage as string)
+    expertProfile?.portfolio &&
+    Array.isArray(expertProfile.portfolio) &&
+    expertProfile.portfolio.length > 0
+      ? expertProfile.portfolio
+      : expertProfile?.profileImage
+        ? [expertProfile.profileImage as string]
         : [
             "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/source/default_user.webp",
           ];
@@ -62,12 +65,14 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
         >
           <div className="embla__mini__viewport" ref={emblaRefMini}>
             <div className="embla__mini__container">
-              {slides.map((src, index) => (
+              {slides.map((src: string, index: number) => (
                 <div className="embla__mini__slide" key={index}>
                   <Image
                     alt="Portfolio Thumbnail Image"
                     className="w-[168px] h-[168px] rounded-xl object-cover"
                     src={src}
+                    width={168}
+                    height={168}
                   />
                 </div>
               ))}
@@ -82,14 +87,14 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
         >
           <div className="embla__mobile__viewport" ref={emblaRefMobile}>
             <div className="embla__mobile__container">
-              {slides.map((src, index) => (
+              {slides.map((src: string, index: number) => (
                 <div className="embla__mobile__slide" key={index}>
                   <Image
-                    removeWrapper
                     alt="Portfolio Thumbnail Image"
-                    radius={"none"}
-                    className="w-[full] object-cover min-w-full aspect-square"
+                    className="w-full object-cover min-w-full aspect-square"
                     src={src}
+                    width={400}
+                    height={400}
                   />
                 </div>
               ))}
@@ -101,18 +106,15 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
       <div className="flex flex-col gap-2 h-full">
         <h4 className="font-bold text-large flex items-center gap-2">
           <Typography variant="subtitle2" ellipsis lines={1}>
-            {profile.expert_profile.name}
+            {expertProfile?.name}
           </Typography>
-          <Chip
-            size="sm"
-            color={returnMajorColor(profile.expert_profile.major as string)}
-          >
-            {getMajorObjByCode(profile.expert_profile.major as string)?.name}
-          </Chip>
+          <Badge variant="secondary">
+            {getMajorObjByCode(expertProfile?.major as string)?.name}
+          </Badge>
         </h4>
-        <ScrollShadow className={"w-full h-[80px] sm:h-full overflow-auto"}>
-          {profile.expert_profile.introduction}
-        </ScrollShadow>
+        <div className="w-full h-[80px] sm:h-full overflow-auto">
+          {(profile.expert_profile as any)?.introduction}
+        </div>
       </div>
     </div>
   );

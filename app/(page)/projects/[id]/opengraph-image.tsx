@@ -14,7 +14,7 @@ export const contentType = "image/png";
 
 // Image generation
 export default async function Image({ params }: { params: { id: string } }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: project, error: projectError } = await supabase
     .from("project")
     .select(

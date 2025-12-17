@@ -1,5 +1,6 @@
 import { Tables } from "@/types/database.types";
-import { Avatar, Chip, User } from "@nextui-org/react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import React from "react";
 import OwnerCard from "./OwnerCard";
 import MarkdownRenderer from "@/components/common/MarkdownRenderer";
@@ -52,7 +53,7 @@ function ProjectViewModePage({
           {/* </div>
         </div> */}
         </div>
-        <FileViewContainer fileList={projectData.files} />
+        <FileViewContainer fileList={projectData.files as any} />
       </div>
     );
 }

@@ -2,20 +2,16 @@
 
 import { major as majorList } from "@/constant/major";
 import { returnMajorColor } from "@/utils/returnMajorColor";
-import {
-  Button,
-  Input,
-  Link,
-  Select,
-  SelectItem,
-  Spinner,
-  Tab,
-  Tabs,
-} from "@nextui-org/react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Spinner } from "@/components/ui/spinner";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Tables } from "@/types/database.types";
 import SearchInput from "@/components/common/SearchInput";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/utils/supabase/client";
 import { Frown, Search } from "lucide-react";
 import ExpertProfileDisplayCard from "./components/expertProfileDisplayCard";
 import Typography from "@/components/common/Typography";
@@ -31,6 +27,8 @@ export default function ExpertsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchMode, setSearchMode] = useState<string>("view");
 
+  const supabase = createClient();
+
   const getMy = async () => {
     const myProfile = await getMyProfile();
     if (myProfile) {
@@ -40,7 +38,7 @@ export default function ExpertsPage() {
   const getProfileList = async (query: string) => {
     setIsLoading(true);
     const { data, error } = await supabase.rpc(
-      `search_expert_profiles_${searchMode}_sort`,
+      `search_expert_profiles_${searchMode}_sort` as any,
       {
         major_filter: major,
         search_text: query,
@@ -81,9 +79,8 @@ export default function ExpertsPage() {
             아직 전문가 프로필이 없으시네요! 전문가 프로필을 등록하시겠어요?
           </p>
           <Link
-            size="sm"
-            underline="always"
             href={"/experts/edit/" + myProfile?.id}
+            className="text-sm underline"
           >
             등록하기
           </Link>
@@ -100,9 +97,8 @@ export default function ExpertsPage() {
             placeholder={`${getMajorObjByCode(major)?.name} 전문가 검색...`}
           />
           <Button
-            variant={"shadow"}
-            isIconOnly
-            color={"primary"}
+            variant="default"
+            className="h-8 w-8 p-0 shadow-lg"
             onClick={handleClickSearch}
           >
             <Search />
@@ -110,16 +106,16 @@ export default function ExpertsPage() {
         </div>
         <div className={"w-full flex items-center justify-end py-4"}>
           <Select
-            size="sm"
-            // label="정렬 기준"
-            variant="underlined"
-            selectedKeys={[searchMode]}
-            className="max-w-40"
-            disallowEmptySelection
-            onChange={(e) => setSearchMode(e.target.value)}
+            value={searchMode}
+            onValueChange={(value) => setSearchMode(value)}
           >
-            <SelectItem key={"view"}>인기순</SelectItem>
-            <SelectItem key={"new"}>최신순</SelectItem>
+            <SelectTrigger className="max-w-40">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="view">인기순</SelectItem>
+              <SelectItem value="new">최신순</SelectItem>
+            </SelectContent>
           </Select>
         </div>
       </div>

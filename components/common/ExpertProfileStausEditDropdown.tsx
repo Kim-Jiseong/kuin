@@ -1,14 +1,13 @@
 "use client";
 import { getProfileStatusNameByCode } from "@/utils/getProfileStatusNameByCode";
-import { returnProfileStatusColor } from "@/utils/returnProfileStatusColor";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
-  Button,
-  Chip,
-  Dropdown,
-  DropdownItem,
   DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/react";
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import React from "react";
 
@@ -19,34 +18,27 @@ function ExpertProfileStausEditDropdown({
   status: string | null;
   setStatus: (status: string) => void;
 }) {
+  if (!status) return null;
+
   return (
-    <>
-      {status && (
-        <Dropdown backdrop="blur">
-          <DropdownTrigger>
-            <Button variant={"light"} className={`px-2`}>
-              <Chip color={returnProfileStatusColor(status)}>
-                {getProfileStatusNameByCode(status)}
-              </Chip>
-              <ChevronDown size={16} />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            disallowEmptySelection
-            aria-label="change-status"
-            onAction={(key) => setStatus(key as string)}
-            selectionMode="single"
-          >
-            <DropdownItem key="public">
-              <Chip color={returnProfileStatusColor("public")}>공개</Chip>
-            </DropdownItem>
-            <DropdownItem key="private">
-              <Chip color={returnProfileStatusColor("private")}>비공개</Chip>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      )}
-    </>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="px-2 h-auto">
+          <Badge variant={status === "public" ? "default" : "secondary"}>
+            {getProfileStatusNameByCode(status)}
+          </Badge>
+          <ChevronDown size={16} className="ml-1" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem onClick={() => setStatus("public")}>
+          <Badge variant="default">공개</Badge>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setStatus("private")}>
+          <Badge variant="secondary">비공개</Badge>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
