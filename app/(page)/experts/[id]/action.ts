@@ -1,6 +1,6 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
+import { TablesUpdate } from "@/types/database.types";
 
 export const getMyProfile = async () => {
     const supabase = await createClient();
@@ -17,23 +17,15 @@ export const getMyProfile = async () => {
 
 export async function incrementViewCount(profileId: string, prevView: number | undefined) {
   const supabase = await createClient();
-  // const { data: profile, error: fetchError } = await supabase
-  //   .from('profile')
-  //   .select('view')
-  //   .eq('id', profileId)
-  //   .single();
-
-  // if (fetchError) {
-  //   console.error('Error fetching view count:', fetchError);
-  //   return null;
-  // }
 
   const currentViewCount = prevView ?? 0;
+
+  const updateData: TablesUpdate<"profile"> = { view: currentViewCount + 1 };
 
   // view 값을 1 증가시켜 업데이트
   const { data, error } = await supabase
     .from('profile')
-    .update({ view: currentViewCount + 1 })
+    .update(updateData)
     .eq('id', profileId);
 
   if (error) {

@@ -1,6 +1,6 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
+import { TablesUpdate } from "@/types/database.types";
 
 export const getMyProfile = async () => {
     const supabase = await createClient();
@@ -21,10 +21,12 @@ export async function incrementViewCount(projectId: string, prevView: number | u
 
   const currentViewCount = prevView ?? 0;
 
+  const updateData: TablesUpdate<"project"> = { view: currentViewCount + 1 };
+
   // view 값을 1 증가시켜 업데이트
   const { data, error } = await supabase
     .from('project')
-    .update({ view: currentViewCount + 1 })
+    .update(updateData)
     .eq('id', projectId);
 
   if (error) {

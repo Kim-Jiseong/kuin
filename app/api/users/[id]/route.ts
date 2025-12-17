@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { TablesUpdate } from "@/types/database.types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -28,9 +29,12 @@ export async function PUT(
   const { id } = await params;
   const supabase = await createClient();
   const { email, name, image, provider, expert_profile } = await req.json();
+  
+  const updateData: TablesUpdate<"profile"> = { email, name, image, provider, expert_profile };
+  
   const { data, error } = await supabase
     .from("profile")
-    .update({ email, name, image, provider, expert_profile })
+    .update(updateData)
     .eq("id", id)
     .select();
 

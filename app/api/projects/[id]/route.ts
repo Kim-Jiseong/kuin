@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { TablesUpdate } from "@/types/database.types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -27,12 +28,14 @@ export async function PUT(
 ) {
   const { id } = await params;
   const supabase = await createClient();
-  const { title, introduction, detail, files, owner, contact, metadata } =
+  const { title, introduction, detail, files, owner_profile, contact, metadata } =
     await req.json();
+
+  const updateData: TablesUpdate<"project"> = { title, introduction, detail, files, owner_profile, contact, metadata };
 
   const { data, error } = await supabase
     .from("project")
-    .update({ title, introduction, detail, files, owner, contact, metadata })
+    .update(updateData)
     .eq("id", id);
 
   if (error) {
