@@ -18,7 +18,7 @@ function SecondSection({ user }: { user: User | null }) {
   return (
     <section
       className={
-        "w-full px-6 py-12 flex flex-col justify-center min-h-96 bg-content2"
+        "w-full px-6 py-12 flex flex-col justify-center min-h-96 bg-content-2"
       }
     >
       <div

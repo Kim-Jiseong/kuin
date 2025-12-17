@@ -41,7 +41,7 @@ function ExpertProfileDisplayCard({ profile }: { profile: Tables<"profile"> }) {
       className={`w-full lg:w-[calc(50%_-_0.5rem)] 
         h-[auto] lg:h-[200px] shadow-md rounded-large
          p-4 flex flex-col sm:flex-row gap-3 border-1 border-divider 
-         cursor-pointer hover:bg-content2 transition-all duration-200`}
+         cursor-pointer hover:bg-content-2 transition-all duration-200`}
     >
       <div className="flex flex-shrink-0">
         {/* <Image

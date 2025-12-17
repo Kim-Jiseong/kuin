@@ -4,9 +4,16 @@ import { major as majorList } from "@/constant/major";
 import { returnMajorColor } from "@/utils/returnMajorColor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ExpertListSkeleton } from "@/components/skeletons/ListSkeletons";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Tables } from "@/types/database.types";
@@ -136,14 +143,7 @@ export default function ExpertsPage() {
             </div>
           )
         ) : (
-          <div
-            className={
-              "mx-auto flex flex-col items-center justify-center gap-2 my-10"
-            }
-          >
-            {/* <Typography variant={"text"}>로딩중입니다</Typography> */}
-            <Spinner />
-          </div>
+          <ExpertListSkeleton count={6} />
         )}
       </div>
     </div>

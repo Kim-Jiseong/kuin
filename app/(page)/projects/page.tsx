@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { ProjectListSkeleton } from "@/components/skeletons/ListSkeletons";
 import { returnMajorColor } from "@/utils/returnMajorColor";
 import { Tables } from "@/types/database.types";
 import Typography from "@/components/common/Typography";
@@ -91,12 +92,8 @@ export default function ProjectsPage() {
             "w-full flex items-end sm:items-center justify-between gap-4 sm:py-4"
           }
         >
-          <Button
-            size="sm"
-            onClick={() => router.push("/projects/new")}
-          >
-            <Plus size={18} className="mr-2" />
-            새 프로젝트
+          <Button size="sm" onClick={() => router.push("/projects/new")}>
+            <Plus size={18} className="mr-2" />새 프로젝트
           </Button>
           <div
             className={
@@ -106,7 +103,9 @@ export default function ProjectsPage() {
             <div className="flex items-center gap-2">
               <Checkbox
                 checked={onProgressOnly}
-                onCheckedChange={(checked) => setOnProgressOnly(checked === true)}
+                onCheckedChange={(checked) =>
+                  setOnProgressOnly(checked === true)
+                }
               />
               <Typography variant={"caption"}>모집중인 프로젝트만</Typography>
             </div>
@@ -144,14 +143,7 @@ export default function ProjectsPage() {
             </div>
           )
         ) : (
-          <div
-            className={
-              "mx-auto flex flex-col items-center justify-center gap-2 my-10"
-            }
-          >
-            <Spinner />
-            {/* <Typography variant={"text"}>로딩중입니다</Typography> */}
-          </div>
+          <ProjectListSkeleton count={6} />
         )}
       </div>
     </div>

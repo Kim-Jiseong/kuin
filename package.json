@@ -23,8 +23,7 @@
 		"@radix-ui/react-tabs": "^1.1.13",
 		"@supabase/ssr": "^0.4.1",
 		"@supabase/supabase-js": "^2.45.2",
-		"@tanstack/react-query": "^5.52.2",
-		"@tanstack/react-query-devtools": "^5.52.2",
+		"@tailwindcss/postcss": "^4.1.18",
 		"class-variance-authority": "^0.7.1",
 		"classnames": "^2.5.1",
 		"clsx": "^2.1.1",
@@ -57,6 +56,7 @@
 		"@typescript-eslint/eslint-plugin": "^8.48.0",
 		"@typescript-eslint/parser": "^8.48.0",
 		"autoprefixer": "^10.4.22",
+		"baseline-browser-mapping": "^2.9.8",
 		"eslint": "^9.39.1",
 		"eslint-config-next": "^16.0.4",
 		"eslint-config-prettier": "^8.2.0",
@@ -69,7 +69,7 @@
 		"eslint-plugin-unused-imports": "^4.3.0",
 		"postcss": "^8.5.6",
 		"tailwind-variants": "0.1.20",
-		"tailwindcss": "^3.4.18",
+		"tailwindcss": "^4.1.18",
 		"tailwindcss-animate": "^1.0.7",
 		"typescript": "^5.9.3"
 	}

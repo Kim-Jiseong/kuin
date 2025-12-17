@@ -5,12 +5,8 @@ import { Button } from "@/components/ui/button";
 import { GoogleIcon } from "@/components/icons";
 import { oAuthSignIn } from "./login/action";
 import Typography from "@/components/common/Typography";
-
-// type OAuthProvider = {
-//   name: Provider;
-//   displayName: string;
-//   icon?: JSX.Element;
-// };
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 export function OAuthButtons({
   next,
@@ -19,45 +15,43 @@ export function OAuthButtons({
   next?: string | null;
   lastSignedInMethod?: string;
 }) {
-  // const oAuthProviders: OAuthProvider[] = [
-  //   {
-  //     name: "google",
-  //     displayName: "구글",
-  //     icon: <GoogleIcon />,
-  //   },
-  // ];
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    try {
+      const result = await oAuthSignIn("google", next);
+      console.log("OAuth result:", result);
+      if ("error" in result && result.error) {
+        alert(result.error);
+        setIsLoading(false);
+        return;
+      }
+      if ("url" in result && result.url) {
+        // 외부 URL로 리다이렉트
+        window.location.href = result.url;
+      }
+    } catch (error) {
+      console.error("OAuth error:", error);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
-      {/* {oAuthProviders.map((provider) => (
-        <Button
-          key={provider.name}
-          className="relative w-full flex items-center justify-center gap-2"
-          //   variant="outline"
-          onClick={async () => {
-            await oAuthSignIn(provider.name);
-          }}
-        >
-          {provider.icon}
-          Login with {provider.displayName}
-          {lastSignedInMethod === "google" && (
-            <div className="absolute top-1/2 -translate-y-1/2 left-full whitespace-nowrap ml-8 bg-accent px-4 py-1 rounded-md text-xs text-foreground/80">
-              <div className="absolute -left-5 top-0 border-background border-[12px] border-r-accent" />
-              Recently signed in
-            </div>
-          )}
-        </Button>
-      ))} */}
       <Button
-        onClick={async () => {
-          await oAuthSignIn("google", next);
-        }}
+        onClick={handleGoogleLogin}
+        disabled={isLoading}
         size="lg"
         className="bg-background border-2 border-primary mt-10 shadow-lg"
       >
-        <GoogleIcon />
+        {isLoading ? (
+          <Loader2 className="h-5 w-5 animate-spin" />
+        ) : (
+          <GoogleIcon />
+        )}
         <Typography variant="text" style={{ fontWeight: 700 }}>
-          구글 계정으로 5초만에 시작하기
+          {isLoading ? "로그인 중..." : "구글 계정으로 5초만에 시작하기"}
         </Typography>
       </Button>
     </>

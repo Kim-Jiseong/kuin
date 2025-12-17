@@ -17,40 +17,39 @@ export async function signOut() {
 }
 
 export async function oAuthSignIn(provider: Provider, nextUrl?: string | null) {
+  console.log("[oAuthSignIn] called with provider:", provider);
+  
   if (!provider) {
-    return redirect(
-      `/login?message=${encodeURIComponent(
-        "문제가 발생했습니다. 다시 시도해주세요."
-      )}`
-    );
+    return { error: "문제가 발생했습니다. 다시 시도해주세요." };
   }
 
   const supabase = await createClient();
-  const next = nextUrl ? `?next=${nextUrl}` : "";
-    const redirectUrl = getURL("/auth/callback");
-    // console.log("redirectUrl", redirectUrl);
-    // const redirectUrl = getURL("/auth/callback" + next);
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
+  const redirectUrl = getURL("/auth/callback" + (nextUrl ? `?next=${nextUrl}` : ""));
+  console.log("[oAuthSignIn] redirectUrl:", redirectUrl);
+  
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
       redirectTo: redirectUrl,
       queryParams: {
-        // we need this to be able to select an account from google consent page when logging in after logging out
         access_type: "offline",
         prompt: "consent",
       },
     },
   });
   
+  console.log("[oAuthSignIn] signInWithOAuth result:", { data, error });
+  
   if (error) {
-    redirect(`/login?message=${encodeURIComponent("로그인에 실패했습니다.")}`);
+    return { error: "로그인에 실패했습니다." };
   }
 
   const cookieJar = await cookies();
   cookieJar.set("lastSignedInMethod", provider);
-  revalidatePath("/", "layout");
 
-  return redirect(data.url);
+  // 외부 URL은 Server Action에서 redirect() 불가능, URL 반환
+  console.log("[oAuthSignIn] returning url:", data.url);
+  return { url: data.url };
 }
 
 export async function login(formData: FormData) {

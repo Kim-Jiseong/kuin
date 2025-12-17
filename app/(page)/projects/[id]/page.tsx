@@ -1,106 +1,59 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { getMyProfile, incrementViewCount } from "./action";
-import { Spinner } from "@/components/ui/spinner";
 import Error from "@/app/error";
 import ProjectViewModePage from "./components/ProjectViewModePage";
-import { createClient } from "@/utils/supabase/server";
 import { ResolvingMetadata } from "next";
 import { getStatusNameByCode } from "@/utils/getStatusNameByCode";
+import { getProject } from "@/utils/supabase/cache";
+
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ) {
-  const supabase = await createClient();
-  const { data: project, error: projectError } = await supabase
-    .from("project")
-    .select(
-      `
-    *,
-    owner_profile:profile (
-      id,
-      name,
-      email,
-      image,
-      provider,
-      user_id,
-      view,
-      expert_profile,
-      created_at
-    )
-  `
-    )
-    .eq("id", params.id)
-    .single();
-  if (project) {
-    // optionally access and extend (rather than replace) parent metadata
-    // const previousImages = (await parent).openGraph?.images || [];
+  const { id } = await params;
+  // React.cache()로 메모이제이션된 함수 사용 - 동일 요청 내 중복 호출 방지
+  const { project } = await getProject(id);
 
+  if (project) {
     return {
       title: project.title + " - KUIN",
       description: project.introduction,
-      url: process.env.NEXT_PUBLIC_SITE_URL + "/projects/" + params.id,
+      url: process.env.NEXT_PUBLIC_SITE_URL + "/projects/" + id,
       openGraph: {
         title: project.title + " - KUIN",
         description:
           `[${getStatusNameByCode(project.status)}] ` + project.introduction,
-        // images: [...previousImages],
       },
     };
   }
 }
 
 async function ProjectDetail({ params }: Props) {
-  const myProfile = await getMyProfile();
-  const supabase = await createClient();
-  const { data: project, error: projectError } = await supabase
-    .from("project")
-    .select(
-      `
-    *,
-    owner_profile:profile (
-      id,
-      name,
-      email,
-      image,
-      provider,
-      user_id,
-      view,
-      expert_profile,
-      created_at
-    )
-  `
-    )
-    .eq("id", params.id)
-    .single();
+  const { id } = await params;
+  // 캐시된 함수 사용 - generateMetadata와 동일한 데이터 공유
+  const [myProfile, { project }] = await Promise.all([
+    getMyProfile(),
+    getProject(id),
+  ]);
 
   if (myProfile?.profile?.id !== project?.owner_profile?.id)
-    await incrementViewCount(params.id, project?.view ?? undefined);
+    await incrementViewCount(id, project?.view ?? undefined);
+
   return (
     <div className="w-full flex flex-col justify-center items-center gap-4 ">
-      {/* <Suspense
-        fallback={
-          <div
-            className={
-              "w-full h-[50vh] flex flex-col items-center justify-center"
-            }
-          >
-            <Spinner />
-          </div>
-        }
-      > */}
       {!project ? (
         <Error />
       ) : (
         <div className="w-full flex flex-col justify-center items-center gap-4 ">
           <ProjectViewModePage
             user={myProfile?.user}
-            projectId={params.id}
+            projectId={id}
             projectData={project}
             isMe={
               myProfile?.profile?.id === project?.owner_profile?.id || false
@@ -108,7 +61,6 @@ async function ProjectDetail({ params }: Props) {
           />
         </div>
       )}
-      {/* </Suspense> */}
     </div>
   );
 }

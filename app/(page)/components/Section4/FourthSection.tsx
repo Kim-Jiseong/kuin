@@ -26,7 +26,7 @@ function FourthSection({
   return (
     <section
       className={
-        "w-full px-6 py-12 flex flex-col items-center justify-center min-h-96 bg-content2"
+        "w-full px-6 py-12 flex flex-col items-center justify-center min-h-96 bg-content-2"
       }
     >
       <div
@@ -36,7 +36,10 @@ function FourthSection({
       >
         <div className="w-full flex flex-col gap-2 items-center md:items-start">
           <Typography variant={"title"}>지금 바로 시작해보세요</Typography>
-          <Typography variant={"subtitle2"} className={`text-gray-500 text-center`}>
+          <Typography
+            variant={"subtitle2"}
+            className={`text-gray-500 text-center`}
+          >
             5초만에 시작하고, 프로젝트와 전문가 프로필을 등록해보세요
           </Typography>
           <div className="flex items-center gap-2">

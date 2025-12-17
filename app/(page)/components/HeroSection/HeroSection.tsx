@@ -18,7 +18,7 @@ function HeroSection() {
     <section className="bg-gray-900 py-20 px-4">
       <div className="container mx-auto text-center flex flex-col items-center">
         <h1 className="text-3xl font-bold flex flex-col gap-4 justify-center items-center">
-          <div className="py-2 pl-3 pr-2 bg-content3 w-fit rounded-lg flex items-center">
+          <div className="py-2 pl-3 pr-2 bg-content-3 w-fit rounded-lg flex items-center">
             <TypingEffect textArray={strings} />
           </div>
           <div className="inline-block break-keep text-gray-50">

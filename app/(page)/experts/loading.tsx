@@ -1,8 +1,25 @@
-import FullPageSpinner from "@/components/common/FullPageSpinner";
-import React from "react";
+import { ExpertListSkeleton } from "@/components/skeletons/ListSkeletons";
 
-function Loading() {
-  return <FullPageSpinner />;
+/**
+ * 전문가 리스트 페이지 로딩 스켈레톤
+ * FullPageSpinner 대신 실제 레이아웃과 유사한 스켈레톤 표시
+ */
+export default function Loading() {
+  return (
+    <div className="container mx-auto w-full max-w-7xl px-6 flex-grow min-h-[calc(100vh-4rem)]">
+      <div className="w-full flex flex-col pt-2">
+        <div className="w-full flex flex-col gap-4 pt-2 items-center">
+          {/* 검색 영역 스켈레톤 */}
+          <div className="w-full flex gap-1 items-center max-w-xl">
+            <div className="h-8 w-full bg-muted/40 rounded-lg animate-pulse" />
+            <div className="h-8 w-8 bg-muted/40 rounded-lg animate-pulse" />
+          </div>
+          <div className="w-full flex items-center justify-end py-4">
+            <div className="h-9 w-36 bg-muted/40 rounded-lg animate-pulse" />
+          </div>
+        </div>
+        <ExpertListSkeleton count={2} />
+      </div>
+    </div>
+  );
 }
-
-export default Loading;

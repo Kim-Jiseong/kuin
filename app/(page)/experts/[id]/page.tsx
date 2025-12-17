@@ -1,26 +1,24 @@
-import React, { Suspense } from "react";
-import { Spinner } from "@/components/ui/spinner";
-import { createClient } from "@/utils/supabase/server";
+import React from "react";
 import Error from "@/app/error";
 import ExpertProfileViewModePage from "./components/expertProfileViewModePage";
 import { getMyProfile, incrementViewCount } from "./action";
-import { Metadata, ResolvingMetadata } from "next";
+import { ResolvingMetadata } from "next";
+import { getExpertProfile } from "@/utils/supabase/cache";
+
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ) {
-  const supabase = await createClient();
-  const { data: profile, error: profileError } = await supabase
-    .from("profile")
-    .select("*")
-    .eq("id", params.id)
-    .single();
+  const { id } = await params;
+  // React.cache()로 메모이제이션된 함수 사용 - 동일 요청 내 중복 호출 방지
+  const { profile } = await getExpertProfile(id);
+
   if (profile) {
     const expertProfile = profile.expert_profile as any;
     const slides =
@@ -34,7 +32,6 @@ export async function generateMetadata(
           : [
               "https://flmlczkwdmnqilqdhmxn.supabase.co/storage/v1/object/public/files/source/default_user.webp",
             ];
-    // optionally access and extend (rather than replace) parent metadata
     const previousImages = (await parent).openGraph?.images || [];
 
     return {
@@ -50,46 +47,30 @@ export async function generateMetadata(
 }
 
 async function ExpertDetail({ params }: Props) {
-  const supabase = await createClient();
+  const { id } = await params;
+  // 캐시된 함수 사용 - generateMetadata와 동일한 데이터 공유
+  const [myProfile, { profile }] = await Promise.all([
+    getMyProfile(),
+    getExpertProfile(id),
+  ]);
 
-  const myProfile = await getMyProfile();
-
-  const { data: profile, error: profileError } = await supabase
-    .from("profile")
-    .select("*")
-    .eq("id", params.id);
-
-  if (myProfile?.profile?.id !== params.id)
-    await incrementViewCount(params.id, profile?.[0]?.view);
+  if (myProfile?.profile?.id !== id)
+    await incrementViewCount(id, profile?.view);
 
   return (
     <div className="w-full flex flex-col justify-center items-center gap-4 ">
-      <Suspense
-        fallback={
-          <div
-            className={
-              "w-full h-[50vh] flex flex-col items-center justify-center"
-            }
-          >
-            <Spinner />
-          </div>
-        }
-      >
-        {profile &&
-          (profile?.length === 0 ? (
-            <Error />
-          ) : (
-            <div className="w-full flex flex-col justify-center items-center gap-4 ">
-              {/* <ContentContainer user={user} profile={profile} /> */}
-              <ExpertProfileViewModePage
-                user={myProfile?.user}
-                profileId={params.id}
-                expertData={profile[0]?.expert_profile}
-                isMe={myProfile?.user?.id === profile?.[0]?.user_id || false}
-              />
-            </div>
-          ))}
-      </Suspense>
+      {!profile ? (
+        <Error />
+      ) : (
+        <div className="w-full flex flex-col justify-center items-center gap-4 ">
+          <ExpertProfileViewModePage
+            user={myProfile?.user}
+            profileId={id}
+            expertData={profile?.expert_profile}
+            isMe={myProfile?.user?.id === profile?.user_id || false}
+          />
+        </div>
+      )}
     </div>
   );
 }

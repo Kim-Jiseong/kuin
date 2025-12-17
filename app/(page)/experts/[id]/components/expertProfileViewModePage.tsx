@@ -28,15 +28,20 @@ function ExpertProfileViewModePage({
   return (
     <div className="w-full  flex flex-col justify-center items-center gap-4 py-4 pb-8">
       <div className="w-full gap-4 flex flex-col items-center md:flex-row relative">
-        {expertData?.portfolio && Array.isArray(expertData.portfolio) && expertData.portfolio.length > 0 && (
-          <div className="relative flex flex-col overflow-hidden text-foreground box-border bg-content1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none h-full flex-1 aspect-square">
-            <Carousel slides={expertData.portfolio as string[]} options={OPTIONS} />
-          </div>
-        )}
+        {expertData?.portfolio &&
+          Array.isArray(expertData.portfolio) &&
+          expertData.portfolio.length > 0 && (
+            <div className="relative flex flex-col overflow-hidden text-foreground box-border bg-content-1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none h-full flex-1 aspect-square">
+              <Carousel
+                slides={expertData.portfolio as string[]}
+                options={OPTIONS}
+              />
+            </div>
+          )}
         <div
           className={`
             flex flex-col relative overflow-hidden 
-            text-foreground box-border bg-content1 
+            text-foreground box-border bg-content-1 
             outline-none data-[focus-visible=true]:z-10 
             data-[focus-visible=true]:outline-2 
             data-[focus-visible=true]:outline-focus 
@@ -49,7 +54,9 @@ function ExpertProfileViewModePage({
           <div className="p-4 z-10 w-full items-center shrink-0 overflow-inherit color-inherit subpixel-antialiased rounded-t-large relative flex h-[120px] flex-col justify-end overflow-visible bg-gradient-to-br from-pink-300 via-purple-300 to-primary">
             <Avatar className="h-20 w-20 translate-y-11 flex-shrink-0 border-4 border-background">
               <AvatarImage src={expertData?.profileImage} />
-              <AvatarFallback>{expertData?.name?.charAt(0).toUpperCase()}</AvatarFallback>
+              <AvatarFallback>
+                {expertData?.name?.charAt(0).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
             <div className={" flex gap-2 absolute top-3 right-3"}>
               <ShareBtn expertData={expertData} />
@@ -84,7 +91,7 @@ function ExpertProfileViewModePage({
         </div>
       </div>
       <div className={"w-full flex flex-col items-center"}>
-        <div className="flex flex-col relative overflow-hidden h-auto text-foreground box-border bg-content1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none">
+        <div className="flex flex-col relative overflow-hidden h-auto text-foreground box-border bg-content-1 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-medium rounded-large w-full transition-transform-background motion-reduce:transition-none">
           <div className="relative flex w-full p-4 flex-auto flex-col place-content-inherit align-items-inherit h-auto break-words text-left overflow-y-auto subpixel-antialiased">
             <MarkdownRenderer content={expertData?.detail} />
           </div>

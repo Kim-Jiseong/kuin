@@ -16,7 +16,7 @@ function ProjectDisplayCard({ project }: { project: Tables<"project"> }) {
       className={`w-full lg:w-[calc(50%_-_0.5rem)] 
         h-[auto] lg:h-[200px] shadow-md rounded-large
          p-4 flex flex-col sm:flex-row gap-3 border-1 border-divider 
-         cursor-pointer hover:bg-content2 transition-all duration-200`}
+         cursor-pointer hover:bg-content-2 transition-all duration-200`}
     >
       <div className="w-full h-full flex flex-col gap-2">
         <div className="w-full  gap-2 flex items-center justify-between">
