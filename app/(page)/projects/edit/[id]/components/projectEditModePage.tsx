@@ -146,9 +146,9 @@ const ProjectEditModePage = ({
               placeholder="프로젝트 제목을 입력하세요"
               onChange={handleChange}
               defaultValue={projectData.title as string}
-              className={`text-3xl font-bold border-none shadow-none px-0 placeholder:text-gray-300 focus-visible:ring-0 h-auto py-2 ${result.errorField.includes("title") ? "text-destructive placeholder:text-destructive/50" : ""}`}
+              className={`border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary shadow-none text-xl font-medium ${result.errorField.includes("title") ? "border-destructive placeholder:text-destructive" : ""}`}
             />
-            <div className="shrink-0 pt-2">
+            <div className="shrink-0">
               <StatusEditDropdown status={status} setStatus={setStatus} />
             </div>
           </div>

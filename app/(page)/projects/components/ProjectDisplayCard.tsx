@@ -2,13 +2,16 @@ import Typography from "@/components/common/Typography";
 import { Tables } from "@/types/database.types";
 import { formatDateTime } from "@/utils/formatTime";
 import { getStatusNameByCode } from "@/utils/getStatusNameByCode";
-import { returnStatusColor } from "@/utils/returnStatusColor";
+import { getProjectStatusBadgeStyle } from "@/utils/getProjectStatusBadgeStyle";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 function ProjectDisplayCard({ project }: { project: Tables<"project"> }) {
   const router = useRouter();
+  const statusStyle = getProjectStatusBadgeStyle(project.status as string);
+
   return (
     <div
       role="button"
@@ -23,7 +26,10 @@ function ProjectDisplayCard({ project }: { project: Tables<"project"> }) {
           <Typography variant="subtitle1" ellipsis lines={1}>
             {project.title}
           </Typography>
-          <Badge variant="secondary">
+          <Badge
+            variant={statusStyle.variant}
+            className={cn(statusStyle.className)}
+          >
             {getStatusNameByCode(project.status as string)}
           </Badge>
         </div>

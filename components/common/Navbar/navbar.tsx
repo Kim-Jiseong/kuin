@@ -3,6 +3,7 @@ import AvatarWrapper from "../Avatar";
 import { Tables } from "@/types/database.types";
 import LinkWrapper from "./LinkWrapper";
 import BackButton from "./BackBtn";
+import { Button } from "@/components/ui/button";
 
 export const Navbar = ({
   profile,
@@ -23,7 +24,13 @@ export const Navbar = ({
 
         <div className="flex items-center gap-4 flex-1 justify-end">
           <LinkWrapper />
-          <AvatarWrapper profile={profile} projectList={projectList} />
+          {profile ? (
+            <AvatarWrapper profile={profile} projectList={projectList} />
+          ) : (
+            <Button asChild>
+              <NextLink href="/auth">로그인</NextLink>
+            </Button>
+          )}
         </div>
       </div>
     </header>
