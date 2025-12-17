@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogFooter,
+  DialogTitle,
 } from "@/components/ui/dialog";
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -67,14 +68,17 @@ function ProfileModal({
   };
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="max-h-[85vh] overflow-y-auto">
+        <DialogTitle className="sr-only">프로필 모달</DialogTitle>
         <DialogHeader className="flex flex-col gap-1">
           <div className="flex items-center gap-2 h-5">
             <span
               role="button"
               id="settings"
               onClick={handleClick}
-              className={`cursor-pointer transition-all duration-200 ${switchMenuStyle("settings")}`}
+              className={`cursor-pointer transition-all duration-200 ${switchMenuStyle(
+                "settings"
+              )}`}
             >
               설정
             </span>
@@ -83,7 +87,9 @@ function ProfileModal({
               role="button"
               id="projects"
               onClick={handleClick}
-              className={`cursor-pointer transition-all duration-200 ${switchMenuStyle("projects")}`}
+              className={`cursor-pointer transition-all duration-200 ${switchMenuStyle(
+                "projects"
+              )}`}
             >
               내 프로젝트
             </span>

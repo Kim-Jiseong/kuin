@@ -124,7 +124,7 @@ export default function ProjectsPage() {
           </div>
         </div>
       </div>
-      <div className={"w-full flex flex-wrap gap-4 mt-4 pb-4"}>
+      <div className={"w-full flex flex-wrap gap-4 mt-4 pb-32"}>
         {!isLoading ? (
           projectList.length > 0 ? (
             projectList

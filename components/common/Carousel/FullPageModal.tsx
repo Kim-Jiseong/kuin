@@ -44,11 +44,8 @@ function FullPageModal({
     onNavButtonClick
   );
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={onOpenChange}
-    >
-      <DialogContent className="bg-transparent scrollbar-hide max-w-full h-full">
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-transparent scrollbar-hide max-w-full h-full [&>button]:text-white [&>button]:bg-black/20 [&>button]:hover:bg-black/40 [&>button]:w-10 [&>button]:h-10">
         <section className="embla embla_fullpage">
           <div className="embla__viewport--full" ref={emblaRef}>
             <div className="embla__container">

@@ -29,7 +29,7 @@ function ProjectContentRow({
     setIsInitial(false);
   }, [status]);
   return (
-    <div className={`w-full flex justify-between items-center py-2`}>
+    <div className="w-full flex justify-between items-center py-2 px-3 rounded-md border border-border/40 hover:bg-secondary/50 transition-colors cursor-pointer group">
       <div
         role="button"
         className={`flex flex-col w-full`}
@@ -39,32 +39,33 @@ function ProjectContentRow({
           variant={"text"}
           ellipsis
           lines={1}
-          className={"mb-1 font-semibold"}
+          className={"mb-1 font-semibold flex items-center gap-2"}
         >
-          <Badge variant="secondary" className="align-middle">
+          <Badge variant="secondary" className="align-middle whitespace-nowrap">
             {getMajorObjByCode(project.major as string)?.name}
           </Badge>
-          &nbsp;&nbsp;{project.title}
+          {project.title}
         </Typography>
         <Typography
           variant={"caption"}
-          ellipsis={true}
-          lines={1}
-          className={"text-xs"}
+          className={"text-xs text-muted-foreground"}
         >
-          {project.introduction}
+          {new Date(project.created_at).toLocaleDateString()}
         </Typography>
       </div>
-      <div className="flex gap-2 items-center flex-shrink-0">
+      <div className="flex gap-2 items-center shrink-0 ml-4">
         <StatusEditDropdown status={status} setStatus={setStatus} />
         <Button
           variant="secondary"
           color={"danger"}
           size="sm"
           className="h-8 w-8 p-0"
-          onClick={() => deleteProject(project.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            deleteProject(project.id);
+          }}
         >
-          <Trash2 size={18} />
+          <Trash2 size={16} />
         </Button>
       </div>
     </div>

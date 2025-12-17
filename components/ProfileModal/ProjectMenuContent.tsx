@@ -22,52 +22,38 @@ function ProjectMenuContent({
   };
   return (
     <div className="max-h-[70vh]">
-      <Card>
-        <CardHeader>
-          <div className={"flex w-full items-center justify-between"}>
-            <Typography variant="text" style={{ fontWeight: 700 }}>
-              프로젝트 관리
-            </Typography>
-            <Button
-              size="sm"
-              color="primary"
-              variant="secondary"
-              onClick={() => handleRouting("/projects/new")}
-            >
-              + 새 프로젝트
-            </Button>
-          </div>
-        </CardHeader>
-        <Separator />
-        <CardContent>
-          {/* <Listbox
-            aria-label="Actions"
-            onAction={(key) => handleRouting(`/projects/${key}`)}
-            items={projectList || []}
+      <div className="w-full h-full flex flex-col gap-4">
+        <div className={"flex w-full items-center justify-between px-1"}>
+          <Typography variant="text" style={{ fontWeight: 700 }}>
+            프로젝트 관리
+          </Typography>
+          <Button
+            size="sm"
+            color="primary"
+            variant="secondary"
+            onClick={() => handleRouting("/projects/new")}
           >
-            {(project) => (
-              <ProjectContentRow key={project.id} project={project} />
-            )}
-          </Listbox> */}
-          <div className={`flex flex-col w-full gap-2`}>
-            {projectList && projectList.length > 0 ? (
-              projectList?.map((project, index) => (
-                <div key={project.id}>
-                  <ProjectContentRow
-                    project={project}
-                    handleRouting={handleRouting}
-                  />
-                  <Separator />
-                </div>
-              ))
-            ) : (
+            + 새 프로젝트
+          </Button>
+        </div>
+        <div className={`flex flex-col w-full gap-2`}>
+          {projectList && projectList.length > 0 ? (
+            projectList?.map((project, index) => (
+              <ProjectContentRow
+                key={project.id}
+                project={project}
+                handleRouting={handleRouting}
+              />
+            ))
+          ) : (
+            <div className="text-center py-8 text-muted-foreground">
               <Typography variant="text">
                 새 프로젝트를 만들어보세요!
               </Typography>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -21,11 +21,12 @@ function LinkWrapper({
           href={item.href}
           onClick={onLinkClick}
           className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
-            "relative flex items-center h-full",
+            "relative flex items-center justify-center h-full py-2 text-sm font-medium transition-colors hover:text-primary",
+            "after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300",
+            "w-full md:w-auto", // Mobile full width, Desktop auto
             pathname === item.href
-              ? "text-primary font-semibold after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:rounded-[2px] after:bg-primary"
-              : "text-muted-foreground"
+              ? "text-primary font-bold after:w-full"
+              : "text-muted-foreground after:w-0 hover:after:w-full"
           )}
         >
           {item.label}

@@ -156,7 +156,11 @@ const NewProjectPage: React.FC = () => {
             id="title"
             placeholder="프로젝트 제목을 입력하세요"
             onChange={handleChange}
-            className={`text-3xl font-bold border-none shadow-none px-0 placeholder:text-gray-300 focus-visible:ring-0 h-auto py-2 ${result.errorField.includes("title") ? "text-destructive placeholder:text-destructive/50" : ""}`}
+            className={`text-3xl font-bold border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary shadow-none  placeholder:text-gray-300 h-auto py-2 ${
+              result.errorField.includes("title")
+                ? "text-destructive placeholder:text-destructive/50"
+                : ""
+            }`}
           />
           <div className="flex items-center gap-4 text-gray-500">
             <span className="text-sm font-medium">분야</span>
@@ -193,7 +197,11 @@ const NewProjectPage: React.FC = () => {
               id="introduction"
               required
               placeholder="프로젝트의 핵심을 한 문장으로 설명해주세요"
-              className={`border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary shadow-none text-xl font-medium ${result.errorField.includes("introduction") ? "border-destructive placeholder:text-destructive" : ""}`}
+              className={`border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary shadow-none text-xl font-medium ${
+                result.errorField.includes("introduction")
+                  ? "border-destructive placeholder:text-destructive"
+                  : ""
+              }`}
               onChange={handleChange}
             />
           </div>
@@ -210,7 +218,11 @@ const NewProjectPage: React.FC = () => {
               id="contact"
               placeholder="이메일 또는 전화번호"
               onChange={handleChange}
-              className={`border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary shadow-none ${result.errorField.includes("contact") ? "border-destructive" : ""}`}
+              className={`border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary shadow-none ${
+                result.errorField.includes("contact")
+                  ? "border-destructive"
+                  : ""
+              }`}
             />
           </div>
 
@@ -222,7 +234,11 @@ const NewProjectPage: React.FC = () => {
               <MarkdownTutorialBtn />
             </div>
             <div
-              className={`rounded-xl border border-gray-200 p-4 focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all ${result.errorField.includes("detail") ? "border-destructive bg-destructive/5" : "bg-white"}`}
+              className={`rounded-xl border border-gray-200 p-4 focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all ${
+                result.errorField.includes("detail")
+                  ? "border-destructive bg-destructive/5"
+                  : "bg-white"
+              }`}
             >
               <Textarea
                 id="detail"

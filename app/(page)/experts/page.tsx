@@ -126,7 +126,7 @@ export default function ExpertsPage() {
           </Select>
         </div>
       </div>
-      <div className={"w-full flex flex-wrap gap-4 mt-4 pb-4"}>
+      <div className={"w-full flex flex-wrap gap-4 mt-4 pb-32"}>
         {!isLoading ? (
           profileList.length > 0 ? (
             profileList.map((profile) => (
