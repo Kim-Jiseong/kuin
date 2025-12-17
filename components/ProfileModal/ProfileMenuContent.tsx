@@ -12,16 +12,16 @@ function ProfileMenuContent({
   onClose,
 }: {
   profile: Tables<"profile"> | null;
-  onClose: any;
+  onClose: () => void;
 }) {
   return (
-    <div>
+    <div className="space-y-4 flex flex-col">
       <ProfileCard profile={profile} onClose={onClose} />
       <ExpertProfileCard profile={profile} onClose={onClose} />
       <Card>
-        <CardHeader>일반</CardHeader>
+        <CardHeader className="py-3">일반</CardHeader>
         <Separator />
-        <CardContent>
+        <CardContent className="py-4 space-y-2">
           <div className="flex w-full items-center justify-between">
             <Typography variant={"caption"} style={{ fontWeight: 500 }}>
               테마

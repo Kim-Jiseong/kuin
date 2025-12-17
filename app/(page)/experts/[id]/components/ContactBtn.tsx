@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogFooter,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import React, { useState } from "react";
 import Typography from "@/components/common/Typography";
@@ -29,7 +30,7 @@ function ContactBtn({
       <Button
         variant="ghost"
         size="sm"
-        className="rounded-full bg-white/20 dark:bg-black/20"
+        className="rounded-full bg-white/20 dark:bg-black/20 border-border border"
         onClick={handleContactClick}
       >
         <Contact size={18} className="mr-2" />
@@ -38,9 +39,9 @@ function ContactBtn({
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent>
           <DialogHeader className="flex flex-col gap-1">
-            {expertData?.name}님의 연락처
+            <DialogTitle>{expertData?.name}님의 연락처</DialogTitle>
           </DialogHeader>
-          <div>
+          <div className="pt-4">
             {isLoggedIn ? (
               <Typography variant={"subtitle2"} color={"primary"}>
                 {expertData?.contact}
@@ -51,7 +52,7 @@ function ContactBtn({
                   로그인하고 {expertData?.name}님의 연락처를 확인해보세요
                 </Typography>
                 <Button
-                  className="rounded-full"
+                  className="rounded-full border-border border"
                   onClick={() => {
                     const next = pathname ? `?next=${pathname}` : "";
                     router.push("/auth" + next);

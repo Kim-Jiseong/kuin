@@ -58,7 +58,7 @@ const TypingEffect: React.FC<TypingEffectProps> = ({
   ]);
 
   return (
-    <span className="text-2xl font-bold">
+    <span className="text-2xl font-bold text-white dark:text-gray-900">
       {displayedText}
       <span className="blinking-cursor">|</span> {/* 깜박이는 커서 */}
     </span>

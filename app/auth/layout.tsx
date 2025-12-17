@@ -1,11 +1,4 @@
-import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
-import clsx from "clsx";
-
-import { Providers } from "../providers";
-
-import { fontSans } from "@/config/fonts";
-import { Suspense } from "react";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "KUIN-로그인",
@@ -19,28 +12,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+/**
+ * Auth 레이아웃 - 로그인 페이지 전용
+ * html/body는 루트 레이아웃에서 정의됨
+ */
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning lang="en">
-      <head />
-      <body
-        className={clsx(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <div className="relative flex flex-col h-screen">
-            <Suspense>
-              <main className="container mx-auto flex-grow">{children}</main>
-            </Suspense>
-          </div>
-        </Providers>
-      </body>
-    </html>
+    <main className="min-h-screen flex flex-col items-center justify-center">
+      {children}
+    </main>
   );
 }

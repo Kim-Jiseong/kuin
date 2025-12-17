@@ -4,15 +4,15 @@ import React from "react";
 function SectionCard({
   title,
   content,
-  headerBgColor,
-  headerTextColor = "white",
+  // headerBgColor,
+  // headerTextColor = "white",
   delay = 0,
   children,
 }: {
   title: string;
   content: string;
-  headerBgColor: string;
-  headerTextColor?: string;
+  // headerBgColor: string;
+  // headerTextColor?: string;
   delay?: number;
   children?: React.ReactNode;
 }) {
@@ -22,8 +22,8 @@ function SectionCard({
       style={{ animationDelay: `${delay}s` }}
     >
       <div
-        className="w-full py-2 px-4 flex justify-center text-lg font-bold"
-        style={{ backgroundColor: headerBgColor, color: headerTextColor }}
+        className="w-full py-2 px-4 flex justify-center text-lg font-bold bg-foreground text-background"
+        // style={{ backgroundColor: headerBgColor, color: headerTextColor }}
       >
         {title}
       </div>

@@ -6,22 +6,20 @@ import { cn } from "@/lib/utils";
 function MajorSelectTab({
   major,
   setMajor,
-  bgColor,
 }: {
   major: string;
   setMajor: (major: string) => void;
-  bgColor?: string;
 }) {
   return (
     <Tabs value={major} onValueChange={setMajor}>
-      <TabsList className={cn("rounded-full", bgColor && `bg-${bgColor}`)}>
+      <TabsList className={cn("rounded-full bg-transparent")}>
         {majorList.map(
           (majorItem) =>
             majorItem.isVisible && (
               <TabsTrigger
                 key={majorItem.code}
                 value={majorItem.code}
-                className="rounded-full"
+                className="rounded-full cursor-pointer hover:bg-muted  data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow"
               >
                 {majorItem.name}
               </TabsTrigger>

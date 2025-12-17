@@ -43,16 +43,16 @@ export function OAuthButtons({
         onClick={handleGoogleLogin}
         disabled={isLoading}
         size="lg"
-        className="bg-background border-2 border-primary mt-10 shadow-lg"
+        className="bg-background border-2 border-primary mt-10 shadow-lg text-foreground hover:bg-primary hover:text-white"
       >
         {isLoading ? (
           <Loader2 className="h-5 w-5 animate-spin" />
         ) : (
           <GoogleIcon />
         )}
-        <Typography variant="text" style={{ fontWeight: 700 }}>
+        <span>
           {isLoading ? "로그인 중..." : "구글 계정으로 5초만에 시작하기"}
-        </Typography>
+        </span>
       </Button>
     </>
   );

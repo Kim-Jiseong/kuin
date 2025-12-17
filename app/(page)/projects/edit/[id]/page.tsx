@@ -4,16 +4,17 @@ import ProjectEditModePage from "./components/projectEditModePage";
 import { getMyProfile } from "../../action";
 import Forbidden from "@/components/common/Forbidden";
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 async function ProjectEdit({ params }: Props) {
+  const { id } = await params;
   const supabase = await createClient();
   const { data: project, error: projectError } = await supabase
     .from("project")
     .select("*")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   const myProfile = await getMyProfile();

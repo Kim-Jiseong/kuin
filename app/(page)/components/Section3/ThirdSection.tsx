@@ -3,11 +3,7 @@ import React from "react";
 
 function ThirdSection() {
   return (
-    <section
-      className={
-        "w-full px-6 py-12 flex flex-col justify-center min-h-[600px] "
-      }
-    >
+    <section className={"w-full px-6 py-24 flex flex-col justify-center "}>
       <div className={`w-full flex flex-col items-center gap-4`}>
         <div className="flex gap-4">
           <Typography variant={"subtitle1"} color="primary">

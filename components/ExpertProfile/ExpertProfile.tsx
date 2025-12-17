@@ -50,8 +50,13 @@ function ExpertProfile({
         }}
       >
         <Avatar className="flex flex-shrink-0 h-16 w-16 border-2 border-background">
-          <AvatarImage src={expertProfile?.profileImage} />
-          <AvatarFallback>{profile.name?.charAt(0).toUpperCase()}</AvatarFallback>
+          <AvatarImage
+            className="object-cover"
+            src={expertProfile?.profileImage}
+          />
+          <AvatarFallback>
+            {profile.name?.charAt(0).toUpperCase()}
+          </AvatarFallback>
         </Avatar>
         <div className="flex flex-col w-full">
           <Typography variant={"text"}>{expertProfile?.name}</Typography>

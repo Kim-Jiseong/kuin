@@ -15,7 +15,7 @@ function EditBtn({ profileId }: { profileId: string }) {
       size="sm"
       variant="ghost"
       onClick={handleEditClick}
-      className="rounded-full bg-white/20 dark:bg-black/20"
+      className="rounded-full bg-white/20 dark:bg-black/20 border-border border"
     >
       <Pencil size={16} className="mr-2" />
       프로필 수정

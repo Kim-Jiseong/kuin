@@ -7,17 +7,14 @@ import {
   DialogContent,
   DialogHeader,
   DialogFooter,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import Typography from "@/components/common/Typography";
 import { Tables } from "@/types/database.types";
 
-function ShareBtn({
-  expertData,
-}: {
-  expertData: any;
-}) {
+function ShareBtn({ expertData }: { expertData: any }) {
   const router = useRouter();
   const pathname = usePathname();
   const [copied, setCopied] = useState(false);
@@ -42,19 +39,19 @@ function ShareBtn({
   return (
     <div>
       <Button
-        variant="secondary"
+        variant="ghost"
         size="sm"
+        className="rounded-full bg-white/20 dark:bg-black/20 border-border border"
         onClick={handleShareClick}
-        className="h-8 w-8 p-0 rounded-full"
       >
-        <Share2 size={20} />
+        <Share2 size={20} /> 프로필 공유
       </Button>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent>
           <DialogHeader className="flex flex-col gap-1">
-            {expertData?.name}님의 프로필 공유
+            <DialogTitle>{expertData?.name}님의 프로필 공유</DialogTitle>
           </DialogHeader>
-          <div>
+          <div className="pt-4">
             <div className="flex gap-2">
               <Input
                 readOnly
@@ -62,8 +59,8 @@ function ShareBtn({
                 className="flex-1"
               />
               <Button
-                className="h-8 w-8 p-0"
-                size="sm"
+                className="border-border border"
+                size="icon"
                 onClick={handleCopyClick}
               >
                 {copied ? <Check size={16} /> : <Copy size={16} />}

@@ -14,9 +14,9 @@ function ProjectDisplayCard({ project }: { project: Tables<"project"> }) {
       role="button"
       onClick={() => router.push(`/projects/${project.id}`)}
       className={`w-full lg:w-[calc(50%_-_0.5rem)] 
-        h-[auto] lg:h-[200px] shadow-md rounded-large
-         p-4 flex flex-col sm:flex-row gap-3 border-1 border-divider 
-         cursor-pointer hover:bg-content-2 transition-all duration-200`}
+        h-[auto] lg:h-[200px] shadow-sm rounded-xl
+         p-4 flex flex-col sm:flex-row gap-3 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950
+         cursor-pointer hover:shadow-md transition-all duration-200`}
     >
       <div className="w-full h-full flex flex-col gap-2">
         <div className="w-full  gap-2 flex items-center justify-between">

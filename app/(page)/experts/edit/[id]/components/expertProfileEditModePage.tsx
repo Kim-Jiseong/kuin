@@ -146,151 +146,236 @@ function ExpertProfileEditModePage({
   };
 
   return (
-    <div className={"flex flex-col w-full py-4"}>
-      <Typography variant={"subtitle1"} className={"mb-4"}>
-        전문가 프로필 {expertData ? "수정" : "만들기"}
-      </Typography>
-
-      <div className="flex flex-col items-center gap-2 w-full">
-        <Avatar className="h-20 w-20 flex-shrink-0 border-4 border-background">
-          <AvatarImage src={previewProfileUrl ? previewProfileUrl : undefined} />
-          <AvatarFallback>?</AvatarFallback>
-        </Avatar>
-        <label htmlFor="profileImageInput" className={"cursor-pointer"}>
-          <Typography variant="caption" color={"primary"}>
-            사진 {previewProfileUrl ? "수정" : "업로드"}
-          </Typography>{" "}
-        </label>
-        <input
-          className={"hidden"}
-          id="profileImageInput"
-          type="file"
-          accept="image/*"
-          onChange={handleProfileImageChange}
-        />
-      </div>
-
-      <div className="flex flex-col gap-4 text-center items-center w-full">
-        <Tabs
-          value={previewMajor}
-          onValueChange={setPreviewMajor}
-        >
-          <TabsList className="rounded-full">
-            {major.map(
-              (major) =>
-                major.isVisible && (
-                  <TabsTrigger key={major.code} value={major.code} className="rounded-full">
-                    {major.name}
-                  </TabsTrigger>
-                )
-            )}
-          </TabsList>
-        </Tabs>
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="name">이름 *</Label>
-          <Input
-            id="name"
-            required
-            onChange={handleChange}
-            defaultValue={expertData?.name}
-            className={result.errorField.includes("name") ? "border-destructive" : ""}
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="contact">연락처 *</Label>
-          <Input
-            id="contact"
-            required
-            onChange={handleChange}
-            defaultValue={expertData?.contact}
-            className={result.errorField.includes("contact") ? "border-destructive" : ""}
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="introduction">한줄 소개 *</Label>
-          <Input
-            id="introduction"
-            required
-            onChange={handleChange}
-            defaultValue={expertData?.introduction}
-            className={result.errorField.includes("introduction") ? "border-destructive" : ""}
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="detail">상세 소개 - 마크다운 문법 지원 *</Label>
-          <Textarea
-            id="detail"
-            placeholder="포트폴리오 등&#10;외부 링크는 [주소 이름](http://kuin.me) 형식으로 작성해주세요.&#10;보다 자세한 설명은 하단 링크를 참고해주세요"
-            rows={5}
-            required
-            onChange={handleChange}
-            defaultValue={expertData?.detail}
-            className={result.errorField.includes("detail") ? "border-destructive" : ""}
-          />
-        </div>
-        <div className="w-full flex">
-          <MarkdownTutorialBtn />
-        </div>
-      </div>
-
-      <div className="flex items-center gap-4 mt-6">
-        <Typography variant={"subtitle1"}>포트폴리오</Typography>
-        <Button size="sm" asChild>
-          <label htmlFor="portfolioImageInput" className="cursor-pointer">
-            <PlusIcon className="mr-2" size={16} />
-            사진 {expertData ? "추가" : "업로드"}
-          </label>
-        </Button>
-      </div>
-      <input
-        className={"hidden"}
-        id="portfolioImageInput"
-        type="file"
-        multiple
-        accept="image/*"
-        onChange={handlePortfolioImageChange}
-      />
-      <div className="flex flex-wrap gap-4 my-4">
-        {previewPortfolioUrls.map((url, index) => (
-          <div key={url} className="relative">
-            <Image
-              src={url}
-              alt={`preview-${index}`}
-              className="max-w-[160px] max-h-[160px] rounded-md overflow-hidden object-cover"
-              width={160}
-              height={160}
-            />
-            <Button
-              size="sm"
-              variant="destructive"
-              onClick={() => handlePortfolioImageDelete(index)}
-              className="absolute top-[-12px] right-[-12px] z-10 h-8 w-8 p-0"
+    <div className="container mx-auto max-w-3xl py-12 px-4">
+      <div className="flex flex-col gap-8">
+        {/* Profile Header Image Upload */}
+        <div className="flex flex-col items-center gap-4 py-8 border-b border-gray-100">
+          <div className="relative group">
+            <Avatar className="h-32 w-32 border-4 border-white shadow-xl">
+              <AvatarImage
+                src={previewProfileUrl ? previewProfileUrl : undefined}
+                className="object-cover"
+              />
+              <AvatarFallback className="text-4xl text-gray-300">
+                ?
+              </AvatarFallback>
+            </Avatar>
+            <label
+              htmlFor="profileImageInput"
+              className="absolute inset-0 flex items-center justify-center bg-black/50 text-white opacity-0 group-hover:opacity-100 rounded-full cursor-pointer transition-opacity font-medium"
             >
-              <Trash2 size={16} />
-            </Button>
+              사진 변경
+            </label>
           </div>
-        ))}
-      </div>
 
-      <div className="flex gap-2 w-full mt-4">
-        {expertData && (
+          <input
+            className="hidden"
+            id="profileImageInput"
+            type="file"
+            accept="image/*"
+            onChange={handleProfileImageChange}
+          />
+          <div className="text-center">
+            <h2 className="text-xl font-bold">
+              {expertData ? "프로필 수정" : "전문가 등록"}
+            </h2>
+            <p className="text-gray-500 text-sm">
+              전문가로서의 첫인상을 결정하는 사진을 등록해주세요.
+            </p>
+          </div>
+        </div>
+
+        {/* Form Fields */}
+        <div className="space-y-8">
+          {/* Major Selection */}
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-gray-500">
+              활동 분야
+            </Label>
+            <Tabs value={previewMajor} onValueChange={setPreviewMajor}>
+              <TabsList className="bg-transparent p-0 h-auto flex flex-wrap gap-2 justify-start">
+                {major.map(
+                  (m) =>
+                    m.isVisible && (
+                      <TabsTrigger
+                        key={m.code}
+                        value={m.code}
+                        className="rounded-full border border-gray-200 bg-white data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:border-primary px-4 py-2 h-auto text-sm font-normal shadow-sm transition-all hover:border-primary/50"
+                      >
+                        {m.name}
+                      </TabsTrigger>
+                    )
+                )}
+              </TabsList>
+            </Tabs>
+          </div>
+
+          {/* Name & Contact */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label
+                htmlFor="name"
+                className="text-sm font-medium text-gray-500"
+              >
+                이름 (실명 또는 활동명)
+              </Label>
+              <Input
+                id="name"
+                required
+                onChange={handleChange}
+                defaultValue={expertData?.name}
+                placeholder="이름을 입력하세요"
+                className={`border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary shadow-none text-lg ${result.errorField.includes("name") ? "border-destructive placeholder:text-destructive" : ""}`}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="contact"
+                className="text-sm font-medium text-gray-500"
+              >
+                연락처
+              </Label>
+              <Input
+                id="contact"
+                required
+                onChange={handleChange}
+                defaultValue={expertData?.contact}
+                placeholder="이메일 또는 카카오톡 ID"
+                className={`border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary shadow-none text-lg ${result.errorField.includes("contact") ? "border-destructive placeholder:text-destructive" : ""}`}
+              />
+            </div>
+          </div>
+
+          {/* Introduction */}
+          <div className="space-y-2">
+            <Label
+              htmlFor="introduction"
+              className="text-sm font-medium text-gray-500"
+            >
+              한줄 소개
+            </Label>
+            <Input
+              id="introduction"
+              required
+              onChange={handleChange}
+              defaultValue={expertData?.introduction}
+              placeholder="나를 가장 잘 표현하는 한 마디"
+              className={`border-0 border-b border-gray-200 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary shadow-none text-xl font-medium ${result.errorField.includes("introduction") ? "border-destructive placeholder:text-destructive" : ""}`}
+            />
+          </div>
+
+          {/* Detail with Markdown */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="detail" className="text-lg font-bold">
+                상세 소개 (경력, 이력 등)
+              </Label>
+              <MarkdownTutorialBtn />
+            </div>
+            <div
+              className={`rounded-xl border border-gray-200 p-4 focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all ${result.errorField.includes("detail") ? "border-destructive bg-destructive/5" : "bg-background"}`}
+            >
+              <Textarea
+                id="detail"
+                placeholder="자신의 강점, 경력, 작업 스타일 등을 자유롭게 기술해주세요. (Markdown 문법 지원)"
+                rows={10}
+                required
+                onChange={handleChange}
+                defaultValue={expertData?.detail}
+                className="border-none shadow-none resize-none focus-visible:ring-0 p-0 text-base leading-relaxed min-h-[300px]"
+              />
+            </div>
+          </div>
+
+          {/* Portfolio */}
+          <div className="space-y-4 pt-8 border-t border-gray-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-bold">포트폴리오</h3>
+                <p className="text-sm text-gray-500">
+                  이미지 파일을 업로드하여 포트폴리오를 구성하세요.
+                </p>
+              </div>
+              <Button
+                size="sm"
+                asChild
+                variant="outline"
+                className="rounded-full"
+              >
+                <label
+                  htmlFor="portfolioImageInput"
+                  className="cursor-pointer flex items-center gap-2"
+                >
+                  <PlusIcon size={16} />
+                  이미지 추가
+                </label>
+              </Button>
+            </div>
+
+            <input
+              className="hidden"
+              id="portfolioImageInput"
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handlePortfolioImageChange}
+            />
+
+            {previewPortfolioUrls.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {previewPortfolioUrls.map((url, index) => (
+                  <div
+                    key={url}
+                    className="relative group aspect-square rounded-xl overflow-hidden border border-gray-100 bg-gray-50"
+                  >
+                    <Image
+                      src={url}
+                      alt={`portfolio-${index}`}
+                      fill
+                      className="object-cover transition-transform group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <Button
+                        size="icon"
+                        variant="destructive"
+                        onClick={() => handlePortfolioImageDelete(index)}
+                        className="h-8 w-8 rounded-full"
+                      >
+                        <Trash2 size={16} />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="border-2 border-dashed border-gray-200 rounded-xl py-12 text-center text-gray-400 text-sm">
+                등록된 포트폴리오 이미지가 없습니다.
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-4 justify-end pt-8 border-t border-gray-100">
+          {expertData && (
+            <Button
+              size="lg"
+              onClick={handleClickCancel}
+              variant="outline"
+              className="px-8 rounded-full"
+            >
+              취소
+            </Button>
+          )}
           <Button
             size="lg"
-            onClick={handleClickCancel}
-            variant="outline"
-            className="w-full"
+            onClick={handleClickSubmit}
+            disabled={isPending}
+            className="px-8 rounded-full shadow-lg hover:shadow-xl transition-all"
           >
-            취소
+            저장하기
           </Button>
-        )}
-        <Button
-          size="lg"
-          onClick={handleClickSubmit}
-          disabled={isPending}
-          className="w-full"
-        >
-          저장하기
-        </Button>
+        </div>
       </div>
     </div>
   );

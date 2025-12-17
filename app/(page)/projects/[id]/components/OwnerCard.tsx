@@ -25,30 +25,32 @@ function OwnerCard({
 
   if (!projectData) return null;
   return (
-    <div className="flex gap-4 flex-col items-start sm:flex-row">
-      <div className="flex items-center gap-3">
-        <Avatar>
-          <AvatarImage src={ownerProfile?.image} />
-          <AvatarFallback>{ownerProfile?.name?.charAt(0).toUpperCase()}</AvatarFallback>
+    <div className="flex flex-col gap-4 w-full">
+      <div className="flex items-center gap-4">
+        <Avatar className="w-12 h-12 border border-gray-200 shadow-sm">
+          <AvatarImage src={ownerProfile?.image} className="object-cover" />
+          <AvatarFallback>
+            {ownerProfile?.name?.charAt(0).toUpperCase()}
+          </AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <Typography variant="text" className="font-semibold">
+          <Typography variant="text" className="font-bold text-lg leading-none">
             {ownerProfile?.name}
           </Typography>
-          <Typography variant="caption" color="muted">
-            {formatDateTime(projectData?.created_at, {
-              locale: "ko",
-            })}에 업로드
+          <Typography variant="caption" className="text-gray-400 mt-1">
+            Project Manager
           </Typography>
         </div>
       </div>
-      <div className="flex gap-2">
-        <ContactBtn
-          status={projectData?.status}
-          owner_profile={projectData?.owner_profile}
-          contact={projectData?.contact}
-          isLoggedIn={user ? true : false}
-        />
+      <div className="flex gap-2 w-full mt-2">
+        <div className="flex-1">
+          <ContactBtn
+            status={projectData?.status}
+            owner_profile={projectData?.owner_profile}
+            contact={projectData?.contact}
+            isLoggedIn={user ? true : false}
+          />
+        </div>
         {isMe && <EditBtn projectId={projectData?.id} />}
       </div>
     </div>
