@@ -1,6 +1,5 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
-import { TablesUpdate } from "@/types/database.types";
 
 export const getMyProfile = async () => {
     const supabase = await createClient();
@@ -20,13 +19,11 @@ export async function incrementViewCount(profileId: string, prevView: number | u
 
   const currentViewCount = prevView ?? 0;
 
-  const updateData: TablesUpdate<"profile"> = { view: currentViewCount + 1 };
-
   // view 값을 1 증가시켜 업데이트
   const { data, error } = await supabase
-    .from('profile')
-    .update(updateData)
-    .eq('id', profileId);
+    .from("profile")
+    .update({ view: currentViewCount + 1 })
+    .eq("id", profileId);
 
   if (error) {
     console.error('Error incrementing view count:', error);
