@@ -1,12 +1,10 @@
 "use client";
 
-import { Provider } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { GoogleIcon } from "@/components/icons";
-import { oAuthSignIn } from "./login/action";
-import Typography from "@/components/common/Typography";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 
 export function OAuthButtons({
   next,
@@ -20,17 +18,32 @@ export function OAuthButtons({
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
-      const result = await oAuthSignIn("google", next);
-      console.log("OAuth result:", result);
-      if ("error" in result && result.error) {
-        alert(result.error);
+      // 클라이언트 측에서 직접 OAuth 호출 (Server Action 컴파일 대기 없음)
+      const supabase = createClient();
+
+      // 현재 origin 기반으로 redirectTo 생성
+      const redirectTo = `${window.location.origin}/auth/callback${next ? `?next=${next}` : ""}`;
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo,
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+        },
+      });
+
+      if (error) {
+        console.error("OAuth error:", error);
+        alert("로그인에 실패했습니다.");
         setIsLoading(false);
         return;
       }
-      if ("url" in result && result.url) {
-        // 외부 URL로 리다이렉트
-        window.location.href = result.url;
-      }
+
+      // signInWithOAuth는 자동으로 리다이렉트하므로 별도 처리 불필요
+      // 하지만 실패 시를 대비해 로딩 상태 유지
     } catch (error) {
       console.error("OAuth error:", error);
       setIsLoading(false);
